@@ -1,4 +1,7 @@
-import pygame,random,os
+import pygame,random,os,sys
+from pygame.locals import *
+import numpy as np
+from Genetic_Algorithm import *
 class objects():
     def __init__(self):
         self.image_path = os.path.join(os.path.dirname(__file__), "images")
@@ -29,12 +32,12 @@ class flapy_ghost(objects):
         super().__init__()
         self.image=pygame.image.load(os.path.join(self.image_path,"flappy_ghost.png"))
         self.image=pygame.transform.scale(self.image,(100,100))
-        self.rect=pygame.Rect(100,100,40,40)
 class Game(objects):
-    def __init__(self):
+    def __init__(self,model=None):
         super().__init__()
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
+        self.model=model
         self.width=800
         self.height=600
         self.screen=pygame.display.set_mode((self.width,self.height))
@@ -53,22 +56,27 @@ class Game(objects):
         self.space_tubes = 200
         self.speed_tubes = 5
         self.instances()
+        self.objects()
     def instances(self):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
+    def objects(self,object2=None,object3=None):
+        self.object1=Rect(100,100,40,40)
+        self.object2=object2
+        self.object3=object3
     def update(self):
         if not self.isjumper:
             self.down_gravity+=self.gravity
-            self.flap_ghost.rect.y+=self.down_gravity
-        if self.flap_ghost.rect.y<=-20:
-            self.flap_ghost.rect.y=-15
+            self.object1.y+=self.down_gravity
+        if self.object1.y<=-20:
+            self.object1.y=-15
             self.down_gravity=self.gravity
-        if self.flap_ghost.rect.y>=self.height+100:self.game_over=True
+        if self.object1.y>=self.height+100:self.running=False
     def events(self):
-        self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height)
-        self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100)
-    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish):
+        self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
+        self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
+    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None):
         for tube in tubes:
             tube.x -= speed_tubes
             tube.rect.topleft = (tube.x, tube.y)
@@ -77,13 +85,16 @@ class Game(objects):
                 tube.x = last_tube.x + space_tubes
                 tube.y = random.randint(height_init, height_finish)
             self.collision(tube)
+            self.define_objects(objects,tube)
             tube.draw(screen)
     def collision(self,tube):
-        if tube.rect.colliderect(self.flap_ghost.rect):
-            self.game_over=True
+        if tube.rect.colliderect(self.object1):self.running=False
+    def define_objects(self,objects,tube):
+        if objects=="object2":self.object2=tube.rect
+        if objects=="object3":self.object3=tube.rect
     def draw(self):
         self.screen.fill(self.background)
-        self.screen.blit(self.flap_ghost.image,(self.flap_ghost.rect.x-30,self.flap_ghost.rect.y-20))
+        self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
     def jump(self):
         self.isjumper=True
         if self.isjumper:
@@ -91,10 +102,15 @@ class Game(objects):
             self.isjumper=False
     def handle_keys(self):
         for event in pygame.event.get():
-            if event.type==pygame.QUIT:self.running=False
+            if event.type==pygame.QUIT:self.game_over=True
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_ESCAPE:self.running=False
                 if event.key==pygame.K_SPACE:self.jump()
+    def get_state(self):
+        return np.array([self.object1.x, self.object1.y, self.object2.x, self.object2.y,self.object3.x,self.object3.y])
+    def IA_actions(self,action):
+        if action[0]>0 and self.object1.y > 0:self.object1.y -= 5
+        if action[1]<0 and self.object1.y < self.height - 100:self.object1.y += 5
     def run_with_model(self):
         self.running=True
         score=0
@@ -103,6 +119,9 @@ class Game(objects):
             self.update()
             self.draw()
             self.events()
+            state=self.get_state()
+            action = self.model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
+            self.IA_actions(action)
             background=pygame.Surface((self.width,self.height),pygame.SRCALPHA)
             background.fill((0,0,0,50))
             self.screen.blit(background,(0,0))
@@ -110,6 +129,10 @@ class Game(objects):
             self.clock.tick(self.FPS)
         return score
 if __name__=="__main__":
+    input_size = 6 
+    output_size = 2 
     game=Game()
-    game.run_with_model()
+    best_model = genetic_algorithm(game, input_size, output_size)
+    game.model = best_model
 pygame.quit()
+sys.exit()
