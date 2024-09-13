@@ -1,16 +1,18 @@
 import pygame,random,os
-
-# colors
-white=(255,255,255)
-black=(0,0,0)
-gray=(128,128,128)
-yellow=(255,255,102)
-green=(0,255,0)
-blue=(0,0,255)
-red=(255,0,0)
 class objects():
     def __init__(self):
         self.image_path = os.path.join(os.path.dirname(__file__), "images")
+        self.define_colors()
+    def define_colors(self):
+        self.GRAY=(127,127,127)
+        self.WHITE=(255,255,255)
+        self.BLACK=(0,0,0)
+        self.GREEN=(0,255,0)
+        self.BLUE=(0,0,255)
+        self.SKYBLUE=(135,206,235)
+        self.YELLOW=(255,255,0)
+        self.RED=(255,0,0)
+        self.GOLDEN=(255,199,51)
 class Tube(objects):
     def __init__(self,x,y,angle,width_image,height_image):
         super().__init__()
@@ -30,7 +32,7 @@ class flapy_ghost(objects):
         self.rect=pygame.Rect(100,100,40,40)
 class Game(objects):
     def __init__(self):
-        # super().__init__()
+        super().__init__()
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
         self.width=800
@@ -39,8 +41,8 @@ class Game(objects):
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
-        self.background=gray
-        self.score=0
+        self.background=self.GRAY
+        self.scores=0
         self.game_over=False
         self.reset=False
         self.gravity=0.25
@@ -93,7 +95,9 @@ class Game(objects):
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_ESCAPE:self.running=False
                 if event.key==pygame.K_SPACE:self.jump()
-    def run(self):
+    def run_with_model(self):
+        self.running=True
+        score=0
         while self.running and self.game_over==False:
             self.handle_keys()
             self.update()
@@ -104,9 +108,8 @@ class Game(objects):
             self.screen.blit(background,(0,0))
             pygame.display.flip()
             self.clock.tick(self.FPS)
-            
+        return score
 if __name__=="__main__":
     game=Game()
-    game.run()
-
+    game.run_with_model()
 pygame.quit()
