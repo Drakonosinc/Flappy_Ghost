@@ -113,11 +113,11 @@ class Game(objects):
     def get_state(self):
         return np.array([self.object1.x, self.object1.y, self.object2.x, self.object2.y,self.object3.x,self.object3.y])
     def IA_actions(self,action):
-        if action[0]>0 and self.object2.top > 0:self.object1.y -= 5
-        if action[0]<0 and self.object2.bottom < self.height:self.object1.y += 5
+        if action[0]>0 and self.object2.top > 0 or action[0]<0 and self.object2.bottom < self.height:self.jump()
     def restart(self):
         self.instances()
         self.objects()
+        self.events()
         self.scores=0
         self.reward=0
         self.running=False
