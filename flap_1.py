@@ -46,6 +46,7 @@ class Game(objects):
         self.running=True
         self.background=self.GRAY
         self.scores=0
+        self.reward=0
         self.game_over=False
         self.reset=False
         self.gravity=0.25
@@ -72,10 +73,11 @@ class Game(objects):
         if self.object1.y<=-20:
             self.object1.y=-15
             self.down_gravity=self.gravity
-        if self.object1.y>=self.height+100:self.running=False
+        if self.object1.y>=self.height+100:self.restart()
     def events(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
+        self.reward+=0.1
     def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None):
         for tube in tubes:
             tube.x -= speed_tubes
@@ -88,13 +90,15 @@ class Game(objects):
             self.define_objects(objects,tube)
             tube.draw(screen)
     def collision(self,tube):
-        if tube.rect.colliderect(self.object1):self.running=False
+        if tube.rect.colliderect(self.object1):self.restart()
     def define_objects(self,objects,tube):
         if objects=="object2":self.object2=tube.rect
         if objects=="object3":self.object3=tube.rect
     def draw(self):
         self.screen.fill(self.background)
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
+        self.events()
+        self.filt()
     def jump(self):
         self.isjumper=True
         if self.isjumper:
@@ -109,8 +113,18 @@ class Game(objects):
     def get_state(self):
         return np.array([self.object1.x, self.object1.y, self.object2.x, self.object2.y,self.object3.x,self.object3.y])
     def IA_actions(self,action):
-        if action[0]>0 and self.object1.y > 0:self.object1.y -= 5
-        if action[1]<0 and self.object1.y < self.height - 100:self.object1.y += 5
+        if action[0]>0 and self.object2.top > 0:self.object1.y -= 5
+        if action[0]<0 and self.object2.bottom < self.height:self.object1.y += 5
+    def restart(self):
+        self.instances()
+        self.objects()
+        self.scores=0
+        self.reward=0
+        self.running=False
+    def filt(self):
+        background=pygame.Surface((self.width,self.height),pygame.SRCALPHA)
+        background.fill((0,0,0,50))
+        self.screen.blit(background,(0,0))
     def run_with_model(self):
         self.running=True
         score=0
@@ -118,13 +132,10 @@ class Game(objects):
             self.handle_keys()
             self.update()
             self.draw()
-            self.events()
             state=self.get_state()
             action = self.model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
             self.IA_actions(action)
-            background=pygame.Surface((self.width,self.height),pygame.SRCALPHA)
-            background.fill((0,0,0,50))
-            self.screen.blit(background,(0,0))
+            score =int(self.reward)
             pygame.display.flip()
             self.clock.tick(self.FPS)
         return score
