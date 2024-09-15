@@ -4,7 +4,11 @@ import numpy as np
 from Genetic_Algorithm import *
 class objects():
     def __init__(self):
-        self.image_path = os.path.join(os.path.dirname(__file__), "images")
+        self.width=800
+        self.height=600
+        self.load_images()
+        self.load_fonts()
+        self.load_sounds()
         self.define_colors()
     def define_colors(self):
         self.GRAY=(127,127,127)
@@ -16,6 +20,13 @@ class objects():
         self.YELLOW=(255,255,0)
         self.RED=(255,0,0)
         self.GOLDEN=(255,199,51)
+    def load_images(self):
+        self.image_path = os.path.join(os.path.dirname(__file__), "images")
+        self.image_background=pygame.image.load(os.path.join(self.image_path,"bg.png"))
+    def load_fonts(self):
+        self.font_path = os.path.join(os.path.dirname(__file__), "fonts")
+    def load_sounds(self):
+        self.sound_path = os.path.join(os.path.dirname(__file__), "sounds")
 class Tube(objects):
     def __init__(self,x,y,angle,width_image,height_image):
         super().__init__()
@@ -38,13 +49,10 @@ class Game(objects):
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
         self.model=model
-        self.width=800
-        self.height=600
         self.screen=pygame.display.set_mode((self.width,self.height))
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
-        self.background=self.GRAY
         self.scores=0
         self.reward=0
         self.game_over=False
@@ -94,8 +102,11 @@ class Game(objects):
     def define_objects(self,objects,tube):
         if objects=="object2":self.object2=tube.rect
         if objects=="object3":self.object3=tube.rect
+    def backgrounds(self):
+        for background in [0,360,720,1080]:
+            self.screen.blit(self.image_background, (background, 0))
     def draw(self):
-        self.screen.fill(self.background)
+        self.backgrounds()
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
         self.events()
         self.filt()
