@@ -4,12 +4,19 @@ import numpy as np
 from Genetic_Algorithm import *
 class objects():
     def __init__(self):
+        pygame.init()
+        pygame.display.set_caption("Flappy Bird")
+        self.config()
         self.width=800
         self.height=600
         self.load_images()
         self.load_fonts()
         self.load_sounds()
         self.define_colors()
+        self.new_events()
+    def config(self):
+        self.config_visuals={"background":["bg.png","bg_night.png"],
+                            "value_background":0}
     def define_colors(self):
         self.GRAY=(127,127,127)
         self.WHITE=(255,255,255)
@@ -22,14 +29,19 @@ class objects():
         self.GOLDEN=(255,199,51)
     def load_images(self):
         self.image_path = os.path.join(os.path.dirname(__file__), "images")
-        self.image_background=pygame.image.load(os.path.join(self.image_path,"bg.png"))
+        self.image_background=pygame.image.load(os.path.join(self.image_path,self.config_visuals["background"][self.config_visuals["value_background"]]))
     def load_fonts(self):
         self.font_path = os.path.join(os.path.dirname(__file__), "fonts")
     def load_sounds(self):
         self.sound_path = os.path.join(os.path.dirname(__file__), "sounds")
+    def new_events(self):
+        self.EVENT_BACKGROUND = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.EVENT_BACKGROUND,10000)
 class Tube(objects):
     def __init__(self,x,y,angle,width_image,height_image):
         super().__init__()
+        self.load_tube(x,y,angle,width_image,height_image)
+    def load_tube(self,x,y,angle,width_image,height_image):
         self.image=pygame.image.load(os.path.join(self.image_path,"tubo.png"))
         self.image=pygame.transform.rotate(self.image,angle)
         self.image=pygame.transform.scale(self.image,(width_image,height_image))
@@ -41,13 +53,13 @@ class Tube(objects):
 class flapy_ghost(objects):
     def __init__(self):
         super().__init__()
+        self.load_flappy_ghost()
+    def load_flappy_ghost(self):
         self.image=pygame.image.load(os.path.join(self.image_path,"flappy_ghost.png"))
         self.image=pygame.transform.scale(self.image,(100,100))
 class Game(objects):
     def __init__(self,model=None):
         super().__init__()
-        pygame.init()
-        pygame.display.set_caption("Flappy Bird")
         self.model=model
         self.screen=pygame.display.set_mode((self.width,self.height))
         self.clock=pygame.time.Clock()
@@ -82,10 +94,9 @@ class Game(objects):
             self.object1.y=-15
             self.down_gravity=self.gravity
         if self.object1.y>=self.height+100:self.restart()
-    def events(self):
+    def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
-        self.reward+=0.1
     def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None):
         for tube in tubes:
             tube.x -= speed_tubes
@@ -94,6 +105,9 @@ class Game(objects):
                 last_tube = max(tubes, key=lambda t: t.x)
                 tube.x = last_tube.x + space_tubes
                 tube.y = random.randint(height_init, height_finish)
+            if tube.x==self.object1.x:
+                self.reward+=0.5
+                self.scores+=0.5
             self.collision(tube)
             self.define_objects(objects,tube)
             tube.draw(screen)
@@ -108,7 +122,7 @@ class Game(objects):
     def draw(self):
         self.backgrounds()
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
-        self.events()
+        self.creates_tubes()
         self.filt()
     def jump(self):
         self.isjumper=True
@@ -117,10 +131,19 @@ class Game(objects):
             self.isjumper=False
     def handle_keys(self):
         for event in pygame.event.get():
-            if event.type==pygame.QUIT:self.game_over=True
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_ESCAPE:self.running=False
-                if event.key==pygame.K_SPACE:self.jump()
+            self.event_quit(event)
+            self.events(event)
+            self.event_keydown(event)
+    def event_quit(self,event):
+        if event.type==pygame.QUIT:self.game_over=True
+    def event_keydown(self,event):
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_ESCAPE:self.restart()
+            if event.key==pygame.K_SPACE:self.jump()
+    def events(self,event):
+        if event.type == self.EVENT_BACKGROUND:
+            self.config_visuals["value_background"]=random.randint(0,1)
+            self.load_images()
     def get_state(self):
         return np.array([self.object1.x, self.object1.y, self.object2.x, self.object2.y,self.object3.x,self.object3.y])
     def IA_actions(self,action):
@@ -128,7 +151,7 @@ class Game(objects):
     def restart(self):
         self.instances()
         self.objects()
-        self.events()
+        self.creates_tubes()
         self.scores=0
         self.reward=0
         self.running=False
