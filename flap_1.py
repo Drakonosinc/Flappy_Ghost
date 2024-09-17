@@ -65,6 +65,7 @@ class Game(objects):
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
+        self.main=0 #-1=game, 0=menu, 1=game over, 2=game menu, 3=pausa, 4=options, 5=visuals, 6=menu keys
         self.scores=0
         self.reward=0
         self.game_over=False
@@ -123,7 +124,7 @@ class Game(objects):
         self.backgrounds()
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
         self.creates_tubes()
-        self.filt()
+        self.filt(50)
     def jump(self):
         self.isjumper=True
         if self.isjumper:
@@ -155,10 +156,77 @@ class Game(objects):
         self.scores=0
         self.reward=0
         self.running=False
-    def filt(self):
+    def filt(self,number):
         background=pygame.Surface((self.width,self.height),pygame.SRCALPHA)
-        background.fill((0,0,0,50))
+        background.fill((0,0,0,number))
         self.screen.blit(background,(0,0))
+    def main_menu(self):
+        if self.main==0:
+            pass
+    def game_over_menu(self):
+        if self.main==1:
+            pass
+    def mode_game_menu(self):
+        if self.main==2:
+            pass
+    def pausa_menu(self):
+        if self.main==3:
+            pass
+    def menu_options(self):
+        if self.main==4:
+            pass
+    def visuals_menu(self):
+        if self.main==5:
+            pass
+    def keys_menu(self):
+        if self.main==6:
+            pass
+    def button(self,screen,main:int,font,text:str,color,position,number:int,color2=None,pressed=True,command=None,detect_mouse=True,number2=None,command2=None):
+        button=screen.blit(font.render(text,True,color),position)
+        if detect_mouse:
+            if button.collidepoint(self.mouse_pos):
+                screen.blit(font.render(text,True,color2),position)
+                if self.notsound_playing[number]:
+                    self.sound_buttonletters.play(loops=0)
+                    self.notsound_playing[number]=False
+            else:self.notsound_playing[number]=True
+        if self.pressed_mouse[0] and pressed:
+            if button.collidepoint(self.mouse_pos) and number2==None:
+                self.sound_touchletters.play(loops=0)
+                if main!=None:self.main=main
+                if command!=None:command()
+                if command2!=None:command2()
+            if number2!=None:
+                if button.collidepoint(self.mouse_pos):
+                    if self.notsound_playing[number2]:
+                        self.sound_touchletters.play(loops=0)
+                        self.notsound_playing[number2]=False
+                        if command!=None:command()
+                        if command2!=None:command2()
+                else:self.notsound_playing[number2]=True
+        if pressed==False:return button
+    def button_arrow(self,main,position,position2,color,number:int,number2=None,pressed=True,detect_mouse=True,command=None):
+        arrow_button=pygame.draw.polygon(self.screen, color, position)
+        if detect_mouse:
+            if arrow_button.collidepoint(self.mouse_pos):
+                pygame.draw.polygon(self.screen, self.WHITE, position2)
+                if self.notsound_playing[number]:
+                    self.sound_buttonletters.play(loops=0)
+                    self.notsound_playing[number]=False
+            else:self.notsound_playing[number]=True
+        if self.pressed_mouse[0] and pressed:
+            if arrow_button.collidepoint(self.mouse_pos):
+                if self.notsound_playing[number2]:
+                    self.sound_touchletters.play(loops=0)
+                    self.notsound_playing[number2]=False
+                    if main!=None:self.main=main
+                    if command!=None:command()
+            else:self.notsound_playing[number2]=True
+        if pressed==False:return arrow_button
+    def type_mode(self):
+        state=self.get_state()
+        action = self.model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
+        self.IA_actions(action)
     def run_with_model(self):
         self.running=True
         score=0
@@ -166,9 +234,7 @@ class Game(objects):
             self.handle_keys()
             self.update()
             self.draw()
-            state=self.get_state()
-            action = self.model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
-            self.IA_actions(action)
+            self.type_mode()
             score =int(self.reward)
             pygame.display.flip()
             self.clock.tick(self.FPS)
