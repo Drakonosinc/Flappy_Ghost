@@ -210,6 +210,8 @@ class Game(objects):
                         state['hover_played'] = True
                     state['is_hovering'] = True
             else:state['is_hovering'],state['hover_played']=False,False
+        self.pressed_button(button,pressed,is_hovering_now,state,sound_touch,main,command,command2)
+    def pressed_button(self,button,pressed,is_hovering_now,state,sound_touch,main,command=None,command2=None):
         if self.pressed_mouse[0] and pressed:
             if is_hovering_now:
                 if not state['click_played']:
