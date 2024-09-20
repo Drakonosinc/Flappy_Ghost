@@ -32,8 +32,16 @@ class objects():
         self.image_background=pygame.image.load(os.path.join(self.image_path,self.config_visuals["background"][self.config_visuals["value_background"]]))
     def load_fonts(self):
         self.font_path = os.path.join(os.path.dirname(__file__), "fonts")
+        self.font=pygame.font.Font(None,25)
+        self.font2=pygame.font.Font(None,35)
+        self.font2_5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),30)
+        self.font3=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),60)
+        self.font4=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),75)
+        self.font5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),20)
     def load_sounds(self):
         self.sound_path = os.path.join(os.path.dirname(__file__), "sounds")
+        self.sound_touchletters=pygame.mixer.Sound(os.path.join(self.sound_path,"touchletters.wav"))
+        self.sound_buttonletters=pygame.mixer.Sound(os.path.join(self.sound_path,"buttonletters.mp3"))
     def new_events(self):
         self.EVENT_BACKGROUND = pygame.USEREVENT + 1
         pygame.time.set_timer(self.EVENT_BACKGROUND,10000)
@@ -77,6 +85,7 @@ class Game(objects):
         self.flap_ghost=flapy_ghost()
         self.space_tubes = 200
         self.speed_tubes = 5
+        self.button_states={}
         self.instances()
         self.objects()
     def instances(self):
@@ -123,8 +132,8 @@ class Game(objects):
     def draw(self):
         self.backgrounds()
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
-        self.creates_tubes()
         self.filt(50)
+        self.main_menu()
     def jump(self):
         self.isjumper=True
         if self.isjumper:
@@ -135,6 +144,9 @@ class Game(objects):
             self.event_quit(event)
             self.events(event)
             self.event_keydown(event)
+        self.pressed_keys=pygame.key.get_pressed()
+        self.pressed_mouse=pygame.mouse.get_pressed()
+        self.mouse_pos = pygame.mouse.get_pos()
     def event_quit(self,event):
         if event.type==pygame.QUIT:self.game_over=True
     def event_keydown(self,event):
@@ -142,7 +154,7 @@ class Game(objects):
             if event.key==pygame.K_ESCAPE:self.restart()
             if event.key==pygame.K_SPACE:self.jump()
     def events(self,event):
-        if event.type == self.EVENT_BACKGROUND:
+        if event.type == self.EVENT_BACKGROUND and self.main==-1:
             self.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
     def get_state(self):
@@ -162,7 +174,9 @@ class Game(objects):
         self.screen.blit(background,(0,0))
     def main_menu(self):
         if self.main==0:
-            pass
+            self.screen.fill(self.BLACK)
+            self.button(self.screen,-1,self.font2_5,"PLAY",self.WHITE,(self.width/2-80,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-80,self.height/2-115),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def game_over_menu(self):
         if self.main==1:
             pass
@@ -181,48 +195,49 @@ class Game(objects):
     def keys_menu(self):
         if self.main==6:
             pass
-    def button(self,screen,main:int,font,text:str,color,position,number:int,color2=None,pressed=True,command=None,detect_mouse=True,number2=None,command2=None):
+    def button(self,screen,main:int,font,text:str,color,position,color2=None,pressed=True,command=None,detect_mouse=True,command2=None,sound_hover=None,sound_touch=None):
+        button_id = (text, position)
+        if button_id not in self.button_states:self.button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
+        state = self.button_states[button_id]
         button=screen.blit(font.render(text,True,color),position)
+        is_hovering_now = button.collidepoint(self.mouse_pos)
         if detect_mouse:
-            if button.collidepoint(self.mouse_pos):
+            if is_hovering_now:
                 screen.blit(font.render(text,True,color2),position)
-                if self.notsound_playing[number]:
-                    self.sound_buttonletters.play(loops=0)
-                    self.notsound_playing[number]=False
-            else:self.notsound_playing[number]=True
+                if not state['is_hovering']:
+                    if not state['hover_played']:
+                        sound_hover.play(loops=0)
+                        state['hover_played'] = True
+                    state['is_hovering'] = True
+            else:state['is_hovering'],state['hover_played']=False,False
         if self.pressed_mouse[0] and pressed:
-            if button.collidepoint(self.mouse_pos) and number2==None:
-                self.sound_touchletters.play(loops=0)
-                if main!=None:self.main=main
-                if command!=None:command()
-                if command2!=None:command2()
-            if number2!=None:
-                if button.collidepoint(self.mouse_pos):
-                    if self.notsound_playing[number2]:
-                        self.sound_touchletters.play(loops=0)
-                        self.notsound_playing[number2]=False
-                        if command!=None:command()
-                        if command2!=None:command2()
-                else:self.notsound_playing[number2]=True
-        if pressed==False:return button
-    def button_arrow(self,main,position,position2,color,number:int,number2=None,pressed=True,detect_mouse=True,command=None):
-        arrow_button=pygame.draw.polygon(self.screen, color, position)
-        if detect_mouse:
-            if arrow_button.collidepoint(self.mouse_pos):
-                pygame.draw.polygon(self.screen, self.WHITE, position2)
-                if self.notsound_playing[number]:
-                    self.sound_buttonletters.play(loops=0)
-                    self.notsound_playing[number]=False
-            else:self.notsound_playing[number]=True
-        if self.pressed_mouse[0] and pressed:
-            if arrow_button.collidepoint(self.mouse_pos):
-                if self.notsound_playing[number2]:
-                    self.sound_touchletters.play(loops=0)
-                    self.notsound_playing[number2]=False
+            if is_hovering_now:
+                if not state['click_played']:
+                    sound_touch.play(loops=0)
+                    state['click_played'] = True
                     if main!=None:self.main=main
                     if command!=None:command()
-            else:self.notsound_playing[number2]=True
-        if pressed==False:return arrow_button
+                    if command2!=None:command2()
+            else:state['click_played'] = False
+        if not pressed:return button
+    # def button_arrow(self,main,position,position2,color,number:int,number2=None,pressed=True,detect_mouse=True,command=None):
+    #     arrow_button=pygame.draw.polygon(self.screen, color, position)
+    #     if detect_mouse:
+    #         if arrow_button.collidepoint(self.mouse_pos):
+    #             pygame.draw.polygon(self.screen, self.WHITE, position2)
+    #             if self.notsound_playing[number]:
+    #                 self.sound_buttonletters.play(loops=0)
+    #                 self.notsound_playing[number]=False
+    #         else:self.notsound_playing[number]=True
+    #     if self.pressed_mouse[0] and pressed:
+    #         if arrow_button.collidepoint(self.mouse_pos):
+    #             if self.notsound_playing[number2]:
+    #                 self.sound_touchletters.play(loops=0)
+    #                 self.notsound_playing[number2]=False
+    #                 if main!=None:self.main=main
+    #                 if command!=None:command()
+    #         else:self.notsound_playing[number2]=True
+    #     if pressed==False:return arrow_button
     def type_mode(self):
         state=self.get_state()
         action = self.model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
@@ -232,10 +247,12 @@ class Game(objects):
         score=0
         while self.running and self.game_over==False:
             self.handle_keys()
-            self.update()
             self.draw()
-            self.type_mode()
-            score =int(self.reward)
+            if self.main==-1:
+                self.update()
+                self.creates_tubes()
+                self.type_mode()
+                score =int(self.reward)
             pygame.display.flip()
             self.clock.tick(self.FPS)
         return score
