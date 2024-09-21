@@ -42,6 +42,7 @@ class objects():
         self.sound_path = os.path.join(os.path.dirname(__file__), "sounds")
         self.sound_touchletters=pygame.mixer.Sound(os.path.join(self.sound_path,"touchletters.wav"))
         self.sound_buttonletters=pygame.mixer.Sound(os.path.join(self.sound_path,"buttonletters.mp3"))
+        self.sound_exit=pygame.mixer.Sound(os.path.join(self.sound_path,"exitbutton.wav"))
     def new_events(self):
         self.EVENT_BACKGROUND = pygame.USEREVENT + 1
         pygame.time.set_timer(self.EVENT_BACKGROUND,10000)
@@ -134,6 +135,7 @@ class Game(objects):
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
         self.filt(50)
         self.main_menu()
+        self.menu_options()
     def jump(self):
         self.isjumper=True
         if self.isjumper:
@@ -148,7 +150,10 @@ class Game(objects):
         self.pressed_mouse=pygame.mouse.get_pressed()
         self.mouse_pos = pygame.mouse.get_pos()
     def event_quit(self,event):
-        if event.type==pygame.QUIT:self.game_over=True
+        if event.type==pygame.QUIT:self.close_game()
+    def close_game(self):
+        self.sound_exit.play(loops=0)
+        self.game_over=True
     def event_keydown(self,event):
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_ESCAPE:self.restart()
@@ -175,8 +180,10 @@ class Game(objects):
     def main_menu(self):
         if self.main==0:
             self.screen.fill(self.BLACK)
-            self.button(self.screen,-1,self.font2_5,"PLAY",self.WHITE,(self.width/2-80,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-80,self.height/2-115),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
+            self.button(self.screen,-1,self.font2_5,"PLAY",self.WHITE,(self.width/2-60,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-60,self.height/2-115),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
+            self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,command=self.menu_options,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def game_over_menu(self):
         if self.main==1:
             pass
@@ -188,7 +195,7 @@ class Game(objects):
             pass
     def menu_options(self):
         if self.main==4:
-            pass
+            self.screen.fill(self.BLACK)
     def visuals_menu(self):
         if self.main==5:
             pass
@@ -201,6 +208,10 @@ class Game(objects):
         state = self.button_states[button_id]
         button=screen.blit(font.render(text,True,color),position)
         is_hovering_now = button.collidepoint(self.mouse_pos)
+        self.mouse_collision(screen,detect_mouse,is_hovering_now,font,text,color2,position,state,sound_hover)
+        if pressed:self.pressed_button(is_hovering_now,state,sound_touch,main,command,command2)
+        else:return button
+    def mouse_collision(self,screen,detect_mouse,is_hovering_now,font,text,color2,position,state,sound_hover):
         if detect_mouse:
             if is_hovering_now:
                 screen.blit(font.render(text,True,color2),position)
@@ -210,9 +221,8 @@ class Game(objects):
                         state['hover_played'] = True
                     state['is_hovering'] = True
             else:state['is_hovering'],state['hover_played']=False,False
-        self.pressed_button(button,pressed,is_hovering_now,state,sound_touch,main,command,command2)
-    def pressed_button(self,button,pressed,is_hovering_now,state,sound_touch,main,command=None,command2=None):
-        if self.pressed_mouse[0] and pressed:
+    def pressed_button(self,is_hovering_now,state,sound_touch,main,command=None,command2=None):
+        if self.pressed_mouse[0]:
             if is_hovering_now:
                 if not state['click_played']:
                     sound_touch.play(loops=0)
@@ -220,8 +230,7 @@ class Game(objects):
                     if main!=None:self.main=main
                     if command!=None:command()
                     if command2!=None:command2()
-            else:state['click_played'] = False
-        if not pressed:return button
+        else:state['click_played'] = False
     # def button_arrow(self,main,position,position2,color,number:int,number2=None,pressed=True,detect_mouse=True,command=None):
     #     arrow_button=pygame.draw.polygon(self.screen, color, position)
     #     if detect_mouse:
