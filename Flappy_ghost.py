@@ -1,8 +1,7 @@
-import random,sys
+import random
 from pygame.locals import *
 import numpy as np
 from Genetic_Algorithm import *
-from Elements import *
 from Interface import *
 class Game(interface):
     def __init__(self,model=None):
@@ -21,7 +20,7 @@ class Game(interface):
         self.down_gravity=0
         self.jumper=-5
         self.isjumper=False
-        self.flap_ghost=flapy_ghost()
+        self.flap_ghost=ghost()
         self.space_tubes = 200
         self.speed_tubes = 5
         self.instances()
@@ -67,12 +66,10 @@ class Game(interface):
         if objects=="object2":self.object2=tube.rect
         if objects=="object3":self.object3=tube.rect
     def backgrounds(self):
-        for background in [0,360,720,1080]:
-            self.screen.blit(self.image_background, (background, 0))
+        for background in [0,360,720,1080]:self.screen.blit(self.image_background, (background, 0))
     def draw(self):
         self.backgrounds()
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
-        self.filt(50)
         self.main_menu()
         self.menu_options()
     def jump(self):
@@ -130,11 +127,3 @@ class Game(interface):
             pygame.display.flip()
             self.clock.tick(self.FPS)
         return score
-if __name__=="__main__":
-    input_size = 6 
-    output_size = 2 
-    game=Game()
-    best_model = genetic_algorithm(game, input_size, output_size)
-    game.model = best_model
-pygame.quit()
-sys.exit()

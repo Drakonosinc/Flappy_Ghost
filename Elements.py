@@ -56,10 +56,10 @@ class Tube(objects):
         self.y=y
     def draw(self,screen):
         screen.blit(self.image,(self.x,self.y))
-class flapy_ghost(objects):
+class ghost(objects):
     def __init__(self):
         super().__init__()
-        self.load_flappy_ghost()
-    def load_flappy_ghost(self):
+        self.load_ghost()
+    def load_ghost(self):
         self.image=pygame.image.load(os.path.join(self.image_path,"flappy_ghost.png"))
         self.image=pygame.transform.scale(self.image,(100,100))
