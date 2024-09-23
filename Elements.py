@@ -1,4 +1,5 @@
 import pygame,os
+from Genetic_Algorithm import *
 class objects():
     def __init__(self):
         pygame.init()
@@ -6,6 +7,7 @@ class objects():
         self.config()
         self.width=800
         self.height=600
+        self.load_AI()
         self.load_images()
         self.load_fonts()
         self.load_sounds()
@@ -14,6 +16,10 @@ class objects():
     def config(self):
         self.config_visuals={"background":["bg.png","bg_night.png"],
                             "value_background":0}
+    def load_AI(self):
+        self.model_path=os.path.join(os.path.dirname(__file__), "IA/best_model.pth")
+        if os.path.exists(self.model_path):self.model_training = load_model(self.model_path, 6, 2)
+        else:self.model_training = None
     def define_colors(self):
         self.GRAY=(127,127,127)
         self.WHITE=(255,255,255)

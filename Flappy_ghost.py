@@ -6,7 +6,7 @@ from Interface import *
 class Game(interface):
     def __init__(self,model=None):
         super().__init__()
-        self.load_model(model)
+        self.model=model
         self.screen=pygame.display.set_mode((self.width,self.height))
         self.clock=pygame.time.Clock()
         self.FPS=60
@@ -25,8 +25,6 @@ class Game(interface):
         self.speed_tubes = 5
         self.instances()
         self.objects()
-    def load_model(self,model):
-        self.model=model
     def instances(self):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
@@ -70,8 +68,7 @@ class Game(interface):
     def draw(self):
         self.backgrounds()
         self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
-        self.main_menu()
-        self.menu_options()
+        self.draw_interfaces()
     def jump(self):
         self.isjumper=True
         if self.isjumper:

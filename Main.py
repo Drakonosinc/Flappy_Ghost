@@ -1,5 +1,5 @@
 import sys
-from Flappy_ghost import *
+from Flappy_Ghost import *
 from Genetic_Algorithm import *
 if __name__=="__main__":
     input_size = 6 
