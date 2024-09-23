@@ -31,8 +31,8 @@ class interface(objects):
             self.button(self.screen,None,self.font2_5,"Player",(self.SKYBLUE if self.mode_game["PLayer"] else self.WHITE),(35,self.height/2-100),self.GOLDEN,command=lambda:self.type_game(False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             # if self.model_training!=None:
             self.button(self.screen,None,self.font2_5,"AI",(self.SKYBLUE if self.mode_game["AI"] else self.WHITE),(35,self.height/2-50),self.GOLDEN,command=lambda:self.type_game(False,False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,0,color=self.WHITE,color2=self.SKYBLUE,position=((50, 350), (50, 380), (25, 365)),position2=((50, 340), (50, 390), (10, 365)),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters,type_button=1)
-            self.button(self.screen,-1,color=self.WHITE,color2=self.SKYBLUE,position=((650, 350), (650, 380), (675, 365)),position2=((650, 340), (650, 390), (690, 365)),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters,type_button=1)
+            self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,-1,self.font1,"→",self.WHITE,(self.width-110,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["PLayer"]=mode_two

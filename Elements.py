@@ -36,6 +36,7 @@ class objects():
     def load_fonts(self):
         self.font_path = os.path.join(os.path.dirname(__file__), "fonts")
         self.font=pygame.font.Font(None,25)
+        self.font1=pygame.font.SysFont("times new roman", 80)
         self.font2=pygame.font.Font(None,35)
         self.font2_5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),30)
         self.font3=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),60)
