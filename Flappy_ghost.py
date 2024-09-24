@@ -7,6 +7,7 @@ class Game(interface):
     def __init__(self,model=None):
         super().__init__()
         self.model=model
+        self.load_AI()
         self.screen=pygame.display.set_mode((self.width,self.height))
         self.clock=pygame.time.Clock()
         self.FPS=60
@@ -25,6 +26,7 @@ class Game(interface):
         self.speed_tubes = 5
         self.instances()
         self.objects()
+        self.play_music()
     def instances(self):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
@@ -90,14 +92,15 @@ class Game(interface):
     def event_keydown(self,event):
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_ESCAPE:self.restart()
-            if event.key==pygame.K_SPACE:self.jump()
+            if self.mode_game["Player"]:
+                if event.key==pygame.K_SPACE:self.jump()
     def events(self,event):
         if event.type == self.EVENT_BACKGROUND and self.main==-1:
             self.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
     def get_state(self):
         return np.array([self.object1.x, self.object1.y, self.object2.x, self.object2.y,self.object3.x,self.object3.y])
-    def IA_actions(self,action):
+    def AI_actions(self,action):
         if action[0]>0 and self.object2.top > 0 or action[0]<0 and self.object2.bottom < self.height:self.jump()
     def restart(self):
         self.instances()
@@ -107,9 +110,12 @@ class Game(interface):
         self.reward=0
         self.running=False
     def type_mode(self):
+        if self.mode_game["Training AI"]:self.actions_AI(self.model)
+        if self.mode_game["AI"]:self.actions_AI(self.model_training)
+    def actions_AI(self,model):
         state=self.get_state()
-        action = self.model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
-        self.IA_actions(action)
+        action = model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
+        self.AI_actions(action)
     def run_with_model(self):
         self.running=True
         score=0

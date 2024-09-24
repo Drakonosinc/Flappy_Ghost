@@ -2,8 +2,10 @@ from Elements import *
 class interface(objects):
     def __init__(self):
         super().__init__()
-        self.mode_game={"Training AI":True,"PLayer":False,"AI":False}
-        self.sound_type={"sound":"Sound ON","color":self.SKYBLUE,"value":True}
+        self.mode_game={"Training AI":True,"Player":False,"AI":False}
+        self.sound_type={"sound_menu":"Sound Menu ON","color_menu":self.SKYBLUE,"value_menu":True,
+                        "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
+    def play_music(self):
         self.sound_back.play(loops=-1)
         self.sound_back.set_volume(0.5)
     def draw_interfaces(self):
@@ -12,6 +14,9 @@ class interface(objects):
         self.mode_game_menu()
         self.game_over_menu()
         self.pausa_menu()
+        self.sounds_menu()
+        self.visuals_menu()
+        self.keys_menu()
     def filt(self,width,height,number,color=(0,0,0),position=(0,0)):
         background=pygame.Surface((width,height),pygame.SRCALPHA)
         background.fill((*color, number))
@@ -31,14 +36,14 @@ class interface(objects):
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
             self.button(self.screen,None,self.font2_5,"Training AI",(self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE),(35,self.height/2-150),self.GOLDEN,command=lambda:self.type_game(True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font2_5,"Player",(self.SKYBLUE if self.mode_game["PLayer"] else self.WHITE),(35,self.height/2-100),self.GOLDEN,command=lambda:self.type_game(False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"Player",(self.SKYBLUE if self.mode_game["Player"] else self.WHITE),(35,self.height/2-100),self.GOLDEN,command=lambda:self.type_game(False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             # if self.model_training!=None:
             self.button(self.screen,None,self.font2_5,"AI",(self.SKYBLUE if self.mode_game["AI"] else self.WHITE),(35,self.height/2-50),self.GOLDEN,command=lambda:self.type_game(False,False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,-1,self.font1,"→",self.WHITE,(self.width-110,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,-1,self.font1,"→",self.WHITE,(self.width-110,self.height-100),self.GOLDEN,command=lambda:self.sound_back.stop(),command2=lambda:self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None ,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
-        self.mode_game["PLayer"]=mode_two
+        self.mode_game["Player"]=mode_two
         if os.path.exists(self.model_path):self.mode_game["AI"]=mode_three
     def pausa_menu(self):
         if self.main==3:
@@ -47,26 +52,35 @@ class interface(objects):
         if self.main==4:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Options", True, "orange"),(35,self.height/2-250))
-            self.button(self.screen,None,self.font2_5,self.sound_type["sound"],self.sound_type["color"],(35,self.height/2-150),self.GOLDEN,command=self.sound_on_off,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,5,self.font2_5,"Visuals",self.WHITE,(35,self.height/2-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,5,self.font2_5,"Visuals",self.WHITE,(35,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,7,self.font2_5,"Sounds",self.WHITE,(35,self.height/2-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,6,self.font2_5,"Keys",self.WHITE,(35,self.height/2-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-    def sound_on_off(self):
-        self.sound_type["value"]=not self.sound_type["value"]
-        if self.sound_type["value"]:
-            self.sound_type["color"]=self.SKYBLUE
-            self.sound_type["sound"]="Sound ON"
-            self.sound_back.play(loops=-1)
-        else:
-            self.sound_type["color"]=self.RED
-            self.sound_type["sound"]="Sound off"
-            self.sound_back.stop()
     def visuals_menu(self):
         if self.main==5:
-            pass
+            self.screen.fill(self.BLACK)
+            self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def keys_menu(self):
         if self.main==6:
-            pass
+            self.screen.fill(self.BLACK)
+            self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def sounds_menu(self):
+        if self.main==7:
+            self.screen.fill(self.BLACK)
+            self.screen.blit(self.font3.render("Sounds", True, "orange"),(35,self.height/2-250))
+            self.button(self.screen,None,self.font2_5,self.sound_type["sound_menu"],self.sound_type["color_menu"],(35,self.height/2-150),self.GOLDEN,command=lambda:self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.sound_back,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,self.sound_type["sound_Game"],self.sound_type["color_game"],(35,self.height/2-100),self.GOLDEN,command=lambda:self.sound_on_off("sound_Game","color_game","value_game","Sound Game",self.sound_back_game),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def sound_on_off(self,sound:str,color=(0,0,0),value=True,type_sound="",sound_back=None,play=False):
+        self.sound_type[value]=not self.sound_type[value]
+        if self.sound_type[value]:
+            self.sound_type[color]=self.SKYBLUE
+            self.sound_type[sound]=type_sound+" ON"
+            if play:sound_back.play(loops=-1)
+        else:
+            self.sound_type[color]=self.RED
+            self.sound_type[sound]=type_sound+" off"
+            sound_back.stop()
     def button(self,screen,main:int=None,font=None,text:str=None,color=None,position=None,color2=None,pressed=True,command=None,detect_mouse=True,command2=None,sound_hover=None,sound_touch=None,position2=None,type_button:int=0,button_states={}):
         button_id = (text, position)
         if button_id not in button_states:button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
