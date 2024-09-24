@@ -3,6 +3,9 @@ class interface(objects):
     def __init__(self):
         super().__init__()
         self.mode_game={"Training AI":True,"PLayer":False,"AI":False}
+        self.sound_type={"sound":"Sound ON","color":self.SKYBLUE,"value":True}
+        self.sound_back.play(loops=-1)
+        self.sound_back.set_volume(0.5)
     def draw_interfaces(self):
         self.main_menu()
         self.menu_options()
@@ -43,7 +46,21 @@ class interface(objects):
     def menu_options(self):
         if self.main==4:
             self.screen.fill(self.BLACK)
-            self.button(self.screen,0,color=self.WHITE,position=((50, 350), (50, 380), (25, 365)),position2=((50, 340), (50, 390), (10, 365)),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters,type_button=1)
+            self.screen.blit(self.font3.render("Options", True, "orange"),(35,self.height/2-250))
+            self.button(self.screen,None,self.font2_5,self.sound_type["sound"],self.sound_type["color"],(35,self.height/2-150),self.GOLDEN,command=self.sound_on_off,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,5,self.font2_5,"Visuals",self.WHITE,(35,self.height/2-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,6,self.font2_5,"Keys",self.WHITE,(35,self.height/2-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def sound_on_off(self):
+        self.sound_type["value"]=not self.sound_type["value"]
+        if self.sound_type["value"]:
+            self.sound_type["color"]=self.SKYBLUE
+            self.sound_type["sound"]="Sound ON"
+            self.sound_back.play(loops=-1)
+        else:
+            self.sound_type["color"]=self.RED
+            self.sound_type["sound"]="Sound off"
+            self.sound_back.stop()
     def visuals_menu(self):
         if self.main==5:
             pass
