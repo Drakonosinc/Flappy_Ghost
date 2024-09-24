@@ -94,6 +94,8 @@ class Game(interface):
             if event.key==pygame.K_ESCAPE:self.restart()
             if self.mode_game["Player"]:
                 if event.key==pygame.K_SPACE:self.jump()
+            if self.main==-1:
+                if event.key==K_1:save_model(self.model, torch.optim.Adam(self.model.parameters(), lr=0.001),self.model_path)
     def events(self,event):
         if event.type == self.EVENT_BACKGROUND and self.main==-1:
             self.config_visuals["value_background"]=random.randint(0,1)

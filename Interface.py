@@ -37,8 +37,9 @@ class interface(objects):
             self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
             self.button(self.screen,None,self.font2_5,"Training AI",(self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE),(35,self.height/2-150),self.GOLDEN,command=lambda:self.type_game(True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"Player",(self.SKYBLUE if self.mode_game["Player"] else self.WHITE),(35,self.height/2-100),self.GOLDEN,command=lambda:self.type_game(False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            # if self.model_training!=None:
-            self.button(self.screen,None,self.font2_5,"AI",(self.SKYBLUE if self.mode_game["AI"] else self.WHITE),(35,self.height/2-50),self.GOLDEN,command=lambda:self.type_game(False,False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            if self.model_training!=None:self.button(self.screen,None,self.font2_5,"AI",(self.SKYBLUE if self.mode_game["AI"] else self.WHITE),(35,self.height/2-50),self.GOLDEN,command=lambda:self.type_game(False,False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            else:
+                if os.path.exists(self.model_path):self.model_training = load_model(self.model_path, 6, 2)
             self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,-1,self.font1,"→",self.WHITE,(self.width-110,self.height-100),self.GOLDEN,command=lambda:self.sound_back.stop(),command2=lambda:self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None ,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
@@ -59,10 +60,12 @@ class interface(objects):
     def visuals_menu(self):
         if self.main==5:
             self.screen.fill(self.BLACK)
+            self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def keys_menu(self):
         if self.main==6:
             self.screen.fill(self.BLACK)
+            self.screen.blit(self.font3.render("Keys", True, "orange"),(35,self.height/2-250))
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def sounds_menu(self):
         if self.main==7:
