@@ -2,6 +2,7 @@ from Elements import *
 class interface(objects):
     def __init__(self):
         super().__init__()
+        self.main=0 #-1=game, 0=menu, 1=game over, 2=game menu, 3=pausa, 4=options, 5=visuals, 6=menu keys
         self.mode_game={"Training AI":True,"Player":False,"AI":False}
         self.sound_type={"sound_menu":"Sound Menu ON","color_menu":self.SKYBLUE,"value_menu":True,
                         "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
@@ -30,7 +31,11 @@ class interface(objects):
             self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,command=self.menu_options,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def game_over_menu(self):
         if self.main==1:
-            self.filt(self.width,self.height,180,self.RED)
+            self.filt(self.width,self.height,150,self.RED)
+            self.screen.blit(self.font4.render("Game Over", True, self.BLACK),(120,self.height/2-250))
+            self.button(self.screen,-1,self.font2_5,"Press R to Restart",self.BLACK,(120,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"Exit The Game",self.BLACK,(120,self.height/2-100),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
+            self.button(self.screen,0,self.font2_5,"Exit The Menu",self.BLACK,(120,self.height/2-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def mode_game_menu(self):
         if self.main==2:
             self.screen.fill(self.BLACK)
@@ -48,7 +53,12 @@ class interface(objects):
         if os.path.exists(self.model_path):self.mode_game["AI"]=mode_three
     def pausa_menu(self):
         if self.main==3:
-            self.filt(self.width,self.height,180)
+            self.filt(self.width,self.height,150,self.GRAY)
+            self.screen.blit(self.font3.render("Pause", True, "orange"),(35,self.height/2-250))
+            self.button(self.screen,-1,self.font2_5,"Reset",self.WHITE,(35,self.height/2-150),self.GOLDEN,command=self.reset,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,4,self.font2_5,"Option",self.WHITE,(35,self.height/2-100),self.GOLDEN,command=self.reset,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,0,self.font2_5,"Menu",self.WHITE,(35,self.height/2-50),self.GOLDEN,command=self.reset,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"Exit",self.WHITE,(35,self.height/2),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
     def menu_options(self):
         if self.main==4:
             self.screen.fill(self.BLACK)

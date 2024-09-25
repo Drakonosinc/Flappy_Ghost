@@ -12,11 +12,9 @@ class Game(interface):
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
-        self.main=0 #-1=game, 0=menu, 1=game over, 2=game menu, 3=pausa, 4=options, 5=visuals, 6=menu keys
         self.scores=0
         self.reward=0
         self.game_over=False
-        self.reset=False
         self.gravity=0.25
         self.down_gravity=0
         self.jumper=-5
@@ -91,6 +89,8 @@ class Game(interface):
         self.game_over=True
     def event_keydown(self,event):
         if event.type==pygame.KEYDOWN:
+            if self.main==3 and event.key==K_p:self.main=-1
+            elif self.main==-1 and event.key==K_p:self.main=3
             if event.key==pygame.K_ESCAPE:self.restart()
             if self.mode_game["Player"]:
                 if event.key==pygame.K_SPACE:self.jump()
@@ -105,6 +105,12 @@ class Game(interface):
     def AI_actions(self,action):
         if action[0]>0 and self.object2.top > 0 or action[0]<0 and self.object2.bottom < self.height:self.jump()
     def restart(self):
+        if self.mode_game["Training AI"] or self.mode_game["AI"]:
+            self.reset()
+        if self.mode_game["Player"]:
+            self.reset()
+            self.main=1
+    def reset(self):
         self.instances()
         self.objects()
         self.creates_tubes()
