@@ -6,6 +6,8 @@ class interface(objects):
         self.mode_game={"Training AI":True,"Player":False,"AI":False}
         self.sound_type={"sound_menu":"Sound Menu ON","color_menu":self.SKYBLUE,"value_menu":True,
                         "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
+        self.utils_keys={"key_jump":False}
+        self.key=None
     def play_music(self):
         self.sound_back.play(loops=-1)
         self.sound_back.set_volume(0.5)
@@ -80,7 +82,19 @@ class interface(objects):
         if self.main==6:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Keys", True, "orange"),(35,self.height/2-250))
+            self.button(self.screen,None,self.font2_5,self.config_keys["Name_key1"],self.SKYBLUE if self.utils_keys["key_jump"] else self.WHITE,(35,self.height/2-150),self.GOLDEN,command=lambda:self.change_keys("key_jump","Name_key1"),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def change_keys(self,key,key_name):
+        self.key=key
+        self.key_name=key_name
+        self.utils_keys[self.key]= not self.utils_keys[self.key]
+    def event_keys(self,event):
+        if self.key!=None:
+            if self.utils_keys[self.key]:
+                if event.type==KEYDOWN:
+                    self.config_keys[self.key]=event.key
+                    self.config_keys[self.key_name]=event.unicode.upper()
+                    self.utils_keys[self.key]= not self.utils_keys[self.key]
     def sounds_menu(self):
         if self.main==7:
             self.screen.fill(self.BLACK)

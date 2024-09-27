@@ -1,4 +1,5 @@
 import pygame,os
+from pygame.locals import *
 from Genetic_Algorithm import *
 class objects():
     def __init__(self):
@@ -14,6 +15,7 @@ class objects():
     def config(self):
         self.config_visuals={"background":["bg.png","bg_night.png"],
                             "value_background":0}
+        self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
     def config_screen(self):
         self.width=800
         self.height=600
@@ -58,7 +60,7 @@ class Tube(objects):
         super().__init__()
         self.load_tube(x,y,angle,width_image,height_image)
     def load_tube(self,x,y,angle,width_image,height_image):
-        self.image=pygame.image.load(os.path.join(self.image_path,"tubo.png"))
+        self.image=pygame.image.load(os.path.join(self.image_path,"tube.png"))
         self.image=pygame.transform.rotate(self.image,angle)
         self.image=pygame.transform.scale(self.image,(width_image,height_image))
         self.rect=pygame.Rect(x,y,width_image,height_image)

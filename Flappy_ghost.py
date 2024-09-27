@@ -78,6 +78,7 @@ class Game(interface):
             self.event_quit(event)
             self.events(event)
             self.event_keydown(event)
+            if self.main==6:self.event_keys(event)
         self.pressed_keys=pygame.key.get_pressed()
         self.pressed_mouse=pygame.mouse.get_pressed()
         self.mouse_pos = pygame.mouse.get_pos()
@@ -92,7 +93,7 @@ class Game(interface):
             elif self.main==-1 and event.key==K_p:self.main=3
             if event.key==pygame.K_ESCAPE:self.restart()
             if self.mode_game["Player"]:
-                if event.key==pygame.K_SPACE:self.jump()
+                if event.key==self.config_keys["key_jump"]:self.jump()
             if self.main==-1:
                 if event.key==K_1:save_model(self.model, torch.optim.Adam(self.model.parameters(), lr=0.001),self.model_path)
             if self.main==1:
