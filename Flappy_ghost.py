@@ -52,7 +52,6 @@ class Game(interface):
                 last_tube = max(tubes, key=lambda t: t.x)
                 tube.x = last_tube.x + space_tubes
                 tube.y = random.randint(height_init, height_finish)
-            if tube.x==self.object1.x:
                 self.reward+=0.5
                 self.scores+=0.5
             self.collision(tube)
@@ -102,6 +101,7 @@ class Game(interface):
                     self.main=-1
     def events(self,event):
         if event.type == self.EVENT_BACKGROUND and self.main==-1:
+            self.speed_tubes+=0.5
             self.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
     def get_state(self):
@@ -118,6 +118,7 @@ class Game(interface):
         self.creates_tubes()
         self.scores=0
         self.reward=0
+        self.speed_tubes=5
         self.running=False
     def type_mode(self):
         if self.mode_game["Training AI"]:self.actions_AI(self.model)
