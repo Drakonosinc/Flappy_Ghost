@@ -16,6 +16,9 @@ class objects():
         self.config_visuals={"background":["bg.png","bg_night.png"],
                             "value_background":0}
         self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
+    def prefinished_config_keys(self):
+        self.config_keys["key_jump"]=K_SPACE
+        self.config_keys["Name_key1"]="SPACE"
     def config_screen(self):
         self.width=800
         self.height=600

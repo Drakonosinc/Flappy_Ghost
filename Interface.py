@@ -3,7 +3,7 @@ class interface(objects):
     def __init__(self):
         super().__init__()
         self.main=0 #-1=game, 0=menu, 1=game over, 2=game menu, 3=pausa, 4=options, 5=visuals, 6=menu keys
-        self.mode_game={"Training AI":True,"Player":False,"AI":False}
+        self.mode_game={"Training AI":False,"Player":True,"AI":False}
         self.sound_type={"sound_menu":"Sound Menu ON","color_menu":self.SKYBLUE,"value_menu":True,
                         "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
         self.utils_keys={"key_jump":False}
@@ -31,7 +31,7 @@ class interface(objects):
             self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
             self.button(self.screen,2,self.font2_5,"PLAY",self.WHITE,(self.width/2-60,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-60,self.height/2-115),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
-            self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,command=self.menu_options,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def game_over_menu(self):
         if self.main==1:
             self.filt(self.width,self.height,150,self.RED)
@@ -78,12 +78,14 @@ class interface(objects):
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def keys_menu(self):
         if self.main==6:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Keys", True, "orange"),(35,self.height/2-250))
             self.button(self.screen,None,self.font2_5,self.config_keys["Name_key1"],self.SKYBLUE if self.utils_keys["key_jump"] else self.WHITE,(35,self.height/2-150),self.GOLDEN,command=lambda:self.change_keys("key_jump","Name_key1"),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=self.prefinished_config_keys,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def change_keys(self,key,key_name):
         self.key=key
         self.key_name=key_name
