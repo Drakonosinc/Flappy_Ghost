@@ -1,4 +1,4 @@
-import pygame,os
+import pygame,os,json
 from pygame.locals import *
 from Genetic_Algorithm import *
 class objects():
@@ -12,10 +12,28 @@ class objects():
         self.load_sounds()
         self.define_colors()
         self.new_events()
+    def load_config(self):
+        try:
+            config_path = os.path.join(os.path.dirname(__file__), "Config")
+            with open(os.path.join(config_path,"config.txt"), 'r') as file:
+                config = json.load(file)
+            self.config_visuals = config["config_visuals"]
+            self.config_keys = config["config_keys"]
+        except:self.config()
     def config(self):
         self.config_visuals={"background":["bg.png","bg_night.png"],
-                            "value_background":0}
+                            "value_background":0,
+                            "flyers":["flappy_ghost.png"],
+                            "value_flyers":0,
+                            "tubes":["tube.png"],
+                            "value_tubes":0}
         self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
+    def save_config(self):
+        config_path = os.path.join(os.path.dirname(__file__), "Config")
+        config = {"config_visuals": self.config_visuals,
+                    "config_keys": self.config_keys}
+        with open(os.path.join(config_path,"config.txt"), 'w') as file:
+            json.dump(config, file, indent=4)
     def prefinished_config_keys(self):
         self.config_keys["key_jump"]=K_SPACE
         self.config_keys["Name_key1"]="SPACE"
@@ -63,7 +81,7 @@ class Tube(objects):
         super().__init__()
         self.load_tube(x,y,angle,width_image,height_image)
     def load_tube(self,x,y,angle,width_image,height_image):
-        self.image=pygame.image.load(os.path.join(self.image_path,"tube.png"))
+        self.image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
         self.image=pygame.transform.rotate(self.image,angle)
         self.image=pygame.transform.scale(self.image,(width_image,height_image))
         self.rect=pygame.Rect(x,y,width_image,height_image)
@@ -76,5 +94,5 @@ class ghost(objects):
         super().__init__()
         self.load_ghost()
     def load_ghost(self):
-        self.image=pygame.image.load(os.path.join(self.image_path,"flappy_ghost.png"))
+        self.image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
         self.image=pygame.transform.scale(self.image,(100,100))
