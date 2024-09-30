@@ -5,7 +5,7 @@ class objects():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
-        self.config()
+        self.load_config()
         self.config_screen()
         self.load_images()
         self.load_fonts()
@@ -86,12 +86,13 @@ class Tube(objects):
         super().__init__()
         self.load_tube(x,y,angle,width_image,height_image)
     def load_tube(self,x,y,angle,width_image,height_image):
-        self.image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
+        self.load_tube_image()
         self.image=pygame.transform.rotate(self.image,angle)
         self.image=pygame.transform.scale(self.image,(width_image,height_image))
         self.rect=pygame.Rect(x,y,width_image,height_image)
         self.x=x
         self.y=y
+    def load_tube_image(self):self.image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
     def draw(self,screen):
         screen.blit(self.image,(self.x,self.y))
 class ghost(objects):

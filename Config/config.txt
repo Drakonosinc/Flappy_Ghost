@@ -1,0 +1,21 @@
+{
+    "config_visuals": {
+        "background": [
+            "bg.png",
+            "bg_night.png"
+        ],
+        "value_background": 0,
+        "flyers": [
+            "flappy_ghost.png"
+        ],
+        "value_flyers": 0,
+        "tubes": [
+            "tube.png"
+        ],
+        "value_tubes": 0
+    },
+    "config_keys": {
+        "key_jump": 32,
+        "Name_key1": "SPACE"
+    }
+}

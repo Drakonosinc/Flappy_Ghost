@@ -91,10 +91,10 @@ class Game(interface):
         if event.type==pygame.KEYDOWN:
             if self.main==3 and event.key==K_p:self.main=-1
             elif self.main==-1 and event.key==K_p:self.main=3
-            if event.key==pygame.K_ESCAPE:self.restart()
             if self.mode_game["Player"]:
                 if event.key==self.config_keys["key_jump"]:self.jump()
             if self.main==-1:
+                if event.key==pygame.K_ESCAPE:self.restart()
                 if event.key==K_1:save_model(self.model, torch.optim.Adam(self.model.parameters(), lr=0.001),self.model_path)
             if self.main==1:
                 if event.key==K_r:
