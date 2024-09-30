@@ -34,6 +34,10 @@ class objects():
                     "config_keys": self.config_keys}
         with open(os.path.join(config_path,"config.txt"), 'w') as file:
             json.dump(config, file, indent=4)
+    def prefinished_config_visuals(self):
+        self.config_visuals["value_background"]=0
+        self.config_visuals["value_flyers"]=0
+        self.config_visuals["value_tubes"]=0
     def prefinished_config_keys(self):
         self.config_keys["key_jump"]=K_SPACE
         self.config_keys["Name_key1"]="SPACE"
@@ -64,6 +68,7 @@ class objects():
         self.font2=pygame.font.Font(None,35)
         self.font2_5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),30)
         self.font3=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),60)
+        self.font3_5=pygame.font.Font(os.path.join(self.font_path,"8bitOperatorPlusSC-Bold.ttf"),30)
         self.font4=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),75)
         self.font5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),20)
     def load_sounds(self):

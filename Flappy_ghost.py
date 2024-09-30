@@ -19,13 +19,13 @@ class Game(interface):
         self.down_gravity=0
         self.jumper=-5
         self.isjumper=False
-        self.flap_ghost=ghost()
         self.space_tubes = 200
         self.speed_tubes = 5
         self.instances()
         self.objects()
         self.play_music()
     def instances(self):
+        self.flap_ghost=ghost()
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
@@ -110,9 +110,8 @@ class Game(interface):
     def AI_actions(self,action):
         if action[0]>0 and self.object2.top > 0 or action[0]<0 and self.object2.bottom < self.height:self.jump()
     def restart(self):
-        if self.mode_game["Training AI"] or self.mode_game["AI"]:
-            self.reset()
-        if self.mode_game["Player"]:self.main=1
+        if self.mode_game["Training AI"]:self.reset()
+        if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
     def reset(self):
         self.instances()
         self.objects()

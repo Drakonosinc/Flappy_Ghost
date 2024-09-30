@@ -76,9 +76,23 @@ class interface(objects):
     def visuals_menu(self):
         if self.main==5:
             self.screen.fill(self.BLACK)
+            self.items_visuals()
             self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
+            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.object1.x-40,self.object1.y+70),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.object1.x+60,self.object1.y+70),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.width/2-85,self.height/2-20),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.width/2+65,self.height/2-20),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.width/2+150,self.height/2-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.width/2+293,self.height/2-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=self.prefinished_config_visuals,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def items_visuals(self):
+        self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y+50))
+        self.screen.blit(self.tubes[0].image,(self.width/2-50,self.height/2-20))
+        self.screen.blit(self.tubes_invert[0].image,(self.width/2+180,0))
+    def change_visuals(self):
+        pass
     def keys_menu(self):
         if self.main==6:
             self.screen.fill(self.BLACK)
