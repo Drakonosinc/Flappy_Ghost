@@ -78,6 +78,9 @@ class objects():
         self.sound_exit=pygame.mixer.Sound(os.path.join(self.sound_path,"exitbutton.wav"))
         self.sound_back=pygame.mixer.Sound(os.path.join(self.sound_path,"sound_back.wav"))
         self.sound_back_game=pygame.mixer.Sound(os.path.join(self.sound_path,"sound_back_game.wav"))
+        self.sound_death=pygame.mixer.Sound(os.path.join(self.sound_path,"death.wav"))
+        self.sound_back.set_volume(0.4)
+        self.sound_back_game.set_volume(0.4)
     def new_events(self):
         self.EVENT_BACKGROUND = pygame.USEREVENT + 1
         pygame.time.set_timer(self.EVENT_BACKGROUND,10000)
