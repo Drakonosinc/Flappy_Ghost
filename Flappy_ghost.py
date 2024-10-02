@@ -21,6 +21,7 @@ class Game(interface):
         self.isjumper=False
         self.space_tubes = 200
         self.speed_tubes = 5
+        self.generation=0
         self.instances()
         self.objects()
         self.play_music()

@@ -21,6 +21,10 @@ class interface(objects):
         self.visuals_menu()
         self.keys_menu()
         self.show_score()
+        self.draw_generation()
+    def draw_generation(self):
+        if self.main==-1 and self.mode_game["Training AI"]:
+            self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def filt(self,width,height,number,color=(0,0,0),position=(0,0)):
         background=pygame.Surface((width,height),pygame.SRCALPHA)
         background.fill((*color, number))
