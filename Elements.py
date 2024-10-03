@@ -5,7 +5,7 @@ class objects():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
-        self.config()
+        self.load_config()
         self.config_screen()
         self.load_images()
         self.load_fonts()
@@ -23,7 +23,7 @@ class objects():
     def config(self):
         self.config_visuals={"background":["bg.png","bg_night.png"],
                             "value_background":0,
-                            "flyers":["flappy_ghost.png","meteorite.png"],
+                            "flyers":["flappy_ghost.png"],
                             "value_flyers":0,
                             "tubes":["tube.png"],
                             "value_tubes":0}
