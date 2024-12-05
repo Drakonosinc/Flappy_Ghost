@@ -46,7 +46,6 @@ def crossover(parent1, parent2):
     
     return child1, child2
 
-
 def mutate(model, mutation_rate=0.01):
     with torch.no_grad():
         for param in model.parameters():
@@ -87,7 +86,6 @@ def genetic_algorithm(game, input_size, output_size, generations=100, population
     best_model = population[fitness_scores.index(max(fitness_scores))]
     game.model = best_model
     return best_model
-
 
 def save_model(model, optimizer, path):
     print("save model")

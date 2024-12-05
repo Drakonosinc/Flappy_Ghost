@@ -65,6 +65,7 @@ class Game(interface):
         if sound:
             self.sound_death.play(loops=0)
             self.restart()
+            self.reward-=0.5
             sound=False
         else:sound=True
     def define_objects(self,objects,tube):
@@ -124,7 +125,7 @@ class Game(interface):
         self.instances()
         self.objects()
         self.creates_tubes()
-        self.scores=self.reward=0
+        self.scores=0
         self.speed_tubes=5
         self.running=False
     def type_mode(self):
@@ -144,7 +145,7 @@ class Game(interface):
                 self.update()
                 self.creates_tubes()
                 self.type_mode()
-                score =int(self.reward)
+                score=self.reward
             pygame.display.flip()
             self.clock.tick(self.FPS)
         return score
