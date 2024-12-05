@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 class SimpleNN(nn.Module):
     def __init__(self, input_size, output_size):
@@ -13,7 +14,6 @@ class SimpleNN(nn.Module):
         self.activations = (self.activations - self.activations.min()) / (self.activations.max() - self.activations.min())  # Normaliza las activaciones
         x = self.fc2(x)
         return x
-
 
 # class SimpleNN(nn.Module):
 #     def __init__(self, input_size, output_size):

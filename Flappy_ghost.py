@@ -125,7 +125,7 @@ class Game(interface):
         self.instances()
         self.objects()
         self.creates_tubes()
-        self.scores=0
+        self.scores=self.reward=0
         self.speed_tubes=5
         self.running=False
     def type_mode(self):
