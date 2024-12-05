@@ -30,10 +30,10 @@ class Game(interface):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
-    def objects(self,object2=None,object3=None):
+    def objects(self):
         self.object1=Rect(100,100,40,40)
-        self.object2=object2
-        self.object3=object3
+        self.object2=Rect(0,0,0,0)
+        self.object3=Rect(0,0,0,0)
     def update(self):
         if not self.isjumper:
             self.down_gravity+=self.gravity
@@ -45,22 +45,22 @@ class Game(interface):
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
-    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None):
+    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,nearest_tube=None):
         for tube in tubes:
             tube.x -= speed_tubes
             tube.rect.topleft = (tube.x, tube.y)
-            if tube.x < -200:
+            if tube.x < -100:
                 last_tube = max(tubes, key=lambda t: t.x)
                 tube.x = last_tube.x + space_tubes
                 tube.y = random.randint(height_init, height_finish)
                 self.reward+=0.5
                 self.scores+=0.5
             self.collision(tube)
-            self.define_objects(objects,tube)
+            if tube.x > self.object1.x and (nearest_tube is None or tube.x < nearest_tube.x):nearest_tube = tube
+            if nearest_tube:self.define_objects(objects,nearest_tube)
             tube.draw(screen)
     def collision(self,tube):
-        if tube.rect.colliderect(self.object1):
-            self.sounddeath()
+        if tube.rect.colliderect(self.object1):self.sounddeath()
     def sounddeath(self,sound=True):
         if sound:
             self.sound_death.play(loops=0)
@@ -99,24 +99,24 @@ class Game(interface):
         if event.type==pygame.KEYDOWN:
             if self.main==3 and event.key==K_p:self.main=-1
             elif self.main==-1 and event.key==K_p:self.main=3
-            if self.mode_game["Player"]:
-                if event.key==self.config_keys["key_jump"]:self.jump()
+            if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.jump()
             if self.main==-1:
                 if event.key==pygame.K_ESCAPE:self.restart()
                 if event.key==K_1:save_model(self.model, torch.optim.Adam(self.model.parameters(), lr=0.001),self.model_path)
-            if self.main==1:
-                if event.key==K_r:
-                    self.reset()
-                    self.main=-1
+            if self.main==1 and event.key==K_r:
+                self.reset()
+                self.main=-1
     def events(self,event):
         if event.type == self.EVENT_BACKGROUND and self.main==-1:
             self.speed_tubes+=0.5
             self.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
     def get_state(self):
-        return np.array([self.object1.x, self.object1.y, self.object2.x, self.object2.y,self.object3.x,self.object3.y])
-    def AI_actions(self,action):
-        if action[0]>0 and self.object2.top > 0 or action[0]<0 and self.object2.bottom < self.height:self.jump()
+        dist_to_tube = self.object2.x - self.object1.x
+        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube])
+    def AI_actions(self,action,threshold=1.0):
+        if action[0]>threshold:self.jump()
+        if action[0]<-threshold:pass
     def restart(self):
         if self.mode_game["Training AI"]:self.reset()
         if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
@@ -124,8 +124,7 @@ class Game(interface):
         self.instances()
         self.objects()
         self.creates_tubes()
-        self.scores=0
-        self.reward=0
+        self.scores=self.reward=0
         self.speed_tubes=5
         self.running=False
     def type_mode(self):
