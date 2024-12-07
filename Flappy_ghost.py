@@ -41,7 +41,10 @@ class Game(interface):
         if self.object1.y<=-20:
             self.object1.y=-15
             self.down_gravity=self.gravity
-        if self.object1.y>=self.height+100:self.sounddeath()
+        if self.object1.y>=self.height+100:
+            self.reward -= 2
+            self.sounddeath()
+        self.reward += 0.1
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
@@ -53,24 +56,21 @@ class Game(interface):
                 last_tube = max(tubes, key=lambda t: t.x)
                 tube.x = last_tube.x + space_tubes
                 tube.y = random.randint(height_init, height_finish)
-                self.reward+=0.5
+                self.reward+=5
                 self.scores+=0.5
             self.collision(tube)
-            if tube.x > self.object1.x and (nearest_tube is None or tube.x < nearest_tube.x):nearest_tube = tube
-            if nearest_tube:self.define_objects(objects,nearest_tube)
+            setattr(self, objects, min(tubes, key=lambda t: t.rect))
             tube.draw(screen)
     def collision(self,tube):
-        if tube.rect.colliderect(self.object1):self.sounddeath()
+        if tube.rect.colliderect(self.object1):
+            self.reward -= 5
+            self.sounddeath()
     def sounddeath(self,sound=True):
         if sound:
             self.sound_death.play(loops=0)
             self.restart()
-            self.reward-=0.5
             sound=False
         else:sound=True
-    def define_objects(self,objects,tube):
-        if objects=="object2":self.object2=tube.rect
-        if objects=="object3":self.object3=tube.rect
     def backgrounds(self):
         for background in [0,360,720,1080]:self.screen.blit(self.image_background, (background, 0))
     def draw(self):
@@ -113,21 +113,21 @@ class Game(interface):
             self.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
     def get_state(self):
-        dist_to_tube = self.object2.x - self.object1.x
-        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube])
-    def AI_actions(self,action,threshold=1.0):
-        if action[0]>threshold:self.jump()
-        if action[0]<-threshold:pass
+        dist_to_tube_x = self.object2.x - self.object1.x
+        dist_to_tube_y = self.object1.y - self.object2.y
+        print(self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube_x,dist_to_tube_y,self.down_gravity,self.speed_tubes)
+        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube_x,dist_to_tube_y,self.down_gravity,self.speed_tubes])
+    def AI_actions(self,action):self.down_gravity = action[0] * 10
     def restart(self):
         if self.mode_game["Training AI"]:self.reset()
         if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
     def reset(self):
+        self.running=False
         self.instances()
         self.objects()
         self.creates_tubes()
-        self.scores=self.reward=0
+        self.scores=0
         self.speed_tubes=5
-        self.running=False
     def type_mode(self):
         if self.mode_game["Training AI"]:self.actions_AI(self.model)
         if self.mode_game["AI"]:self.actions_AI(self.model_training)
@@ -137,7 +137,7 @@ class Game(interface):
         self.AI_actions(action)
     def run_with_model(self):
         self.running=True
-        score=0
+        score,self.reward=0,0
         while self.running and self.game_over==False:
             self.handle_keys()
             self.draw()
