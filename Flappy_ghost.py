@@ -48,7 +48,7 @@ class Game(interface):
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
-    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,nearest_tube=None):
+    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,current_tube=None):
         for tube in tubes:
             tube.x -= speed_tubes
             tube.rect.topleft = (tube.x, tube.y)
@@ -59,8 +59,10 @@ class Game(interface):
                 self.reward+=5
                 self.scores+=0.5
             self.collision(tube)
-            setattr(self, objects, min(tubes, key=lambda t: t.rect))
+            if tube.x > self.object1.x:
+                if current_tube is None or tube.x < current_tube.x:current_tube = tube
             tube.draw(screen)
+        if current_tube:setattr(self, objects, current_tube.rect)
     def collision(self,tube):
         if tube.rect.colliderect(self.object1):
             self.reward -= 5
