@@ -42,7 +42,7 @@ class Game(interface):
             self.object1.y=-15
             self.down_gravity=self.gravity
         if self.object1.y>=self.height+100:
-            self.reward -= 2
+            self.reward -= 10
             self.sounddeath()
         self.reward += 0.1
     def creates_tubes(self):
@@ -65,7 +65,7 @@ class Game(interface):
         if current_tube:setattr(self, objects, current_tube.rect)
     def collision(self,tube):
         if tube.rect.colliderect(self.object1):
-            self.reward -= 5
+            self.reward -= 2
             self.sounddeath()
     def sounddeath(self,sound=True):
         if sound:
@@ -117,8 +117,9 @@ class Game(interface):
     def get_state(self):
         dist_to_tube_x = self.object2.x - self.object1.x
         dist_to_tube_y = self.object1.y - self.object2.y
-        print(self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube_x,dist_to_tube_y,self.down_gravity,self.speed_tubes)
-        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube_x,dist_to_tube_y,self.down_gravity,self.speed_tubes])
+        dist_to_tube_invert_y = self.object1.y - self.object3.y
+        dist_to_tube_to_tube_invert_y = self.object3.y - self.object2.y
+        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
     def AI_actions(self,action):self.down_gravity = action[0] * 10
     def restart(self):
         if self.mode_game["Training AI"]:self.reset()
