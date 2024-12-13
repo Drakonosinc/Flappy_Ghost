@@ -34,6 +34,8 @@ class Game(interface):
         self.object1=Rect(100,100,40,40)
         self.object2=Rect(0,0,0,0)
         self.object3=Rect(0,0,0,0)
+        self.object4=Rect(0,0,0,0)
+        self.object5=Rect(0,0,0,0)
     def update(self):
         if not self.isjumper:
             self.down_gravity+=self.gravity
@@ -48,7 +50,7 @@ class Game(interface):
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
-    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,current_tube=None):
+    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,current_tube=None,next_tube1=None,next_tube2=None):
         for tube in tubes:
             tube.x -= speed_tubes
             tube.rect.topleft = (tube.x, tube.y)
@@ -59,10 +61,17 @@ class Game(interface):
                 self.reward+=5
                 self.scores+=0.5
             self.collision(tube)
-            if tube.x > self.object1.x:
-                if current_tube is None or tube.x < current_tube.x:current_tube = tube
             tube.draw(screen)
+        sorted_tubes = sorted(tubes, key=lambda t: t.x)
+        for i, tube in enumerate(sorted_tubes):
+            if tube.x > self.object1.x:
+                current_tube = tube
+                next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
+                next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
+                break
         if current_tube:setattr(self, objects, current_tube.rect)
+        if next_tube1:setattr(self, "object4", next_tube1.rect)
+        if next_tube2:setattr(self, "object5", next_tube2.rect)
     def collision(self,tube):
         if tube.rect.colliderect(self.object1):
             self.reward -= 2
@@ -119,7 +128,8 @@ class Game(interface):
         dist_to_tube_y = self.object1.y - self.object2.y
         dist_to_tube_invert_y = self.object1.y - self.object3.y
         dist_to_tube_to_tube_invert_y = self.object3.y - self.object2.y
-        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
+        print([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
+        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
     def AI_actions(self,action):self.down_gravity = action[0] * 10
     def restart(self):
         if self.mode_game["Training AI"]:self.reset()
