@@ -1,5 +1,4 @@
 import random
-from pygame.locals import *
 import numpy as np
 from Genetic_Algorithm import *
 from Interface import *
@@ -112,7 +111,7 @@ class Game(interface):
             if self.main==3 and event.key==K_p:self.main=-1
             elif self.main==-1 and event.key==K_p:self.main=3
             if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.jump()
-            if self.main==-1:
+            if self.main==-1 and self.mode_game["Training AI"]:
                 if event.key==pygame.K_ESCAPE:self.restart()
                 if event.key==K_1:save_model(self.model, torch.optim.Adam(self.model.parameters(), lr=0.001),self.model_path)
             if self.main==1 and event.key==K_r:
