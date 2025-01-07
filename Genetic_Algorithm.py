@@ -5,7 +5,6 @@ import numpy as np
 def fitness_function(model, game):
     game.model = model
     score = game.run_with_model()
-    print(f"Score: {score}")
     return score
 
 def initialize_population(size, input_size, output_size):
