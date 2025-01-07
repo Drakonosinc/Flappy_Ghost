@@ -153,9 +153,7 @@ class Game(interface):
             self.handle_keys()
             self.draw()
             if self.main==-1:
-                self.update()
-                self.creates_tubes()
-                self.type_mode()
+                self.update(),self.creates_tubes(),self.type_mode()
                 score=self.reward
             pygame.display.flip()
             self.clock.tick(self.FPS)
