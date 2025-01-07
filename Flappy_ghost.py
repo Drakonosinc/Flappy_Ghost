@@ -130,10 +130,10 @@ class Game(interface):
         return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
     def AI_actions(self,action):self.down_gravity = action[0] * 10
     def restart(self):
-        if self.mode_game["Training AI"]:self.reset()
+        if self.mode_game["Training AI"]:self.reset(False)
         if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
-    def reset(self):
-        self.running=False
+    def reset(self,running=True):
+        self.running=running
         self.instances()
         self.objects()
         self.creates_tubes()
