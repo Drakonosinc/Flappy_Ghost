@@ -140,8 +140,7 @@ class Game(interface):
         self.scores=0
         self.speed_tubes=5
     def type_mode(self):
-        if self.mode_game["Training AI"]:self.actions_AI(self.model)
-        if self.mode_game["AI"]:self.actions_AI(self.model_training)
+        self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
     def actions_AI(self,model):
         state=self.get_state()
         action = model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
@@ -153,7 +152,8 @@ class Game(interface):
             self.handle_keys()
             self.draw()
             if self.main==-1:
-                self.update(),self.creates_tubes(),self.type_mode()
+                if self.mode_game["AI"] or self.mode_game["Training AI"]:self.type_mode()
+                self.update(),self.creates_tubes()
                 score=self.reward
             pygame.display.flip()
             self.clock.tick(self.FPS)
