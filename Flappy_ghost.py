@@ -42,7 +42,7 @@ class Game(interface):
         if self.object1.y<=-20:
             self.object1.y=-15
             self.down_gravity=self.gravity
-        if self.object1.y>=self.height+100:self.sounddeath(reward=-10)
+        if self.object1.y>=self.height+100:self.sounddeath(reward=-20)
         self.reward += 0.1
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
@@ -70,7 +70,7 @@ class Game(interface):
         if next_tube1:setattr(self, "object4", next_tube1.rect)
         if next_tube2:setattr(self, "object5", next_tube2.rect)
     def collision(self,tube):
-        if tube.rect.colliderect(self.object1):self.sounddeath(reward=-2)
+        if tube.rect.colliderect(self.object1):self.sounddeath(reward=-25)
     def sounddeath(self,sound=True,reward=0):
         if sound:
             self.sound_death.play(loops=0)
@@ -146,8 +146,7 @@ class Game(interface):
         self.running=True
         score,self.reward=0,0
         while self.running and self.game_over==False:
-            self.handle_keys()
-            self.draw()
+            self.handle_keys(),self.draw()
             if self.main==-1:
                 if self.mode_game["AI"] or self.mode_game["Training AI"]:self.type_mode()
                 self.update(),self.creates_tubes()
