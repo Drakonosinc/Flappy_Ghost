@@ -136,8 +136,7 @@ class Game(interface):
         self.creates_tubes()
         self.scores=0
         self.speed_tubes=5
-    def type_mode(self):
-        self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
+    def type_mode(self):self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
     def actions_AI(self,model):
         state=self.get_state()
         action = model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
