@@ -59,17 +59,14 @@ def hybrid_optimization(elites, game, learning_rate=0.001, steps=5):
         optimizer = torch.optim.Adam(elite.parameters(), lr=learning_rate)
         for _ in range(steps):
             state = torch.tensor(game.get_state(), dtype=torch.float32)
-            
-            # Ejecutar el modelo con el estado actual
             predicted_action = elite(state)
-            
-            # Fitness como negativo para optimizarlo directamente
+            loss = -torch.mean(predicted_action)
             score = fitness_function(elite, game)
-            loss = -torch.tensor(score, dtype=torch.float32, requires_grad=True)  # Convertir a tensor
-            
+            loss += -torch.tensor(score, dtype=torch.float32, requires_grad=True)
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+    return elites
 
 def genetic_algorithm_optimized(game, input_size, output_size, generations=100, population_size=20, 
                                 elitism_rate=0.05, tournament_size=3, mutation_rate=0.02, 
@@ -78,12 +75,10 @@ def genetic_algorithm_optimized(game, input_size, output_size, generations=100, 
     elite_size = max(1, int(elitism_rate * population_size))
 
     for generation in range(generations):
-        print(f"Generation {generation + 1}")
         game.generation = generation
 
         # Evaluación
         fitness_scores = evaluate_population(population, game)
-        print(f"Fitness Scores: {fitness_scores}")
 
         # Selección de élite
         elites = select_top_individuals(population, fitness_scores, elite_size)
@@ -107,9 +102,7 @@ def genetic_algorithm_optimized(game, input_size, output_size, generations=100, 
             inverted_models = [inverted_mutation(model) for model in elites]
             next_population = next_population[:population_size - num_random] + random_models + inverted_models
 
-        # Optimización híbrida
-        hybrid_optimization(elites, game)
-
+        elites = hybrid_optimization(elites, game)
         population = next_population[:population_size]
 
     # Selección del mejor modelo
