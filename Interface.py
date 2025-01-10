@@ -138,8 +138,7 @@ class interface(objects):
         self.sound_type[value]=not self.sound_type[value]
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
         self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
-        if self.sound_type[value]:
-            if play:sound_back.play(loops=-1)
+        if self.sound_type[value] and play:sound_back.play(loops=-1)
         else:sound_back.stop()
     def show_score(self):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(self.scores)}", True, "orange"),(35,self.height-50))
