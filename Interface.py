@@ -122,11 +122,10 @@ class interface(objects):
         self.utils_keys[self.key]= not self.utils_keys[self.key]
     def event_keys(self,event):
         if self.key!=None:
-            if self.utils_keys[self.key]:
-                if event.type==KEYDOWN:
-                    self.config_keys[self.key]=event.key
-                    self.config_keys[self.key_name]=event.unicode.upper()
-                    self.utils_keys[self.key]= not self.utils_keys[self.key]
+            if self.utils_keys[self.key] and event.type==KEYDOWN:
+                self.config_keys[self.key]=event.key
+                self.config_keys[self.key_name]=event.unicode.upper()
+                self.utils_keys[self.key]= not self.utils_keys[self.key]
     def sounds_menu(self):
         if self.main==7:
             self.screen.fill(self.BLACK)
