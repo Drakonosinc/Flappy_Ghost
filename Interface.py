@@ -136,14 +136,11 @@ class interface(objects):
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def sound_on_off(self,sound:str,color=(0,0,0),value=True,type_sound="",sound_back=None,play=False):
         self.sound_type[value]=not self.sound_type[value]
+        self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
+        self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
         if self.sound_type[value]:
-            self.sound_type[color]=self.SKYBLUE
-            self.sound_type[sound]=type_sound+" ON"
             if play:sound_back.play(loops=-1)
-        else:
-            self.sound_type[color]=self.RED
-            self.sound_type[sound]=type_sound+" off"
-            sound_back.stop()
+        else:sound_back.stop()
     def show_score(self):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(self.scores)}", True, "orange"),(35,self.height-50))
     def button(self,screen,main:int=None,font=None,text:str=None,color=None,position=None,color2=None,pressed=True,command=None,detect_mouse=True,command2=None,sound_hover=None,sound_touch=None,position2=None,type_button:int=0,button_states={}):
