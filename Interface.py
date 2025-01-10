@@ -142,8 +142,7 @@ class interface(objects):
     def show_score(self):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(self.scores)}", True, "orange"),(35,self.height-50))
     def button(self,screen,main:int=None,font=None,text:str=None,color=None,position=None,color2=None,pressed=True,command=None,detect_mouse=True,command2=None,sound_hover=None,sound_touch=None,position2=None,type_button:int=0,button_states={}):
-        button_id = (text, position)
-        if button_id not in button_states:button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
+        if (button_id:=(text, position)) not in button_states:button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
         state = button_states[button_id]
         button=screen.blit(font.render(text,True,color),position) if type_button==0 else pygame.draw.polygon(self.screen, color, position)
         is_hovering_now = button.collidepoint(self.mouse_pos)
