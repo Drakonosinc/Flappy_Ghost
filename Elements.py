@@ -14,9 +14,8 @@ class objects():
         self.new_events()
     def load_config(self):
         try:
-            config_path = os.path.join(os.path.dirname(__file__), "Config")
-            with open(os.path.join(config_path,"config.txt"), 'r') as file:
-                config = json.load(file)
+            self.config_path = os.path.join(os.path.dirname(__file__), "Config")
+            with open(os.path.join(self.config_path,"config.json"), 'r') as file:config = json.load(file)
             self.config_visuals = config["config_visuals"]
             self.config_keys = config["config_keys"]
         except:self.config()
@@ -29,11 +28,9 @@ class objects():
                             "value_tubes":0}
         self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
     def save_config(self):
-        config_path = os.path.join(os.path.dirname(__file__), "Config")
         config = {"config_visuals": self.config_visuals,
                     "config_keys": self.config_keys}
-        with open(os.path.join(config_path,"config.txt"), 'w') as file:
-            json.dump(config, file, indent=4)
+        with open(os.path.join(self.config_path,"config.json"), 'w') as file:json.dump(config, file, indent=4)
     def prefinished_config_visuals(self):
         self.config_visuals["value_background"]=0
         self.config_visuals["value_flyers"]=0
