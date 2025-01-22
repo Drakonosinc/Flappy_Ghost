@@ -22,7 +22,7 @@ class objects():
     def config(self,visuals=False,keys=False,alls=False):
         if visuals or alls:self.config_visuals={"background":["bg.png","bg_night.png"],
                             "value_background":0,
-                            "flyers":["flappy_ghost.png"],
+                            "flyers":["flappy_ghost.png","meteorite.png"],
                             "value_flyers":0,
                             "tubes":["tube.png"],
                             "value_tubes":0}

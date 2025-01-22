@@ -82,10 +82,10 @@ class interface(objects):
             self.screen.fill(self.BLACK)
             self.items_visuals()
             self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
-            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.object1.x-40,self.object1.y+70),self.GOLDEN,command=lambda:self.change_items("value_flyers","-","flyers"),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.object1.x+60,self.object1.y+70),self.GOLDEN,command=lambda:self.change_items("value_flyers","+","flyers"),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.width/2-95,self.height/2),self.GOLDEN,command=lambda:self.change_items("value_tubes","-","tubes"),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.width/2+75,self.height/2),self.GOLDEN,command=lambda:self.change_items("value_tubes","+","tubes"),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.object1.x-40,self.object1.y+70),self.GOLDEN,command=lambda:self.change_items("value_flyers","flyers",-1),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.object1.x+60,self.object1.y+70),self.GOLDEN,command=lambda:self.change_items("value_flyers","flyers",1),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.width/2-95,self.height/2),self.GOLDEN,command=lambda:self.change_items("value_tubes","tubes",-1),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.width/2+75,self.height/2),self.GOLDEN,command=lambda:self.change_items("value_tubes","tubes",1),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"Save config",self.WHITE,(self.width/2+80,self.height-85),self.GOLDEN,command=self.save_config,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"Default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=lambda:self.config(visuals=True),command2=self.load_visuals,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
@@ -93,9 +93,8 @@ class interface(objects):
         self.screen.blit(self.flappy_ghost,(self.object1.x-30,self.object1.y+50))
         self.screen.blit(self.tubes[0].image,(self.width/2-50,self.height/2))
         self.screen.blit(self.tubes_invert[0].image,(self.width/2+180,0))
-    def change_items(self,item,sign,background):
-        if sign=="-":self.config_visuals[item]=((self.config_visuals[item] - 1) % len(self.config_visuals[background]))
-        if sign=="+":self.config_visuals[item]=((self.config_visuals[item] + 1) % len(self.config_visuals[background]))
+    def change_items(self,item,background,number):
+        self.config_visuals[item]=((self.config_visuals[item] + number) % len(self.config_visuals[background]))
         self.load_visuals()
     def load_visuals(self):
         self.load_images()
