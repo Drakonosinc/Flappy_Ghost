@@ -30,9 +30,7 @@ class objects():
     def save_config(self):
         config = {"config_visuals": self.config_visuals,"config_keys": self.config_keys}
         with open(os.path.join(self.config_path,"config.json"), 'w') as file:json.dump(config, file, indent=4)
-    def config_screen(self):
-        self.width=800
-        self.height=600
+    def config_screen(self):self.width,self.height=800,600
     def load_AI(self):
         self.model_path=os.path.join(os.path.dirname(__file__), "AI/best_model.pth")
         if os.path.exists(self.model_path):self.model_training = load_model(self.model_path, 16, 1)
@@ -86,8 +84,7 @@ class Tube(objects):
         self.image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
         self.image=pygame.transform.rotate(self.image,angle)
         self.image=pygame.transform.scale(self.image,(width_image,height_image))
-    def draw(self,screen):
-        screen.blit(self.image,(self.x,self.y))
+    def draw(self,screen):screen.blit(self.image,(self.x,self.y))
 class ghost(objects):
     def __init__(self):
         super().__init__()
