@@ -115,7 +115,7 @@ class interface(objects):
             self.button(self.screen,None,self.font2_5,self.config_keys["Name_key1"],self.SKYBLUE if self.utils_keys["key_jump"] else self.WHITE,(35,self.height/2-150),self.GOLDEN,command=lambda:self.change_keys("key_jump","Name_key1"),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"Save config",self.WHITE,(self.width/2+80,self.height-85),self.GOLDEN,command=self.save_config,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font2_5,"Default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=self.prefinished_config_keys,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(self.screen,None,self.font2_5,"Default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=lambda:self.config(keys=True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def change_keys(self,key,key_name):
         self.key=key
         self.key_name=key_name

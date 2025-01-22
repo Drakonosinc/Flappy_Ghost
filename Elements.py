@@ -18,7 +18,7 @@ class objects():
             with open(os.path.join(self.config_path,"config.json"), 'r') as file:config = json.load(file)
             self.config_visuals = config["config_visuals"]
             self.config_keys = config["config_keys"]
-        except:self.config()
+        except:self.config(alls=True)
     def config(self,visuals=False,keys=False,alls=False):
         if visuals or alls:self.config_visuals={"background":["bg.png","bg_night.png"],
                             "value_background":0,
@@ -30,9 +30,6 @@ class objects():
     def save_config(self):
         config = {"config_visuals": self.config_visuals,"config_keys": self.config_keys}
         with open(os.path.join(self.config_path,"config.json"), 'w') as file:json.dump(config, file, indent=4)
-    def prefinished_config_keys(self):
-        self.config_keys["key_jump"]=K_SPACE
-        self.config_keys["Name_key1"]="SPACE"
     def config_screen(self):
         self.width=800
         self.height=600
