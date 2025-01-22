@@ -19,22 +19,17 @@ class objects():
             self.config_visuals = config["config_visuals"]
             self.config_keys = config["config_keys"]
         except:self.config()
-    def config(self):
-        self.config_visuals={"background":["bg.png","bg_night.png"],
+    def config(self,visuals=False,keys=False,alls=False):
+        if visuals or alls:self.config_visuals={"background":["bg.png","bg_night.png"],
                             "value_background":0,
                             "flyers":["flappy_ghost.png"],
                             "value_flyers":0,
                             "tubes":["tube.png"],
                             "value_tubes":0}
-        self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
+        if keys or alls:self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
     def save_config(self):
-        config = {"config_visuals": self.config_visuals,
-                    "config_keys": self.config_keys}
+        config = {"config_visuals": self.config_visuals,"config_keys": self.config_keys}
         with open(os.path.join(self.config_path,"config.json"), 'w') as file:json.dump(config, file, indent=4)
-    def prefinished_config_visuals(self):
-        self.config_visuals["value_background"]=0
-        self.config_visuals["value_flyers"]=0
-        self.config_visuals["value_tubes"]=0
     def prefinished_config_keys(self):
         self.config_keys["key_jump"]=K_SPACE
         self.config_keys["Name_key1"]="SPACE"
