@@ -48,6 +48,8 @@ class objects():
     def load_images(self):
         self.image_path = os.path.join(os.path.dirname(__file__), "images")
         self.image_background=pygame.image.load(os.path.join(self.image_path,self.config_visuals["background"][self.config_visuals["value_background"]]))
+        self.flappy_ghost=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
+        self.flappy_ghost=pygame.transform.scale(self.flappy_ghost,(100,100))
     def load_fonts(self):
         self.font_path = os.path.join(os.path.dirname(__file__), "fonts")
         self.font=pygame.font.Font(None,25)
@@ -85,10 +87,3 @@ class Tube(objects):
         self.image=pygame.transform.rotate(self.image,angle)
         self.image=pygame.transform.scale(self.image,(width_image,height_image))
     def draw(self,screen):screen.blit(self.image,(self.x,self.y))
-class ghost(objects):
-    def __init__(self):
-        super().__init__()
-        self.load_ghost()
-    def load_ghost(self):
-        self.image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
-        self.image=pygame.transform.scale(self.image,(100,100))

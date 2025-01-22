@@ -90,7 +90,7 @@ class interface(objects):
             self.button(self.screen,None,self.font2_5,"Save config",self.WHITE,(self.width/2+80,self.height-85),self.GOLDEN,command=self.save_config,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"Default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=lambda:self.config(visuals=True),command2=self.load_visuals,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def items_visuals(self):
-        self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y+50))
+        self.screen.blit(self.flappy_ghost,(self.object1.x-30,self.object1.y+50))
         self.screen.blit(self.tubes[0].image,(self.width/2-50,self.height/2))
         self.screen.blit(self.tubes_invert[0].image,(self.width/2+180,0))
     def change_items(self,item,sign,background):
@@ -99,8 +99,6 @@ class interface(objects):
         self.load_visuals()
     def load_visuals(self):
         self.load_images()
-        self.flap_ghost.image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
-        self.flap_ghost.image=pygame.transform.scale(self.flap_ghost.image,(100,100))
         for i in range(len(self.tubes)):
             self.tubes[i].image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
             self.tubes[i].image=pygame.transform.rotate(self.tubes[0].image,0)

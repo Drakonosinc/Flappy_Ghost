@@ -25,7 +25,6 @@ class Game(interface):
         self.objects()
         self.play_music()
     def instances(self):
-        self.flap_ghost=ghost()
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
@@ -82,7 +81,7 @@ class Game(interface):
         for background in [0,360,720,1080]:self.screen.blit(self.image_background, (background, 0))
     def draw(self):
         self.backgrounds()
-        self.screen.blit(self.flap_ghost.image,(self.object1.x-30,self.object1.y-20))
+        self.screen.blit(self.flappy_ghost,(self.object1.x-30,self.object1.y-20))
         self.draw_interfaces()
     def jump(self):
         self.isjumper=True
