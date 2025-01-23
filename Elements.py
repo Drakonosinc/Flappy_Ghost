@@ -20,12 +20,9 @@ class objects():
             self.config_keys = config["config_keys"]
         except:self.config(alls=True)
     def config(self,visuals=False,keys=False,alls=False):
-        if visuals or alls:self.config_visuals={"background":["bg.png","bg_night.png"],
-                            "value_background":0,
-                            "flyers":["flappy_ghost.png"],
-                            "value_flyers":0,
-                            "tubes":["tube.png"],
-                            "value_tubes":0}
+        if visuals or alls:self.config_visuals={"background":["bg.png","bg_night.png"],"value_background":0,
+                            "flyers":["flappy_ghost.png"],"value_flyers":0,
+                            "tubes":["tube.png"],"value_tubes":0}
         if keys or alls:self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
     def save_config(self):
         config = {"config_visuals": self.config_visuals,"config_keys": self.config_keys}
