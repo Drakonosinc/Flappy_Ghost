@@ -1,12 +1,21 @@
 import pygame
 class Button:
     def __init__(self,config):
-        pass
-
-
-
-
-def button(self,screen,main:int=None,font=None,text:str=None,color=None,position=None,color2=None,pressed=True,command=None,detect_mouse=True,command2=None,sound_hover=None,sound_touch=None,position2=None,type_button:int=0,button_states={}):
+        self.screen=config.get("screen", None)
+        self.main=config.get("main", None)
+        self.font=config.get("font",pygame.font.Font(None,25))
+        self.text=config.get("text","")
+        self.color=config.get("color",(255,255,255))
+        self.color2=config.get("color2",None)
+        self.position=config.get("position",(0,0))
+        self.position2=config.get("position2",None)
+        self.pressed=config.get("pressed",True)
+        self.detect_mouse=config.get("detect_mouse",True)
+        self.type_button=config.get("type_button",0)
+        self.command=config.get("command",None)
+        self.command2=config.get("command",None)
+        
+def button(=None,command2=None,sound_hover=None,sound_touch=None,button_states={}):
     if (button_id:=(text, position)) not in button_states:button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
     state = button_states[button_id]
     button=screen.blit(font.render(text,True,color),position) if type_button==0 else pygame.draw.polygon(self.screen, color, position)
