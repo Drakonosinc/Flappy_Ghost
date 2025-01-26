@@ -1,4 +1,11 @@
 import pygame
+class Button:
+    def __init__(self,config):
+        pass
+
+
+
+
 def button(self,screen,main:int=None,font=None,text:str=None,color=None,position=None,color2=None,pressed=True,command=None,detect_mouse=True,command2=None,sound_hover=None,sound_touch=None,position2=None,type_button:int=0,button_states={}):
     if (button_id:=(text, position)) not in button_states:button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
     state = button_states[button_id]
