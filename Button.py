@@ -12,10 +12,13 @@ class Button:
         self.pressed=config.get("pressed",True)
         self.detect_mouse=config.get("detect_mouse",True)
         self.type_button=config.get("type_button",0)
+        self.sound_hover=config.get("sound_hover",None)
+        self.sound_touch=config.get("sound_touch",None)
         self.command=config.get("command",None)
-        self.command2=config.get("command",None)
-        
-def button(=None,command2=None,sound_hover=None,sound_touch=None,button_states={}):
+        self.command2=config.get("command2",None)
+        self.command3=config.get("command3",None)
+
+def button(button_states={}):
     if (button_id:=(text, position)) not in button_states:button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
     state = button_states[button_id]
     button=screen.blit(font.render(text,True,color),position) if type_button==0 else pygame.draw.polygon(self.screen, color, position)
