@@ -6,7 +6,7 @@ class Button:
         self.font=config.get("font",pygame.font.Font(None,25))
         self.text=config.get("text","")
         self.color=config.get("color",(255,255,255))
-        self.color2=config.get("color2",None)
+        self.color2=config.get("color2",(0,0,0))
         self.position=config.get("position",(0,0))
         self.position2=config.get("position2",None)
         self.pressed=config.get("pressed",True)
@@ -17,18 +17,19 @@ class Button:
         self.command=config.get("command",None)
         self.command2=config.get("command2",None)
         self.command3=config.get("command3",None)
-
+    def draw(self):
+        button=self.screen.blit(self.font.render(self.text,True,self.color),self.position) if self.type_button==0 else pygame.draw.polygon(self.screen, self.color, self.position)
+        if not self.detect_mouse and not self.pressed:return button
+    def mouse_collision(self):
+        self.screen.blit(self.font.render(self.text,True,self.color2),self.position) if self.type_button==0 else pygame.draw.polygon(self.screen, self.color2, self.position2)
+        
 def button(button_states={}):
-    if (button_id:=(text, position)) not in button_states:button_states[button_id] = {'hover_played': False, 'click_played': False, 'is_hovering': False}
-    state = button_states[button_id]
-    button=screen.blit(font.render(text,True,color),position) if type_button==0 else pygame.draw.polygon(self.screen, color, position)
     is_hovering_now = button.collidepoint(self.mouse_pos)
     if detect_mouse:self.mouse_collision(screen,type_button,is_hovering_now,font,text,color2,position,state,sound_hover,position2)
     if pressed:self.pressed_button(is_hovering_now,state,sound_touch,main,command,command2)
     else:return button
 def mouse_collision(self,screen,type_button,is_hovering_now,font,text,color2,position,state,sound_hover,position2):
     if is_hovering_now:
-        screen.blit(font.render(text,True,color2),position) if type_button==0 else pygame.draw.polygon(self.screen, color2, position2)
         if not state['is_hovering']:
             if not state['hover_played']:
                 sound_hover.play(loops=0)
