@@ -33,14 +33,7 @@ class Button:
         if self.pressed_mouse[0] and self.button_states["sound_touch"]:
             self.sound_touch.play(loops=0)
             self.button_states["sound_touch"]=False
-            if self.main!=None:self.main=main
-            if command!=None:command()
-            if command2!=None:command2()
+            if self.main!=None:self.main=self.main
+            if self.command!=None:self.command()
+            if self.command2!=None:self.command2()
         else:self.button_states["sound_touch"]=True
-def pressed_button(self,is_hovering_now,state,sound_touch,main,command=None,command2=None):
-    if self.pressed_mouse[0]:
-        if is_hovering_now and not state['click_played']:
-            
-            state['click_played'] = True
-            
-    else:state['click_played'] = False
