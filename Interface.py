@@ -9,7 +9,7 @@ class interface(objects):
                         "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
         self.utils_keys={"key_jump":False}
         self.key=None
-        
+        self.draw_buttons()
     def play_music(self):
         self.sound_back.play(loops=-1)
         self.sound_back.set_volume(0.5)
@@ -24,6 +24,8 @@ class interface(objects):
         self.keys_menu()
         self.show_score()
         self.draw_generation()
+    def draw_buttons(self):
+        self.buttons_main_menu()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def filt(self,width,height,number,color=(0,0,0),position=(0,0)):
@@ -38,6 +40,17 @@ class interface(objects):
             # self.button(self.screen,2,self.font2_5,"PLAY",self.WHITE,(self.width/2-60,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             # self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-60,self.height/2-115),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
             # self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def buttons_main_menu(self):
+        self.play_button = Button({
+            "screen": self.screen,
+            "font": self.font2_5,
+            "text": "PLAY",
+            "color": self.WHITE,
+            "position": (self.width/2-60, self.height/2-150),
+            "color2": self.GOLDEN,
+            "sound_hover": self.sound_buttonletters,
+            "sound_touch": self.sound_touchletters
+        })
     def game_over_menu(self):
         if self.main==1:
             self.filt(self.width,self.height,150,self.RED)
