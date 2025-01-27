@@ -18,11 +18,11 @@ class Button:
         self.button_states=config.get("button_states",{"sound_hover":True,"sound_touch":True})
     def draw(self):
         self.button=self.screen.blit(self.font.render(self.text,True,self.color),self.position) if self.type_button==0 else pygame.draw.polygon(self.screen, self.color, self.position)
-        if not self.detect_mouse and not self.pressed:return self.button
-    def update(self):
-        self.mouse_collision(mouse_pos=pygame.mouse.get_pos())
-        self.pressed_button(pressed_mouse=pygame.mouse.get_pressed())
         
+    def update(self):
+        if self.detect_mouse:self.mouse_collision(mouse_pos=pygame.mouse.get_pos())
+        if self.pressed:self.pressed_button(pressed_mouse=pygame.mouse.get_pressed())
+        else:return self.button
     def mouse_collision(self,mouse_pos):
         self.screen.blit(self.font.render(self.text,True,self.color2),self.position) if self.type_button==0 else pygame.draw.polygon(self.screen, self.color2, self.position2)
         if self.button.collidepoint(mouse_pos) and self.button_states["sound_hover"]:
