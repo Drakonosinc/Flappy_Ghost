@@ -27,7 +27,9 @@ class objects():
     def save_config(self):
         config = {"config_visuals": self.config_visuals,"config_keys": self.config_keys}
         with open(os.path.join(self.config_path,"config.json"), 'w') as file:json.dump(config, file, indent=4)
-    def config_screen(self):self.width,self.height=800,600
+    def config_screen(self):
+        self.width,self.height=800,600
+        self.screen=pygame.display.set_mode((self.width,self.height))
     def load_AI(self):
         self.model_path=os.path.join(os.path.dirname(__file__), "AI/best_model.pth")
         if os.path.exists(self.model_path):self.model_training = load_model(self.model_path, 16, 1)

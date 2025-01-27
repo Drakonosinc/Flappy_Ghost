@@ -1,4 +1,5 @@
 from Elements import *
+from Button import Button
 class interface(objects):
     def __init__(self):
         super().__init__()
@@ -8,6 +9,7 @@ class interface(objects):
                         "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
         self.utils_keys={"key_jump":False}
         self.key=None
+        
     def play_music(self):
         self.sound_back.play(loops=-1)
         self.sound_back.set_volume(0.5)
@@ -32,9 +34,10 @@ class interface(objects):
         if self.main==0:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
-            self.button(self.screen,2,self.font2_5,"PLAY",self.WHITE,(self.width/2-60,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-60,self.height/2-115),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
-            self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.play_button.draw(main=2)
+            # self.button(self.screen,2,self.font2_5,"PLAY",self.WHITE,(self.width/2-60,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            # self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-60,self.height/2-115),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
+            # self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def game_over_menu(self):
         if self.main==1:
             self.filt(self.width,self.height,150,self.RED)

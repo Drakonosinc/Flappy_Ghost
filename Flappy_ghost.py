@@ -7,7 +7,6 @@ class Game(interface):
         super().__init__()
         self.model=model
         self.load_AI()
-        self.screen=pygame.display.set_mode((self.width,self.height))
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
