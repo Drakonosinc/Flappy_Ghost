@@ -29,15 +29,18 @@ class Button:
             self.sound_hover.play(loops=0)
             self.button_states["sound_hover"]=False
         else:self.button_states["sound_hover"]=True
-    def pressed_button(self):pass
-
-
+    def pressed_button(self):
+        if self.pressed_mouse[0] and self.button_states["sound_touch"]:
+            self.sound_touch.play(loops=0)
+            self.button_states["sound_touch"]=False
+            if self.main!=None:self.main=main
+            if command!=None:command()
+            if command2!=None:command2()
+        else:self.button_states["sound_touch"]=True
 def pressed_button(self,is_hovering_now,state,sound_touch,main,command=None,command2=None):
     if self.pressed_mouse[0]:
         if is_hovering_now and not state['click_played']:
-            sound_touch.play(loops=0)
+            
             state['click_played'] = True
-            if main!=None:self.main=main
-            if command!=None:command()
-            if command2!=None:command2()
+            
     else:state['click_played'] = False
