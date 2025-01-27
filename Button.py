@@ -1,7 +1,7 @@
 import pygame
 class Button:
     def __init__(self,config):
-        self.screen=config.get("screen", None)
+        self.screen=config["screen"]
         self.main=config.get("main", None)
         self.font=config.get("font",pygame.font.Font(None,25))
         self.text=config.get("text","")
@@ -16,9 +16,7 @@ class Button:
         self.type_button=config.get("type_button",0)
         self.sound_hover=config.get("sound_hover",None)
         self.sound_touch=config.get("sound_touch",None)
-        self.command=config.get("command",None)
-        self.command2=config.get("command2",None)
-        self.command3=config.get("command3",None)
+        self.commands = [config.get(f"command{i}") for i in range(1,4)]
         self.button_states=config.get("button_states",{"sound_hover":True,"sound_touch":True})
     def draw(self):
         self.button=self.screen.blit(self.font.render(self.text,True,self.color),self.position) if self.type_button==0 else pygame.draw.polygon(self.screen, self.color, self.position)
@@ -34,6 +32,8 @@ class Button:
             self.sound_touch.play(loops=0)
             self.button_states["sound_touch"]=False
             if self.main!=None:self.main=self.main
-            if self.command!=None:self.command()
-            if self.command2!=None:self.command2()
+            self.execute_commands()
         else:self.button_states["sound_touch"]=True
+    def execute_commands(self):
+            for command in self.commands:
+                if callable(command):command()
