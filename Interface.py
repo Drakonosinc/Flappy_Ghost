@@ -70,13 +70,21 @@ class interface(objects):
         self.Training_AI_button = Button({"screen": self.screen,
                                     "font": self.font2_5,
                                     "text": "Training AI",
-                                    "color": (self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE),
+                                    "color":self.WHITE,
                                     "position": (35,self.height/2-150),
                                     "color2": self.GOLDEN,
                                     "sound_hover": self.sound_buttonletters,
                                     "sound_touch": self.sound_touchletters,
-                                    "command1":lambda:self.type_game(True),})
-
+                                    "command1":lambda:self.type_game(True),"command2":lambda:setattr(self.Training_AI_button,"color",(self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE))})
+        self.Training_AI_button = Button({"screen": self.screen,
+                                    "font": self.font2_5,
+                                    "text": "Training AI",
+                                    "color":self.WHITE,
+                                    "position": (35,self.height/2-150),
+                                    "color2": self.GOLDEN,
+                                    "sound_hover": self.sound_buttonletters,
+                                    "sound_touch": self.sound_touchletters,
+                                    "command1":lambda:self.type_game(True),"command2":lambda:setattr(self.Training_AI_button,"color",(self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE))})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
