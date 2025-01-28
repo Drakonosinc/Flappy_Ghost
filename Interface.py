@@ -37,9 +37,8 @@ class interface(objects):
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
             self.play_button.draw()
-            # self.button(self.screen,2,self.font2_5,"PLAY",self.WHITE,(self.width/2-60,self.height/2-150),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            # self.button(self.screen,None,self.font2_5,"QUIT",self.WHITE,(self.width/2-60,self.height/2-115),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
-            # self.button(self.screen,4,self.font2_5,"OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            # self.button("QUIT",self.WHITE,(self.width/2-60,self.height/2-115),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
+            # self.button("OPTIONS",self.WHITE,(self.width-180,self.height-50),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
     def buttons_main_menu(self):
         self.play_button = Button({
             "screen": self.screen,
@@ -51,6 +50,27 @@ class interface(objects):
             "sound_hover": self.sound_buttonletters,
             "sound_touch": self.sound_touchletters,
             "command1": lambda: setattr(self, 'main', 2)
+        })
+        self.quit_button = Button({
+            "screen": self.screen,
+            "font": self.font2_5,
+            "text": "QUIT",
+            "color": self.WHITE,
+            "position": (self.width/2-60, self.height/2-150),
+            "color2": self.GOLDEN,
+            "sound_hover": self.sound_buttonletters,
+            "sound_touch": self.sound_touchletters,
+        })
+        self.options_button = Button({
+            "screen": self.screen,
+            "font": self.font2_5,
+            "text": "OPTIONS",
+            "color": self.WHITE,
+            "position": (self.width/2-60, self.height/2-150),
+            "color2": self.GOLDEN,
+            "sound_hover": self.sound_buttonletters,
+            "sound_touch": self.sound_touchletters,
+            "command1": lambda: setattr(self, 'main', 4)
         })
     def game_over_menu(self):
         if self.main==1:
