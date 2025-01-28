@@ -32,13 +32,13 @@ class interface(objects):
         background=pygame.Surface((width,height),pygame.SRCALPHA)
         background.fill((*color, number))
         self.screen.blit(background,position)
+    def execute_buttons(self,*args):
+        for button in args:button.draw()
     def main_menu(self):
         if self.main==0:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
-            self.play_button.draw()
-            self.quit_button.draw()
-            self.options_button.draw()
+            self.execute_buttons(self.play_button,self.quit_button,self.options_button)
     def buttons_main_menu(self):
         self.play_button = Button({"screen": self.screen,"font": self.font2_5,"text": "PLAY","color": self.WHITE,"position": (self.width/2-60, self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1": lambda: setattr(self, 'main', 2)})
         self.quit_button = Button({"screen": self.screen,"font": self.font2_5,"text": "QUIT","color": self.WHITE,"position": (self.width/2-60,self.height/2-115),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_exit,"command1": self.close_game})
