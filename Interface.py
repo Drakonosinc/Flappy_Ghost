@@ -34,6 +34,8 @@ class interface(objects):
         background=pygame.Surface((width,height),pygame.SRCALPHA)
         background.fill((*color, number))
         self.screen.blit(background,position)
+    def check_colors(self,dic,element,color1,color2,*args):
+        for button in args:setattr(button,"color",(color1 if dic[element] else color2))
     def execute_buttons(self,*args):
         for button in args:button.draw()
     def main_menu(self):
@@ -58,14 +60,12 @@ class interface(objects):
         if self.main==2:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
-            # self.button(self.screen,None,self.font2_5,"Training AI",(self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE),(35,self.height/2-150),self.GOLDEN,command=lambda:self.type_game(True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font2_5,"Player",(self.SKYBLUE if self.mode_game["Player"] else self.WHITE),(35,self.height/2-100),self.GOLDEN,command=lambda:self.type_game(False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             if self.model_training!=None:self.button(self.screen,None,self.font2_5,"AI",(self.SKYBLUE if self.mode_game["AI"] else self.WHITE),(35,self.height/2-50),self.GOLDEN,command=lambda:self.type_game(False,False,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             else:
                 if os.path.exists(self.model_path):self.model_training = load_model(self.model_path, 6, 2)
             self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,-1,self.font1,"→",self.WHITE,(self.width-110,self.height-100),self.GOLDEN,command=lambda:self.sound_back.stop(),command2=lambda:self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None ,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.execute_buttons(self.Training_AI_button)
+            self.execute_buttons(self.Training_AI_button,self.player_button)
     def buttons_mode_game(self):
         self.Training_AI_button = Button({"screen": self.screen,
                                     "font": self.font2_5,
@@ -75,16 +75,18 @@ class interface(objects):
                                     "color2": self.GOLDEN,
                                     "sound_hover": self.sound_buttonletters,
                                     "sound_touch": self.sound_touchletters,
-                                    "command1":lambda:self.type_game(True),"command2":lambda:setattr(self.Training_AI_button,"color",(self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE))})
-        self.Training_AI_button = Button({"screen": self.screen,
+                                    "command1":lambda:self.type_game(True),
+                                    "command2":lambda:self.check_colors(self.mode_game,"Training AI",self.SKYBLUE,self.WHITE,self.Training_AI_button),})
+        self.player_button = Button({"screen": self.screen,
                                     "font": self.font2_5,
-                                    "text": "Training AI",
+                                    "text": "Player",
                                     "color":self.WHITE,
-                                    "position": (35,self.height/2-150),
+                                    "position": (35,self.height/2-100),
                                     "color2": self.GOLDEN,
                                     "sound_hover": self.sound_buttonletters,
                                     "sound_touch": self.sound_touchletters,
-                                    "command1":lambda:self.type_game(True),"command2":lambda:setattr(self.Training_AI_button,"color",(self.SKYBLUE if self.mode_game["Training AI"] else self.WHITE))})
+                                    "command1":lambda:self.type_game(False,True),
+                                    "command2":lambda:setattr(self.player_button,"color",(self.SKYBLUE if self.mode_game["Player"] else self.WHITE))})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
