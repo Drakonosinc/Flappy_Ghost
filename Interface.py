@@ -50,9 +50,9 @@ class interface(objects):
             self.screen.blit(self.font4.render("Game Over", True, self.BLACK),(120,self.height/2-250))
             self.execute_buttons(self.restar_button,self.exit_button,self.exit_menu_button)
     def buttons_game_over(self):
-        self.restar_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Press R to Restart","color": self.BLACK,"position": (120,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:setattr(self,'main',-1),"command2":self.reset})
+        self.restar_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Press R to Restart","color": self.BLACK,"position": (120,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.reset,"command2":lambda:setattr(self,'main',-1)})
         self.exit_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Exit The Game","color": self.BLACK,"position": (120,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_exit,"command1":self.close_game})
-        self.exit_menu_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Exit The Menu","color": self.BLACK,"position": (120,self.height/2-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:setattr(self,'main',0),"command2":self.reset,"command3":self.check_sounds})
+        self.exit_menu_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Exit The Menu","color": self.BLACK,"position": (120,self.height/2-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.reset,"command2":lambda:setattr(self,'main',0),"command3":self.check_sounds})
     def mode_game_menu(self):
         if self.main==2:
             self.screen.fill(self.BLACK)
