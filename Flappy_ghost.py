@@ -132,6 +132,7 @@ class Game(interface):
         self.instances()
         self.objects()
         self.creates_tubes()
+        self.gravity=0.25
         self.scores=0
         self.speed_tubes=5
     def type_mode(self):self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
