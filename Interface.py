@@ -34,8 +34,8 @@ class interface(objects):
         background=pygame.Surface((width,height),pygame.SRCALPHA)
         background.fill((*color, number))
         self.screen.blit(background,position)
-    def check_colors(self,dic,element,color1,color2,*args):
-        for button in args:setattr(button,"color",(color1 if dic[element] else color2))
+    def check_colors(self,dic,color1,color2,**kwargs):
+        for key,button in kwargs.items():setattr(button,"color",(color1 if dic[key] else color2))
     def execute_buttons(self,*args):
         for button in args:button.draw()
     def main_menu(self):
@@ -76,7 +76,7 @@ class interface(objects):
                                     "sound_hover": self.sound_buttonletters,
                                     "sound_touch": self.sound_touchletters,
                                     "command1":lambda:self.type_game(True),
-                                    "command2":lambda:self.check_colors(self.mode_game,"Training AI",self.SKYBLUE,self.WHITE,self.Training_AI_button),})
+                                    "command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"Training AI":self.Training_AI_button,"Player":self.player_button}),})
         self.player_button = Button({"screen": self.screen,
                                     "font": self.font2_5,
                                     "text": "Player",
@@ -86,7 +86,7 @@ class interface(objects):
                                     "sound_hover": self.sound_buttonletters,
                                     "sound_touch": self.sound_touchletters,
                                     "command1":lambda:self.type_game(False,True),
-                                    "command2":lambda:setattr(self.player_button,"color",(self.SKYBLUE if self.mode_game["Player"] else self.WHITE))})
+                                    "command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"Player":self.player_button,"Training AI":self.Training_AI_button})})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
