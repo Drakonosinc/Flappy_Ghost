@@ -77,12 +77,20 @@ class interface(objects):
         if self.main==3:
             self.filt(self.width,self.height,150,self.GRAY)
             self.screen.blit(self.font3.render("Pause", True, "orange"),(35,self.height/2-250))
-            self.button(self.screen,None,self.font2_5,"Exit",self.WHITE,(35,self.height/2),self.GOLDEN,command=self.close_game,sound_hover=self.sound_buttonletters,sound_touch=self.sound_exit)
-            self.execute_buttons(self.reset_button,self.option_button,self.menu_button)
+            self.execute_buttons(self.reset_button,self.option_button,self.menu_button,self.exit_button)
     def buttons_pausa(self):
         self.reset_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Reset","color":self.WHITE,"position": (35,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.reset,"command2":lambda:setattr(self,'main',-1)})
         self.option_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Option","color":self.WHITE,"position": (35,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.reset,"command2":lambda:setattr(self,'main',4),"command3":self.check_sounds})
         self.menu_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Menu","color":self.WHITE,"position": (35,self.height/2-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.reset,"command2":lambda:setattr(self,'main',0),"command3":self.check_sounds})
+        self.exit_button = Button({"screen": self.screen,
+                                    "font": self.font2_5,
+                                    "text": "Exit",
+                                    "color":self.WHITE,
+                                    "position": (35,self.height/2),
+                                    "color2": self.GOLDEN,
+                                    "sound_hover": self.sound_buttonletters,
+                                    "sound_touch": self.sound_exit,
+                                    "command1":self.close_game})
     def menu_options(self):
         if self.main==4:
             self.screen.fill(self.BLACK)
