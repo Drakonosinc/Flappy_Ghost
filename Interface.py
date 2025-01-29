@@ -60,29 +60,23 @@ class interface(objects):
         if self.main==2:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
-            # if self.model_training!=None:pass
-            # else:
-                # if os.path.exists(self.model_path):self.model_training = load_model(self.model_path, 6, 2)
             self.button(self.screen,0,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,-1,self.font1,"→",self.WHITE,(self.width-110,self.height-100),self.GOLDEN,command=lambda:self.sound_back.stop(),command2=lambda:self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None ,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button)
     def buttons_mode_game(self):
         self.Training_AI_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Training AI","color":self.WHITE,"position": (35,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(True),"command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"Training AI":self.Training_AI_button,"Player":self.player_button,"AI":self.ai_button}),})
         self.player_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Player","color":self.WHITE,"position": (35,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(False,True),"command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"Player":self.player_button,"Training AI":self.Training_AI_button,"AI":self.ai_button})})
-        self.ai_button = Button({"screen": self.screen,
-                                    "font": self.font2_5,
-                                    "text": "AI",
-                                    "color":self.WHITE,
-                                    "position": (35,self.height/2-50),
-                                    "color2": self.GOLDEN,
-                                    "sound_hover": self.sound_buttonletters,
-                                    "sound_touch": self.sound_touchletters,
-                                    "command1":lambda:self.type_game(False,False,True),
+        self.ai_button = Button({"screen": self.screen,"font": self.font2_5,"text": "AI","color":self.WHITE,
+                                    "position": (35,self.height/2-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,
+                                    "sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(False,False,True),
                                     "command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"AI":self.ai_button,"Player":self.player_button,"Training AI":self.Training_AI_button})})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
-        if os.path.exists(self.model_path):self.mode_game["AI"]=mode_three
+        if os.path.exists(self.model_path):
+            self.load_AI()
+            self.mode_game["AI"]=mode_three
+        else:self.load_AI()
     def pausa_menu(self):
         if self.main==3:
             self.filt(self.width,self.height,150,self.GRAY)
