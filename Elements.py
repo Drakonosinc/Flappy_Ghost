@@ -32,8 +32,7 @@ class objects():
         self.screen=pygame.display.set_mode((self.width,self.height))
     def load_AI(self):
         self.model_path=os.path.join(os.path.dirname(__file__), "AI/best_model.pth")
-        if os.path.exists(self.model_path):self.model_training = load_model(self.model_path, 16, 1)
-        else:self.model_training = None
+        self.model_training = load_model(self.model_path, 16, 1) if os.path.exists(self.model_path) else None
     def define_colors(self):
         self.GRAY=(127,127,127)
         self.WHITE=(255,255,255)
