@@ -31,6 +31,7 @@ class interface(objects):
         self.buttons_pausa()
         self.buttons_menu_options()
         self.buttons_visual()
+        self.buttons_keys()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def filt(self,width,height,number,color=(0,0,0),position=(0,0)):
@@ -137,6 +138,7 @@ class interface(objects):
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"Save config",self.WHITE,(self.width/2+80,self.height-85),self.GOLDEN,command=self.save_config,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,"Default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=lambda:self.config(keys=True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def buttons_keys(self):pass
     def change_keys(self,key,key_name):
         self.key=key
         self.key_name=key_name
@@ -162,7 +164,7 @@ class interface(objects):
     def show_score(self):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(self.scores)}", True, "orange"),(35,self.height-50))
     def fade_transition(self,fade_in,color=(0,0,0),limit=255):
-        overlay = pygame.Surface((self.WIDTH, self.HEIGHT))
+        overlay = pygame.Surface((self.width, self.height))
         overlay.fill(color)
         alpha=0 if not fade_in else 255
         while (not fade_in and alpha <= limit) or (fade_in and alpha >= limit):
