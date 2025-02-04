@@ -103,23 +103,17 @@ class interface(objects):
             self.screen.fill(self.BLACK)
             self.items_visuals()
             self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
-            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.object1.x+60,self.object1.y+70),self.GOLDEN,command=lambda:self.change_items("value_flyers","flyers",1),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font3_5,"<",self.WHITE,(self.width/2-95,self.height/2),self.GOLDEN,command=lambda:self.change_items("value_tubes","tubes",-1),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font3_5,">",self.WHITE,(self.width/2+75,self.height/2),self.GOLDEN,command=lambda:self.change_items("value_tubes","tubes",1),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font2_5,"Save config",self.WHITE,(self.width/2+80,self.height-85),self.GOLDEN,command=self.save_config,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.button(self.screen,None,self.font2_5,"Default config",self.WHITE,(self.width/2+50,self.height-50),self.GOLDEN,command=lambda:self.config(visuals=True),command2=self.load_visuals,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
-            self.execute_buttons(self.decrease_player_button,self.increase_player_button,self.,self.)
+            self.button(command=self.save_config,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.button(command=lambda:self.config(visuals=True),command2=self.load_visuals,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+            self.execute_buttons(self.back_visual_button,self.decrease_player_button,self.increase_player_button,self.decrease_tube_button,self.increase_tube_button,self.save_visuals_button,self.default_visuals_button)
     def buttons_visual(self):
+        self.back_visual_button = Button({"screen": self.screen,"font": self.font1,"text": "←","position": (35,self.height-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":4})})
         self.decrease_player_button = Button({"screen": self.screen,"font": self.font3_5,"text": "<","position": (self.object1.x-40,self.object1.y+70),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_items("value_flyers","flyers",-1)})
-        self.increase_player_button = Button({"screen": self.screen,
-                                    "font": self.font3_5,
-                                    "text": "<",
-                                    "position": (self.object1.x-40,self.object1.y+70),
-                                    "color2": self.GOLDEN,
-                                    "sound_hover": self.sound_buttonletters,
-                                    "sound_touch": self.sound_touchletters,
-                                    "command1":lambda:self.change_items("value_flyers","flyers",-1)})
+        self.increase_player_button = Button({"screen": self.screen,"font": self.font3_5,"text": ">","position": (self.object1.x+60,self.object1.y+70),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_items("value_flyers","flyers",1)})
+        self.decrease_tube_button = Button({"screen": self.screen,"font": self.font3_5,"text": "<","position": (self.width/2-95,self.height/2),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_items("value_tubes","tubes",-1)})
+        self.increase_tube_button = Button({"screen": self.screen,"font": self.font3_5,"text": ">","position": (self.width/2+75,self.height/2),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_items("value_tubes","tubes",1)})
+        self.save_visuals_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Save config","position": (self.width/2+80,self.height-85),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_items("value_tubes","tubes",1)})
+        self.default_visuals_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Default config","position": (self.width/2+50,self.height-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_items("value_tubes","tubes",1)})
     def items_visuals(self):
         self.screen.blit(self.flappy_ghost,(self.object1.x-30,self.object1.y+50))
         self.screen.blit(self.tubes[0].image,(self.width/2-50,self.height/2))
