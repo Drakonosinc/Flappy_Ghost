@@ -38,8 +38,8 @@ class interface(objects):
         background=pygame.Surface((width,height),pygame.SRCALPHA)
         background.fill((*color, number))
         self.screen.blit(background,position)
-    def check_colors(self,dic,color1,color2,**kwargs):
-        for key,button in kwargs.items():setattr(button,"color",(color1 if dic[key] else color2))
+    def check_item(self,dic,is_true,is_false,item,**kwargs):
+        for key,button in kwargs.items():setattr(button,item,(is_true if dic[key] else is_false))
     def execute_buttons(self,*args):
         for button in args:button.draw()
     def main_menu(self):
@@ -66,9 +66,9 @@ class interface(objects):
             self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
             self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button,self.continue_button,self.back_menu_button)
     def buttons_mode_game(self):
-        self.Training_AI_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Training AI","color":self.WHITE,"position": (35,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(True),"command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"Training AI":self.Training_AI_button,"Player":self.player_button,"AI":self.ai_button})})
-        self.player_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Player","color":self.WHITE,"position": (35,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(False,True),"command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"Player":self.player_button,"Training AI":self.Training_AI_button,"AI":self.ai_button})})
-        self.ai_button = Button({"screen": self.screen,"font": self.font2_5,"text": "AI","color":self.WHITE,"position": (35,self.height/2-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.check_colors(self.mode_game,self.SKYBLUE,self.WHITE,**{"AI":self.ai_button,"Player":self.player_button,"Training AI":self.Training_AI_button})})
+        self.Training_AI_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Training AI","color":self.WHITE,"position": (35,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Training AI":self.Training_AI_button,"Player":self.player_button,"AI":self.ai_button})})
+        self.player_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Player","color":self.WHITE,"position": (35,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Player":self.player_button,"Training AI":self.Training_AI_button,"AI":self.ai_button})})
+        self.ai_button = Button({"screen": self.screen,"font": self.font2_5,"text": "AI","color":self.WHITE,"position": (35,self.height/2-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"AI":self.ai_button,"Player":self.player_button,"Training AI":self.Training_AI_button})})
         self.continue_button = Button({"screen": self.screen,"font": self.font1,"text": "→","color":self.WHITE,"position": (self.width-110,self.height-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.type_game(False,True) if all(not mode for mode in self.mode_game.values()) else None,"command2":lambda:(self.change_mains({"main":-1}),self.sound_back.stop(),self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None)})
         self.back_menu_button = Button({"screen": self.screen,"font": self.font1,"text": "←","color":self.WHITE,"position": (35,self.height-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":0})})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
@@ -145,7 +145,7 @@ class interface(objects):
         self.key_name=key_name
         self.button_key=button
         for k in self.utils_keys.keys():self.utils_keys[k]=False if k!=self.key else not self.utils_keys[self.key]
-        self.check_item(self.utils_keys,self.SKYBLUE,self.WHITE,"color",**{"UP_W":self.up_w_button,"DOWN_S":self.down_s_button,"UP_ARROW":self.up_arrow_button,"DOWN_ARROW":self.down_arrow_button})
+        self.check_item(self.utils_keys,self.SKYBLUE,self.WHITE,"color",**{"key_jump":self.space_button})
     def event_keys(self,event):
         if self.key!=None and (self.utils_keys[self.key] and event.type==KEYDOWN):
             self.config_keys[self.key]=event.key
