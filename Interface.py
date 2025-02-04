@@ -169,3 +169,18 @@ class interface(objects):
         sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
     def show_score(self):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(self.scores)}", True, "orange"),(35,self.height-50))
+    def fade_transition(self,fade_in,color=(0,0,0),limit=255):
+        overlay = pygame.Surface((self.WIDTH, self.HEIGHT))
+        overlay.fill(color)
+        alpha=0 if not fade_in else 255
+        while (not fade_in and alpha <= limit) or (fade_in and alpha >= limit):
+            overlay.set_alpha(alpha)
+            self.screen.blit(overlay, (0, 0))
+            pygame.display.flip()
+            self.clock.tick(20)
+            alpha += -15 if fade_in else 15
+    def change_mains(self,config):
+        if fade_in:=config.get("fade_in",True):self.fade_transition(False,config.get("color",(0,0,0)),255)
+        if fade_out:=config.get("fade_out",False):self.fade_transition(True,config.get("color2",(0,0,0)),0)
+        self.main=config.get("main",None)
+        if config.get("recursive",False):self.change_mains({"main":self.main,"fade_in":fade_in,"fade_out":fade_out})
