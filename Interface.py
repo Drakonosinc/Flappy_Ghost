@@ -32,6 +32,7 @@ class interface(objects):
         self.buttons_menu_options()
         self.buttons_visual()
         self.buttons_keys()
+        self.buttons_sounds()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def filt(self,width,height,number,color=(0,0,0),position=(0,0)):
@@ -159,6 +160,7 @@ class interface(objects):
             self.button(self.screen,None,self.font2_5,self.sound_type["sound_menu"],self.sound_type["color_menu"],(35,self.height/2-150),self.GOLDEN,command=lambda:self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.sound_back,True),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,None,self.font2_5,self.sound_type["sound_Game"],self.sound_type["color_game"],(35,self.height/2-100),self.GOLDEN,command=lambda:self.sound_on_off("sound_Game","color_game","value_game","Sound Game",self.sound_back_game),sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
             self.button(self.screen,4,self.font1,"←",self.WHITE,(35,self.height-100),self.GOLDEN,sound_hover=self.sound_buttonletters,sound_touch=self.sound_touchletters)
+    def buttons_sounds(self):pass
     def sound_on_off(self,sound:str,color=(0,0,0),value=True,type_sound="",sound_back=None,play=False):
         self.sound_type[value]=not self.sound_type[value]
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
