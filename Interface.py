@@ -56,10 +56,10 @@ class interface(objects):
         if self.main==1:
             self.filt(self.width,self.height,150,self.RED)
             self.screen.blit(self.font4.render("Game Over", True, self.BLACK),(120,self.height/2-250))
-            self.execute_buttons(self.restar_button,self.exit_button,self.exit_menu_button)
+            self.execute_buttons(self.restar_button,self.exit_over_button,self.exit_menu_button)
     def buttons_game_over(self):
         self.restar_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Press R to Restart","color": self.BLACK,"position": (120,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.reset,"command2":lambda:self.change_mains({"main":-1})})
-        self.exit_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Exit The Game","color": self.BLACK,"position": (120,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_exit,"command1":self.close_game})
+        self.exit_over_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Exit The Game","color": self.BLACK,"position": (120,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_exit,"command1":self.close_game})
         self.exit_menu_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Exit The Menu","color": self.BLACK,"position": (120,self.height/2-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"command":self.check_sounds})})
     def mode_game_menu(self):
         if self.main==2:
@@ -160,22 +160,8 @@ class interface(objects):
             self.execute_buttons(self.back_sounds_button,self.sound_menu_button,self.sound_game_button)
     def buttons_sounds(self):
         self.back_sounds_button = Button({"screen": self.screen,"font": self.font1,"text": "←","position": (35,self.height-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":4})})
-        self.sound_menu_button = Button({"screen": self.screen,"font": self.font2_5,
-                                    "text": self.sound_type["sound_menu"],
-                                    "color":self.sound_type["color_menu"],
-                                    "position": (35,self.height/2-150),
-                                    "color2": self.GOLDEN,
-                                    "sound_hover": self.sound_buttonletters,
-                                    "sound_touch": self.sound_touchletters,
-                                    "command1":lambda:self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.sound_back,True)})
-        self.sound_game_button = Button({"screen": self.screen,"font": self.font2_5,
-                                    "text": self.sound_type["sound_Game"],
-                                    "color":self.sound_type["color_game"],
-                                    "position": (35,self.height/2-100),
-                                    "color2": self.GOLDEN,
-                                    "sound_hover": self.sound_buttonletters,
-                                    "sound_touch": self.sound_touchletters,
-                                    "command1":lambda:(self.sound_on_off("sound_Game","color_game","value_game","Sound Game",self.sound_back_game),self.sound_game_button.change_item({"color":self.sound_type["color_game"],"text":self.sound_type["sound_Game"]}))})
+        self.sound_menu_button = Button({"screen": self.screen,"font": self.font2_5,"text": self.sound_type["sound_menu"],"color":self.sound_type["color_menu"],"position": (35,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:(self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.sound_back,True),self.sound_menu_button.change_item({"color":self.sound_type["color_menu"],"text":self.sound_type["sound_menu"]}))})
+        self.sound_game_button = Button({"screen": self.screen,"font": self.font2_5,"text": self.sound_type["sound_Game"],"color":self.sound_type["color_game"],"position": (35,self.height/2-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:(self.sound_on_off("sound_Game","color_game","value_game","Sound Game",self.sound_back_game),self.sound_game_button.change_item({"color":self.sound_type["color_game"],"text":self.sound_type["sound_Game"]}))})
     def sound_on_off(self,sound:str,color,value=True,type_sound="",sound_back=None,play=False):
         self.sound_type[value]=not self.sound_type[value]
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
