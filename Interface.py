@@ -140,7 +140,7 @@ class interface(objects):
         self.back_keys_button = Button({"screen": self.screen,"font": self.font1,"text": "←","position": (35,self.height-100),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":4})})
         self.space_button = Button({"screen": self.screen,"font": self.font2_5,"text": self.config_keys["Name_key1"],"position": (35,self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_keys("key_jump","Name_key1",self.space_button)})
         self.save_keys_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Save config","position": (self.width/2+80,self.height-85),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":self.save_config})
-        self.default_keys_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Default config","position": (self.width/2+50,self.height-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.config(keys=True)})
+        self.default_keys_button = Button({"screen": self.screen,"font": self.font2_5,"text": "Default config","position": (self.width/2+50,self.height-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:(self.config(keys=True),self.change_mains({"main":6,"command":self.buttons_keys}))})
     def change_keys(self,key,key_name,button=None):
         self.key=key
         self.key_name=key_name
