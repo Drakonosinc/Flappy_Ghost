@@ -22,6 +22,7 @@ class TextButton:
         self.commands = [config.get(f"command{i}") for i in range(1,4)]
         self.sound_hover = config.get("sound_hover")
         self.sound_touch = config.get("sound_touch")
+        self.pressed = config.get("pressed",True)
         self.detect_mouse=config.get("detect_mouse",True)
         self.button_states=config.get("button_states",{"detect_hover":True,"presses_touch":True})
         self.rect = pygame.Rect(*self.position, *self.font.size(self.text))
@@ -34,7 +35,7 @@ class TextButton:
     def draw(self):
         self.screen.blit(self.font.render(self.text, True,self.color), self.position)
         if self.detect_mouse:self.mouse_collision(pygame.mouse.get_pos())
-        if self.button_states["presses_touch"]:self.pressed_button(pygame.mouse.get_pressed(),pygame.mouse.get_pos())
+        if self.pressed:self.pressed_button(pygame.mouse.get_pressed(),pygame.mouse.get_pos())
     def mouse_collision(self,mouse_pos):
         if self.rect.collidepoint(mouse_pos):
             self.screen.blit(self.font.render(self.text,True,self.hover_color),self.position)
@@ -43,7 +44,7 @@ class TextButton:
                 self.button_states["detect_hover"]=False
         else:self.button_states["detect_hover"]=True
     def pressed_button(self,pressed_mouse,mouse_pos):
-        if pressed_mouse[0] and self.rect.collidepoint(mouse_pos):
+        if pressed_mouse[0] and self.rect.collidepoint(mouse_pos) and self.button_states["presses_touch"]:
             if self.sound_touch:self.sound_touch.play(loops=0)
             self.button_states["presses_touch"]=False
             self.execute_commands()
@@ -52,7 +53,7 @@ class TextButton:
         self.color=config.get("color",self.color)
         self.text=config.get("text",self.text)
         self.detect_mouse=config.get("detect_mouse",self.detect_mouse)
-        self.button_states=config.get("button_states",{"detect_hover":self.button_states["detect_hover"],"presses_touch":self.button_states["presses_touch"]})
+        self.pressed=config.get("pressed",self.pressed)
     def execute_commands(self):
         for command in self.commands:
             if callable(command):command()
@@ -67,6 +68,7 @@ class PolygonButton:
         self.sound_hover = config.get("sound_hover")
         self.sound_touch = config.get("sound_touch")
         self.detect_mouse=config.get("detect_mouse",True)
+        self.pressed = config.get("pressed",True)
         self.button_states=config.get("button_states",{"detect_hover":True,"presses_touch":True})
         self.rect = pygame.draw.polygon(self.screen, self.color, self.position).copy()
         self.new_events(time=config.get("time",500))
@@ -78,7 +80,7 @@ class PolygonButton:
     def draw(self):
         pygame.draw.polygon(self.screen, self.color, self.position)
         if self.detect_mouse:self.mouse_collision(pygame.mouse.get_pos())
-        if self.button_states["presses_touch"]:self.pressed_button(pygame.mouse.get_pressed(),pygame.mouse.get_pos())
+        if self.pressed:self.pressed_button(pygame.mouse.get_pressed(),pygame.mouse.get_pos())
     def mouse_collision(self,mouse_pos):
         if self.rect.collidepoint(mouse_pos):
             pygame.draw.polygon(self.screen, self.hover_color, self.hover_position)
@@ -87,7 +89,7 @@ class PolygonButton:
                 self.button_states["detect_hover"]=False
         else:self.button_states["detect_hover"]=True
     def pressed_button(self,pressed_mouse,mouse_pos):
-        if pressed_mouse[0] and self.rect.collidepoint(mouse_pos):
+        if pressed_mouse[0] and self.rect.collidepoint(mouse_pos) and self.button_states["presses_touch"]:
             if self.sound_touch:self.sound_touch.play(loops=0)
             self.button_states["presses_touch"]=False
             self.execute_commands()
@@ -95,7 +97,7 @@ class PolygonButton:
     def change_item(self,config:dict):
         self.color=config.get("color",self.color)
         self.detect_mouse=config.get("detect_mouse",self.detect_mouse)
-        self.button_states=config.get("button_states",{"detect_hover":self.button_states["detect_hover"],"presses_touch":self.button_states["presses_touch"]})
+        self.pressed=config.get("pressed",self.pressed)
     def execute_commands(self):
         for command in self.commands:
             if callable(command):command()
