@@ -1,5 +1,5 @@
 from Elements import *
-from Button import Button
+from Button import *
 class interface(objects):
     def __init__(self):
         super().__init__()
@@ -25,6 +25,7 @@ class interface(objects):
         self.show_score()
         self.draw_generation()
     def draw_buttons(self):
+        self.button_factory_f2_5 = ButtonFactory({"screen": self.screen,"font": self.font2_5,"hover_color": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters})
         self.buttons_main_menu()
         self.buttons_game_over()
         self.buttons_mode_game()
@@ -49,9 +50,9 @@ class interface(objects):
             self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
             self.execute_buttons(self.play_button,self.quit_button,self.options_button)
     def buttons_main_menu(self):
-        self.play_button = Button({"screen": self.screen,"font": self.font2_5,"text": "PLAY","color": self.WHITE,"position": (self.width/2-60, self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":2})})
-        self.quit_button = Button({"screen": self.screen,"font": self.font2_5,"text": "QUIT","color": self.WHITE,"position": (self.width/2-60,self.height/2-115),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_exit,"command1": self.close_game})
-        self.options_button = Button({"screen": self.screen,"font": self.font2_5,"text": "OPTIONS","color": self.WHITE,"position": (self.width-180,self.height-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":4})})
+        self.play_button = self.button_factory_f2_5.create_TextButton({"text": "PLAY""position": (self.width/2-60, self.height/2-150),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":2})})
+        self.quit_button = self.button_factory_f2_5.create_TextButton({"text": "QUIT""position": (self.width/2-60,self.height/2-115),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_exit,"command1": self.close_game})
+        self.options_button = self.button_factory_f2_5.create_TextButton({"text": "OPTIONS""position": (self.width-180,self.height-50),"color2": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters,"command1":lambda:self.change_mains({"main":4})})
     def game_over_menu(self):
         if self.main==1:
             self.filt(self.width,self.height,150,self.RED)
