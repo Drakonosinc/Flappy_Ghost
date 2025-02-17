@@ -145,13 +145,12 @@ class Game(interface):
         except:actions(self.players[0],models)
     def run_with_model(self):
         self.running=True
-        score,self.reward=0,0
+        for player in self.players:player.reward = 0
         while self.running and self.game_over==False:
             self.handle_keys(),self.draw()
             if self.main==-1:
                 if self.mode_game["AI"] or self.mode_game["Training AI"]:self.type_mode()
                 self.update(),self.creates_tubes()
-                score=self.reward
             pygame.display.flip()
             self.clock.tick(self.FPS)
-        return score
+        return [player.reward for player in self.players]
