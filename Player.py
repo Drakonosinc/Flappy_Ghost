@@ -8,6 +8,7 @@ class Player:
         self.scores:int=0
         self.active:bool = True
     def jump(self, jumper_value,sound):
+        self.isjumper=True
         if self.isjumper:
             self.down_gravity = jumper_value
             if sound!=None:sound.play()

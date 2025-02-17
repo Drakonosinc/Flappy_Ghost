@@ -135,7 +135,7 @@ class Game(interface):
         self.instances()
         self.objects()
         self.creates_tubes()
-        for player in self.players:player.reset(100,100,40,40)
+        for player in self.players:player.reset(40,40)
         self.speed_tubes=5
     def type_mode(self):self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
     def actions_AI(self,models):
