@@ -19,6 +19,7 @@ class Game(interface):
         self.generation=0
         self.instances()
         self.objects()
+        self.draw_buttons()
         self.play_music()
     def instances(self):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
@@ -120,7 +121,7 @@ class Game(interface):
         dist_to_tube_y = player.rect.y - self.object2.y
         dist_to_tube_invert_y = player.rect.y - self.object3.y
         dist_to_tube_to_tube_invert_y = self.object3.y - self.object2.y
-        return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
+        return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,player.down_gravity,self.speed_tubes])
     def AI_actions(self,player,action):player.down_gravity = action[0] * 10
     def restart(self):
         if self.mode_game["Training AI"]:self.reset(False)

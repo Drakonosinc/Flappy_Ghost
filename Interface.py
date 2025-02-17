@@ -9,7 +9,6 @@ class interface(objects):
                         "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
         self.utils_keys={"key_jump":False}
         self.key=None
-        self.draw_buttons()
     def play_music(self):
         self.sound_back.play(loops=-1)
         self.sound_back.set_volume(0.5)
@@ -108,7 +107,6 @@ class interface(objects):
             self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
             self.execute_buttons(self.back_visual_button,self.decrease_player_button,self.increase_player_button,self.decrease_tube_button,self.increase_tube_button,self.save_visuals_button,self.default_visuals_button)
     def buttons_visual(self):
-        self.objects()
         self.back_visual_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":4})})
         self.decrease_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": "<","position": (self.players[0].rect.x-40,self.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",-1)})
         self.increase_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": ">","position": (self.players[0].rect.x+60,self.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",1)})
