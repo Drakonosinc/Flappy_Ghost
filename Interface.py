@@ -110,14 +110,14 @@ class interface(objects):
     def buttons_visual(self):
         self.objects()
         self.back_visual_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":4})})
-        self.decrease_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": "<","position": (self.object1.x-40,self.object1.y+70),"command1":lambda:self.change_items("value_flyers","flyers",-1)})
-        self.increase_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": ">","position": (self.object1.x+60,self.object1.y+70),"command1":lambda:self.change_items("value_flyers","flyers",1)})
+        self.decrease_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": "<","position": (self.players[0].rect.x-40,self.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",-1)})
+        self.increase_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": ">","position": (self.players[0].rect.x+60,self.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",1)})
         self.decrease_tube_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": "<","position": (self.width/2-95,self.height/2),"command1":lambda:self.change_items("value_tubes","tubes",-1)})
         self.increase_tube_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": ">","position": (self.width/2+75,self.height/2),"command1":lambda:self.change_items("value_tubes","tubes",1)})
         self.save_visuals_button = self.button_factory_f2_5.create_TextButton({"text": "Save config","position": (self.width/2+80,self.height-85),"command1":self.save_config})
         self.default_visuals_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:self.config(visuals=True),"command2":self.load_visuals})
     def items_visuals(self):
-        self.screen.blit(self.flappy_ghost,(self.object1.x-30,self.object1.y+50))
+        self.screen.blit(self.flappy_ghost,(self.players[0].rect.x-30,self.players[0].rect.y+50))
         self.screen.blit(self.tubes[0].image,(self.width/2-50,self.height/2))
         self.screen.blit(self.tubes_invert[0].image,(self.width/2+180,0))
     def change_items(self,item,background,number):
