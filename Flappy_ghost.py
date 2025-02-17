@@ -17,6 +17,7 @@ class Game(interface):
         self.space_tubes = 200
         self.speed_tubes = 5
         self.generation=0
+        self.population()
         self.instances()
         self.objects()
         self.draw_buttons()
@@ -25,7 +26,6 @@ class Game(interface):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
-        self.population()
     def population(self):
         self.players = [Player(100,100,40,40) for _ in range(self.config_AI["population_value"] if self.mode_game["Training AI"] else 1)]
         self.models = []
@@ -131,8 +131,7 @@ class Game(interface):
         self.instances()
         self.objects()
         self.creates_tubes()
-        self.gravity=0.25
-        self.scores=0
+        for player in self.players:player.reset(100,100,40,40)
         self.speed_tubes=5
     def type_mode(self):self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
     def actions_AI(self,models):
