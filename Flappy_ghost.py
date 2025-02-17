@@ -10,13 +10,9 @@ class Game(interface):
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
-        self.scores=0
-        self.reward=0
         self.game_over=False
         self.gravity=0.25
-        self.down_gravity=0
         self.jumper=-5
-        self.isjumper=False
         self.space_tubes = 200
         self.speed_tubes = 5
         self.generation=0

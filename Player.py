@@ -20,3 +20,6 @@ class Player:
         self.down_gravity = 0
         self.isjumper = False
         self.scores = 0
+        self.active = True
+    def check_collision(self, other_rect):
+        return self.rect.colliderect(other_rect)
