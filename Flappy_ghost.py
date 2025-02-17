@@ -58,29 +58,32 @@ class Game(interface):
             self.collision(tube)
             tube.draw(screen)
         sorted_tubes = sorted(tubes, key=lambda t: t.x)
-        for i, tube in enumerate(sorted_tubes):
-            if tube.x > self.object1.x:
-                current_tube = tube
-                next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
-                next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
-                break
+        for player in self.players:
+            if player.active:
+                for i, tube in enumerate(sorted_tubes):
+                    if tube.x > player.rect.x:
+                        current_tube = tube
+                        next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
+                        next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
+                        break
         if current_tube:setattr(self, objects, current_tube.rect)
         if next_tube1:setattr(self, "object4", next_tube1.rect)
         if next_tube2:setattr(self, "object5", next_tube2.rect)
     def collision(self,tube):
-        if tube.rect.colliderect(self.object1):self.sounddeath(reward=-25)
+        for player in self.players:
+            if player.active and tube.rect.colliderect(player):self.sounddeath(reward=-25)
     def sounddeath(self,player,sound=True,reward=0):
         if sound:
             self.sound_death.play(loops=0)
             player.reward+=reward
             self.restart()
             sound=False
-        else:sound=True
     def backgrounds(self):
         for background in [0,360,720,1080]:self.screen.blit(self.image_background, (background, 0))
     def draw(self):
         self.backgrounds()
-        self.screen.blit(self.flappy_ghost,(self.object1.x-30,self.object1.y-20))
+        for player in self.players:
+            if player.active:self.screen.blit(self.flappy_ghost,(player.rect.x-30,player.rect.y-20))
         self.draw_interfaces()
     def handle_keys(self):
         for event in pygame.event.get():
@@ -112,12 +115,12 @@ class Game(interface):
             self.speed_tubes+=0.5
             self.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
-    def get_state(self):
-        dist_to_tube_x = self.object2.x - self.object1.x
-        dist_to_tube_y = self.object1.y - self.object2.y
-        dist_to_tube_invert_y = self.object1.y - self.object3.y
+    def get_state(self,player=Player(350, 600 - 35, 25, 25)):
+        dist_to_tube_x = self.object2.x - player.rect.x
+        dist_to_tube_y = player.rect.y - self.object2.y
+        dist_to_tube_invert_y = player.rect.y - self.object3.y
         dist_to_tube_to_tube_invert_y = self.object3.y - self.object2.y
-        return np.array([self.object1.x,self.object1.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
+        return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
     def AI_actions(self,action):self.down_gravity = action[0] * 10
     def restart(self):
         if self.mode_game["Training AI"]:self.reset(False)
@@ -131,10 +134,15 @@ class Game(interface):
         self.scores=0
         self.speed_tubes=5
     def type_mode(self):self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
-    def actions_AI(self,model):
-        state=self.get_state()
-        action = model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
-        self.AI_actions(action)
+    def actions_AI(self,models):
+        def actions(player,model):
+            state=self.get_state(player)
+            action = model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
+            self.AI_actions(player,action)
+        try:
+            for player, model in zip(self.players, models):
+                if player.active:actions(player,model)
+        except:actions(self.players[0],models)
     def run_with_model(self):
         self.running=True
         score,self.reward=0,0
