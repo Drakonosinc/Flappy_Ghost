@@ -13,8 +13,9 @@ class Player:
             if sound!=None:sound.play()
             self.isjumper = False
     def fall(self, gravity):
-        self.down_gravity += gravity
-        self.rect.y += self.down_gravity
+        if not self.isjumper:
+            self.down_gravity += gravity
+            self.rect.y += self.down_gravity
     def reset(self, x, y):
         self.rect.x, self.rect.y = x, y
         self.down_gravity = 0

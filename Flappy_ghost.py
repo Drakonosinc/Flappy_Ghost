@@ -24,8 +24,11 @@ class Game(interface):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
+        self.population()
+    def population(self):
+        self.players = [Player(100,100,40,40) for _ in range(self.config_AI["population_value"] if self.mode_game["Training AI"] else 1)]
+        self.models = []
     def objects(self):
-        self.players=Rect(100,100,40,40)
         self.object2=Rect(0,0,0,0)
         self.object3=Rect(0,0,0,0)
         self.object4=Rect(0,0,0,0)
@@ -33,7 +36,7 @@ class Game(interface):
     def update(self):
         for player in self.players:
             if player.active:
-                if not player.isjumper:player.fall()
+                player.fall(self.gravity)
                 if player.rect.y<=-20:
                     player.rect.y=-15
                     player.down_gravity=self.gravity
