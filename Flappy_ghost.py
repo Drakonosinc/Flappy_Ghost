@@ -74,7 +74,7 @@ class Game(interface):
         if next_tube2:setattr(self, "object5", next_tube2.rect)
     def collision(self,tube):
         for player in self.players:
-            if player.active and tube.rect.colliderect(player):self.sounddeath(reward=-25)
+            if player.active and tube.rect.colliderect(player):self.sounddeath(player=player,reward=-25)
     def sounddeath(self,player,sound=True,reward=0):
         if sound:
             self.sound_death.play(loops=0)
@@ -93,7 +93,7 @@ class Game(interface):
     def handle_keys(self):
         for event in pygame.event.get():
             self.event_quit(event)
-            self.events(event)
+            # self.events(event)
             self.event_keydown(event)
             if self.main==6:self.event_keys(event)
         self.pressed_keys=pygame.key.get_pressed()
