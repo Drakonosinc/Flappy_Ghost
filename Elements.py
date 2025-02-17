@@ -65,6 +65,7 @@ class objects():
         self.font5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),20)
     def load_sounds(self):
         self.sound_path = os.path.join(os.path.dirname(__file__), "sounds")
+        self.sound_jump=pygame.mixer.Sound(os.path.join(self.sound_path,"jump.aiff"))
         self.sound_touchletters=pygame.mixer.Sound(os.path.join(self.sound_path,"touchletters.wav"))
         self.sound_buttonletters=pygame.mixer.Sound(os.path.join(self.sound_path,"buttonletters.mp3"))
         self.sound_exit=pygame.mixer.Sound(os.path.join(self.sound_path,"exitbutton.wav"))

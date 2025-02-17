@@ -103,7 +103,7 @@ class Game(interface):
         if event.type==pygame.KEYDOWN:
             if self.main==3 and event.key==K_p:self.main=-1
             elif self.main==-1 and event.key==K_p:self.main=3
-            if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.jump()
+            if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.players[0].jump(self.jumper,self.sound_jump)
             if self.main==-1 and self.mode_game["Training AI"]:
                 if event.key==pygame.K_ESCAPE:self.restart()
                 if event.key==K_1:save_model(self.model, torch.optim.Adam(self.model.parameters(), lr=0.001),self.model_path)
@@ -121,7 +121,7 @@ class Game(interface):
         dist_to_tube_invert_y = player.rect.y - self.object3.y
         dist_to_tube_to_tube_invert_y = self.object3.y - self.object2.y
         return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,self.down_gravity,self.speed_tubes])
-    def AI_actions(self,action):self.down_gravity = action[0] * 10
+    def AI_actions(self,player,action):player.down_gravity = action[0] * 10
     def restart(self):
         if self.mode_game["Training AI"]:self.reset(False)
         if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
