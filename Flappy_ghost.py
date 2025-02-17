@@ -54,8 +54,10 @@ class Game(interface):
                 last_tube = max(tubes, key=lambda t: t.x)
                 tube.x = last_tube.x + space_tubes
                 tube.y = random.randint(height_init, height_finish)
-                self.reward+=5
-                self.scores+=0.5
+                for player in self.players:
+                    if player.active:
+                        player.reward+=5
+                        player.scores+=0.5
             self.collision(tube)
             tube.draw(screen)
         sorted_tubes = sorted(tubes, key=lambda t: t.x)
@@ -84,7 +86,9 @@ class Game(interface):
     def draw(self):
         self.backgrounds()
         for player in self.players:
-            if player.active:self.screen.blit(self.flappy_ghost,(player.rect.x-30,player.rect.y-20))
+            if player.active:
+                self.screen.blit(self.flappy_ghost,(player.rect.x-30,player.rect.y-20))
+                self.show_score(player)
         self.draw_interfaces()
     def handle_keys(self):
         for event in pygame.event.get():

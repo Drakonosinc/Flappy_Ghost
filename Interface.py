@@ -21,7 +21,6 @@ class interface(objects):
         self.sounds_menu()
         self.visuals_menu()
         self.keys_menu()
-        self.show_score()
         self.draw_generation()
     def draw_buttons(self):
         self.button_factory_f2_5 = ButtonFactory({"screen": self.screen,"font": self.font2_5,"hover_color": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters})
@@ -168,8 +167,8 @@ class interface(objects):
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
         self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
         sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
-    def show_score(self):
-        if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(self.scores)}", True, "orange"),(35,self.height-50))
+    def show_score(self,player):
+        if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
     def fade_transition(self,fade_in,color=(0,0,0),limit=255):
         overlay = pygame.Surface((self.width, self.height))
         overlay.fill(color)
