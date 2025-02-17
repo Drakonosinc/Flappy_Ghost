@@ -2,6 +2,7 @@ import random
 import numpy as np
 from Genetic_Algorithm import *
 from Interface import *
+from Player import *
 class Game(interface):
     def __init__(self,model=None):
         super().__init__()
@@ -24,20 +25,20 @@ class Game(interface):
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
     def objects(self):
-        self.object1=Rect(100,100,40,40)
+        self.players=Rect(100,100,40,40)
         self.object2=Rect(0,0,0,0)
         self.object3=Rect(0,0,0,0)
         self.object4=Rect(0,0,0,0)
         self.object5=Rect(0,0,0,0)
     def update(self):
-        if not self.isjumper:
-            self.down_gravity+=self.gravity
-            self.object1.y+=self.down_gravity
-        if self.object1.y<=-20:
-            self.object1.y=-15
-            self.down_gravity=self.gravity
-        if self.object1.y>=self.height+100:self.sounddeath(reward=-20)
-        self.reward += 0.1
+        for player in self.players:
+            if player.active:
+                if not player.isjumper:player.fall()
+                if player.rect.y<=-20:
+                    player.rect.y=-15
+                    player.down_gravity=self.gravity
+                if player.rect.y>=self.height+100:self.sounddeath(player=player,reward=-20)
+                player.reward += 0.1
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
@@ -65,10 +66,10 @@ class Game(interface):
         if next_tube2:setattr(self, "object5", next_tube2.rect)
     def collision(self,tube):
         if tube.rect.colliderect(self.object1):self.sounddeath(reward=-25)
-    def sounddeath(self,sound=True,reward=0):
+    def sounddeath(self,player,sound=True,reward=0):
         if sound:
             self.sound_death.play(loops=0)
-            self.reward+=reward
+            player.reward+=reward
             self.restart()
             sound=False
         else:sound=True
@@ -78,11 +79,6 @@ class Game(interface):
         self.backgrounds()
         self.screen.blit(self.flappy_ghost,(self.object1.x-30,self.object1.y-20))
         self.draw_interfaces()
-    def jump(self):
-        self.isjumper=True
-        if self.isjumper:
-            self.down_gravity=self.jumper
-            self.isjumper=False
     def handle_keys(self):
         for event in pygame.event.get():
             self.event_quit(event)
