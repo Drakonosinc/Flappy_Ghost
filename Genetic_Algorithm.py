@@ -2,10 +2,10 @@ import random
 from Neural_Network import *
 import numpy as np
 
-def fitness_function(model, game):
-    game.model = model
-    score = game.run_with_model()
-    return score
+def fitness_function(models, game):
+    game.models = models
+    scores = game.run_with_models()
+    return scores
 
 def initialize_population(size, input_size, output_size):
     return [SimpleNN(input_size, output_size) for _ in range(size)]

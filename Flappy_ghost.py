@@ -73,6 +73,7 @@ class Game(interface):
         if sound:
             self.sound_death.play(loops=0)
             player.reward+=reward
+            player.active=False
             self.restart()
             sound=False
     def backgrounds(self):
@@ -147,7 +148,7 @@ class Game(interface):
         for player in self.players:
             if player.active:self.update(player),self.draw_players(player)
         self.creates_tubes()
-    def run_with_model(self):
+    def run_with_models(self):
         self.running=True
         for player in self.players:player.reward = 0
         while self.running and self.game_over==False:
