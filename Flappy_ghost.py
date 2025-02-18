@@ -120,7 +120,7 @@ class Game(interface):
         return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,player.down_gravity,self.speed_tubes])
     def AI_actions(self,player,action):player.down_gravity = action[0] * 10
     def restart(self):
-        if self.mode_game["Training AI"]:self.reset(False)
+        if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
         if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
     def reset(self,running=True):
         self.running=running
@@ -138,6 +138,12 @@ class Game(interface):
             for player, model in zip(self.players, models):
                 if player.active:actions(player,model)
         except:actions(self.players[0],models)
+    def get_reward(self):
+        for player in self.players:
+            reward=[player.reward]
+            player.reward = 0
+        print(reward)
+        return reward
     def run_with_model(self):
         self.running=True
         for player in self.players:player.reward = 0
