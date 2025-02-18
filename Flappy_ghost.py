@@ -4,9 +4,8 @@ from Genetic_Algorithm import *
 from Interface import *
 from Player import *
 class Game(interface):
-    def __init__(self,model=None):
+    def __init__(self):
         super().__init__()
-        self.model=model
         self.load_AI()
         self.clock=pygame.time.Clock()
         self.FPS=60
@@ -103,7 +102,6 @@ class Game(interface):
             if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.players[0].jump(self.jumper,self.sound_jump)
             if self.main==-1 and self.mode_game["Training AI"]:
                 if event.key==pygame.K_ESCAPE:self.restart()
-                if event.key==K_1:save_model(self.model, torch.optim.Adam(self.model.parameters(), lr=0.001),self.model_path)
             if self.main==1 and event.key==K_r:
                 self.reset()
                 self.main=-1
