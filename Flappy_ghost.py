@@ -45,27 +45,27 @@ class Game(interface):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,player,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,player,"object3")
     def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,player,objects=None,current_tube=None,next_tube1=None,next_tube2=None):
-                for tube in tubes:
-                    tube.x -= speed_tubes
-                    tube.rect.topleft = (tube.x, tube.y)
-                    if tube.x < -100:
-                        last_tube = max(tubes, key=lambda t: t.x)
-                        tube.x = last_tube.x + space_tubes
-                        tube.y = random.randint(height_init, height_finish)
-                        player.reward+=5
-                        player.scores+=0.5
-                    self.collision(tube,player)
-                    tube.draw(screen)
-                sorted_tubes = sorted(tubes, key=lambda t: t.x)
-                for i, tube in enumerate(sorted_tubes):
-                    if tube.x > player.rect.x:
-                        current_tube = tube
-                        next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
-                        next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
-                        break
-                if current_tube:setattr(self, objects, current_tube.rect)
-                if next_tube1:setattr(self, "object4", next_tube1.rect)
-                if next_tube2:setattr(self, "object5", next_tube2.rect)
+        for tube in tubes:
+            tube.x -= speed_tubes
+            tube.rect.topleft = (tube.x, tube.y)
+            if tube.x < -100:
+                last_tube = max(tubes, key=lambda t: t.x)
+                tube.x = last_tube.x + space_tubes
+                tube.y = random.randint(height_init, height_finish)
+                player.reward+=5
+                player.scores+=0.5
+            self.collision(tube,player)
+            tube.draw(screen)
+        sorted_tubes = sorted(tubes, key=lambda t: t.x)
+        for i, tube in enumerate(sorted_tubes):
+            if tube.x > player.rect.x:
+                current_tube = tube
+                next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
+                next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
+                break
+        if current_tube:setattr(self, objects, current_tube.rect)
+        if next_tube1:setattr(self, "object4", next_tube1.rect)
+        if next_tube2:setattr(self, "object5", next_tube2.rect)
     def collision(self,tube,player):
         if  tube.rect.colliderect(player):self.sounddeath(player=player,reward=-25)
     def sounddeath(self,player,sound=True,reward=0):
@@ -142,7 +142,7 @@ class Game(interface):
         for player in self.players:
             reward=[player.reward]
             player.reward = 0
-        print(reward)
+            player.reset(40,40)
         return reward
     def run_with_model(self):
         self.running=True
