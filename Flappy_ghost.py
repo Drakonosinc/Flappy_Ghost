@@ -126,7 +126,7 @@ class Game(interface):
         self.objects()
         for player in self.players:player.reset(40,40)
         self.speed_tubes=5
-    def type_mode(self):self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
+    def type_mode(self):self.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
     def actions_AI(self,models):
         def actions(player,model):
             state=self.get_state(player)
