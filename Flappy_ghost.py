@@ -16,8 +16,8 @@ class Game(interface):
         self.space_tubes = 200
         self.speed_tubes = 5
         self.generation=0
-        self.population()
         self.instances()
+        self.population()
         self.objects()
         self.draw_buttons()
         self.play_music()
@@ -143,6 +143,13 @@ class Game(interface):
     #         player.reward = 0
     #         player.reset(40,40)
     #     return reward
+    def item_repeat_run(self):
+        self.handle_keys()
+        pygame.display.flip()
+        self.clock.tick(self.FPS)
+    def run(self):
+        self.running = True
+        while self.running:self.item_repeat_run()
     def main_run(self):
         if self.mode_game["AI"] or self.mode_game["Training AI"]:self.type_mode()
         for player in self.players:
@@ -152,8 +159,7 @@ class Game(interface):
         self.running=True
         for player in self.players:player.reward = 0
         while self.running and self.game_over==False:
-            self.handle_keys(),self.draw()
+            self.draw()
             if self.main==-1:self.main_run()
-            pygame.display.flip()
-            self.clock.tick(self.FPS)
+            self.item_repeat_run()
         return [player.reward for player in self.players]
