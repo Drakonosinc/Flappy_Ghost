@@ -11,6 +11,7 @@ class Game(interface):
         self.FPS=60
         self.running=True
         self.game_over=False
+        self.exit=False
         self.gravity=0.25
         self.jumper=-5
         self.space_tubes = 200
@@ -149,7 +150,7 @@ class Game(interface):
         self.clock.tick(self.FPS)
     def run(self):
         self.running = True
-        while self.running:self.item_repeat_run()
+        while self.running:self.item_repeat_run(),self.draw()
     def main_run(self):
         if self.mode_game["AI"] or self.mode_game["Training AI"]:self.type_mode()
         for player in self.players:

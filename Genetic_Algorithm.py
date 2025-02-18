@@ -70,7 +70,7 @@ def hybrid_optimization(elites, game, learning_rate=0.001, steps=5):
 
 def genetic_algorithm_optimized(game, input_size, output_size, generations=100, population_size=20, 
                                 elitism_rate=0.05, tournament_size=3, mutation_rate=0.02, 
-                                strong_mutation_rate=0.05):
+                                strong_mutation_rate=0.05,num_trials=3):
     population = initialize_population(population_size, input_size, output_size)
     elite_size = max(1, int(elitism_rate * population_size))
 
@@ -78,7 +78,7 @@ def genetic_algorithm_optimized(game, input_size, output_size, generations=100, 
         game.generation = generation
 
         # Evaluación
-        fitness_scores = evaluate_population(population, game)
+        fitness_scores = evaluate_population(population, game,num_trials)
 
         # Selección de élite
         elites = select_top_individuals(population, fitness_scores, elite_size)
