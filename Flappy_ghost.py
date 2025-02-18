@@ -78,11 +78,10 @@ class Game(interface):
         for background in [0,360,720,1080]:self.screen.blit(self.image_background, (background, 0))
     def draw(self):
         self.backgrounds()
-        for player in self.players:
-            if player.active:
-                self.screen.blit(self.flappy_ghost,(player.rect.x-30,player.rect.y-20))
-                self.show_score(player)
         self.draw_interfaces()
+    def draw_players(self,player):
+        self.screen.blit(self.flappy_ghost,(player.rect.x-30,player.rect.y-20))
+        self.show_score(player)
     def handle_keys(self):
         for event in pygame.event.get():
             self.event_quit(event)
@@ -147,7 +146,7 @@ class Game(interface):
             if self.main==-1:
                 if self.mode_game["AI"] or self.mode_game["Training AI"]:self.type_mode()
                 for player in self.players:
-                    if player.active:self.update(player),self.creates_tubes(player)
+                    if player.active:self.update(player),self.creates_tubes(player),self.draw_players(player)
             pygame.display.flip()
             self.clock.tick(self.FPS)
         return [player.reward for player in self.players]
