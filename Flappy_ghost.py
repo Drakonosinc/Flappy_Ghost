@@ -34,21 +34,17 @@ class Game(interface):
         self.object3=Rect(0,0,0,0)
         self.object4=Rect(0,0,0,0)
         self.object5=Rect(0,0,0,0)
-    def update(self):
-        for player in self.players:
-            if player.active:
-                player.fall(self.gravity)
-                if player.rect.y<=-20:
-                    player.rect.y=-15
-                    player.down_gravity=self.gravity
-                if player.rect.y>=self.height+100:self.sounddeath(player=player,reward=-20)
-                player.reward += 0.1
-    def creates_tubes(self):
-        self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
-        self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
-    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,current_tube=None,next_tube1=None,next_tube2=None):
-        for player in self.players:
-            if player.active:
+    def update(self,player):
+        player.fall(self.gravity)
+        if player.rect.y<=-20:
+            player.rect.y=-15
+            player.down_gravity=self.gravity
+        if player.rect.y>=self.height+100:self.sounddeath(player=player,reward=-20)
+        player.reward += 0.1
+    def creates_tubes(self,player):
+        self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,player,"object2")
+        self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,player,"object3")
+    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,player,objects=None,current_tube=None,next_tube1=None,next_tube2=None):
                 for tube in tubes:
                     tube.x -= speed_tubes
                     tube.rect.topleft = (tube.x, tube.y)
@@ -131,7 +127,6 @@ class Game(interface):
         self.running=running
         self.instances()
         self.objects()
-        self.creates_tubes()
         for player in self.players:player.reset(40,40)
         self.speed_tubes=5
     def type_mode(self):self.actions_AI(self.model if self.mode_game["Training AI"] else self.model_training)
@@ -151,7 +146,8 @@ class Game(interface):
             self.handle_keys(),self.draw()
             if self.main==-1:
                 if self.mode_game["AI"] or self.mode_game["Training AI"]:self.type_mode()
-                self.update(),self.creates_tubes()
+                for player in self.players:
+                    if player.active:self.update(player),self.creates_tubes(player)
             pygame.display.flip()
             self.clock.tick(self.FPS)
         return [player.reward for player in self.players]
