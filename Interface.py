@@ -3,7 +3,7 @@ from Button import *
 class interface(objects):
     def __init__(self):
         super().__init__()
-        self.main=0 #-1=game, 0=menu, 1=game over, 2=game menu, 3=pausa, 4=options, 5=visuals, 6=menu keys
+        self.main=0 #-1=game, 0=menu, 1=game over, 2=game menu, 3=pausa, 4=options, 5=visuals, 6=menu keys, 7=sound menu
         self.mode_game={"Training AI":False,"Player":True,"AI":False}
         self.sound_type={"sound_menu":"Sound Menu ON","color_menu":self.SKYBLUE,"value_menu":True,
                         "sound_Game":"Sound Game ON","color_game":self.SKYBLUE,"value_game":True}
@@ -64,6 +64,7 @@ class interface(objects):
         if self.main==2:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
+            self.menu_AI()
             self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button,self.continue_button,self.back_menu_button)
     def buttons_mode_game(self):
         self.Training_AI_button = self.button_factory_f2_5.create_TextButton({"text": "Training AI","position": (35,self.height/2-150),"command1":lambda:self.type_game(True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Training AI":self.Training_AI_button,"Player":self.player_button,"AI":self.ai_button})})
@@ -71,6 +72,10 @@ class interface(objects):
         self.ai_button = self.button_factory_f2_5.create_TextButton({"text": "AI","position": (35,self.height/2-50),"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"AI":self.ai_button,"Player":self.player_button,"Training AI":self.Training_AI_button})})
         self.continue_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "→","position": (self.width-110,self.height-100),"command1":lambda:self.type_game(False,True) if all(not mode for mode in self.mode_game.values()) else None,"command2":lambda:(self.change_mains({"main":-1,"run":True,"command":self.population}),self.sound_back.stop(),self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None)})
         self.back_menu_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":0})})
+        self.buttons_config_AI()
+    def menu_AI(self):
+        self.execute_buttons()
+    def buttons_config_AI(self):pass
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
@@ -167,6 +172,9 @@ class interface(objects):
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
         self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
         sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
+    def menu_AI(self):
+        if self.main==8:
+            self.screen.fill(self.BLACK)
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
     def fade_transition(self,fade_in,color=(0,0,0),limit=255):
