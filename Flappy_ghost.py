@@ -47,17 +47,17 @@ class Game(interface):
     def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,current_tube=None,next_tube1=None,next_tube2=None):
         for tube in tubes:
             tube.x -= speed_tubes
+            tube.rect.topleft = (tube.x, tube.y)
+            if tube.x < -100:
+                last_tube = max(tubes, key=lambda t: t.x)
+                tube.x = last_tube.x + space_tubes
+                tube.y = random.randint(height_init, height_finish)
+                # player.reward+=5
+                # player.scores+=0.5
+            tube.draw(screen)
             for player in self.players:
                 if player.active:
-                    tube.rect.topleft = (tube.x, tube.y)
-                    if tube.x < -100:
-                        last_tube = max(tubes, key=lambda t: t.x)
-                        tube.x = last_tube.x + space_tubes
-                        tube.y = random.randint(height_init, height_finish)
-                        player.reward+=5
-                        player.scores+=0.5
                     self.collision(player,tube)
-                    tube.draw(screen)
                     sorted_tubes = sorted(tubes, key=lambda t: t.x)
                     for i, tube in enumerate(sorted_tubes):
                         if tube.x > player.rect.x:
