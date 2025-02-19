@@ -12,9 +12,11 @@ def initialize_population(size, input_size, output_size):
 
 def evaluate_population(population, game, num_trials=3):
     fitness_scores = []
-    for model in population:
-        scores = [fitness_function(model, game) for _ in range(num_trials)]
-        fitness_scores.append(sum(scores) / num_trials)
+    for _ in range(num_trials):
+        scores = fitness_function(population, game)
+        if len(fitness_scores) == 0:fitness_scores = scores
+        else:fitness_scores = [fs + s for fs, s in zip(fitness_scores, scores)]
+    fitness_scores = [fs / num_trials for fs in fitness_scores]
     return fitness_scores
 
 def select_top_individuals(population, fitness_scores, num_selected):
