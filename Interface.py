@@ -59,7 +59,7 @@ class interface(objects):
     def buttons_game_over(self):
         self.restar_button = self.button_factory_f2_5.create_TextButton({"text": "Press R to Restart","position": (120,self.height/2-150),"command1":self.reset,"command2":lambda:self.change_mains({"main":-1})})
         self.exit_over_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Game","position": (120,self.height/2-100),"sound_touch": self.sound_exit,"command1":self.close_game})
-        self.exit_menu_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Menu","position": (120,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"command":self.check_sounds})})
+        self.exit_menu_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Menu","position": (120,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"run":True,"command":self.check_sounds})})
     def mode_game_menu(self):
         if self.main==2:
             self.screen.fill(self.BLACK)
@@ -83,8 +83,8 @@ class interface(objects):
             self.execute_buttons(self.reset_button,self.option_button,self.menu_button,self.exit_button)
     def buttons_pausa(self):
         self.reset_button = self.button_factory_f2_5.create_TextButton({"text": "Reset","position": (35,self.height/2-150),"command1":self.reset,"command2":lambda:self.change_mains({"main":-1})})
-        self.option_button = self.button_factory_f2_5.create_TextButton({"text": "Option","position": (35,self.height/2-100),"command1":self.reset,"command2":lambda:self.change_mains({"main":4}),"command3":self.check_sounds})
-        self.menu_button = self.button_factory_f2_5.create_TextButton({"text": "Menu","position": (35,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0}),"command3":self.check_sounds})
+        self.option_button = self.button_factory_f2_5.create_TextButton({"text": "Option","position": (35,self.height/2-100),"command1":self.reset,"command2":lambda:self.change_mains({"main":4,"run":True}),"command3":self.check_sounds})
+        self.menu_button = self.button_factory_f2_5.create_TextButton({"text": "Menu","position": (35,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"run":True}),"command3":self.check_sounds})
         self.exit_button = self.button_factory_f2_5.create_TextButton({"text": "Exit","position": (35,self.height/2),"sound_touch": self.sound_exit,"command1":self.close_game})
     def menu_options(self):
         if self.main==4:

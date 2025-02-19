@@ -99,7 +99,7 @@ class Game(interface):
         if event.type==pygame.QUIT:self.close_game()
     def close_game(self):
         self.sound_exit.play(loops=0)
-        self.game_over=True
+        self.game_over,self.exit,self.running=True,True,False
     def event_keydown(self,event):
         if event.type==pygame.KEYDOWN:
             if self.main==3 and event.key==K_p:self.main=-1
