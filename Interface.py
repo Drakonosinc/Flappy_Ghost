@@ -5,12 +5,12 @@ class interface(objects):
         super().__init__()
         self.main=0 #-1=game, 0=menu, 1=game over, 2=game menu, 3=pausa, 4=options, 5=visuals, 6=menu keys, 7=sound menu
         self.mode_game={"Training AI":False,"Player":True,"AI":False}
-        self.sound_type={"sound_menu":f"Sound Menu {"ON" if (x:=self.config_sounds["sound_menu"]) else "OFF"}","color_menu":self.SKYBLUE if x else self.RED,"value_menu":True,
-                        "sound_Game":f"Sound Game {"ON" if (x:=self.config_sounds["sound_game"]) else "OFF"}","color_game":self.SKYBLUE if x else self.RED,"value_game":True}
+        self.sound_type={"sound_menu":f"Sound Menu {"ON" if (x:=self.config_sounds["sound_menu"]) else "OFF"}","color_menu":self.SKYBLUE if x else self.RED,"value_menu":x,
+                        "sound_Game":f"Sound Game {"ON" if (j:=self.config_sounds["sound_game"]) else "OFF"}","color_game":self.SKYBLUE if j else self.RED,"value_game":j}
         self.utils_keys={"key_jump":False}
         self.key=None
     def play_music(self):
-        self.sound_back.play(loops=-1)
+        self.check_sounds()
         self.sound_back.set_volume(0.5)
     def draw_interfaces(self):
         self.main_menu()
@@ -178,13 +178,14 @@ class interface(objects):
             self.sound_game_button.change_item({"color":self.sound_type["color_game"],"text":self.sound_type["sound_Game"]})
     def buttons_sounds(self):
         self.back_sounds_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":4})})
-        self.sound_menu_button = self.button_factory_f2_5.create_TextButton({"text": self.sound_type["sound_menu"],"position": (35,self.height/2-150),"command1":lambda:self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.sound_back,True)})
-        self.sound_game_button = self.button_factory_f2_5.create_TextButton({"text": self.sound_type["sound_Game"],"position": (35,self.height/2-100),"command1":lambda:self.sound_on_off("sound_Game","color_game","value_game","Sound Game",self.sound_back_game)})
+        self.sound_menu_button = self.button_factory_f2_5.create_TextButton({"text": self.sound_type["sound_menu"],"position": (35,self.height/2-150),"command1":lambda:self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.sound_back,True),"command2":self.save_config})
+        self.sound_game_button = self.button_factory_f2_5.create_TextButton({"text": self.sound_type["sound_Game"],"position": (35,self.height/2-100),"command1":lambda:self.sound_on_off("sound_Game","color_game","value_game","Sound Game",self.sound_back_game),"command2":self.save_config})
     def sound_on_off(self,sound:str,color,value=True,type_sound="",sound_back=None,play=False):
         self.sound_type[value]=not self.sound_type[value]
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
         self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
         sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
+        self.on_off(self.config_sounds,sound)
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
     def fade_transition(self,fade_in,color=(0,0,0),limit=255):
