@@ -63,7 +63,7 @@ def hybrid_optimization(elites, game, learning_rate=0.001, steps=5):
             state = torch.tensor(game.get_state(), dtype=torch.float32)
             predicted_action = elite(state)
             loss = -torch.mean(predicted_action)
-            score = fitness_function(elite, game)
+            score = fitness_function([elite], game)[0]
             loss += -torch.tensor(score, dtype=torch.float32, requires_grad=True).expand_as(loss)
             optimizer.zero_grad()
             loss.backward()
