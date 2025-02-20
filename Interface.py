@@ -185,7 +185,7 @@ class interface(objects):
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
         self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
         sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
-        self.on_off(self.config_sounds,sound)
+        self.on_off(self.config_sounds,sound.lower())
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
     def fade_transition(self,fade_in,color=(0,0,0),limit=255):
