@@ -63,6 +63,7 @@ class objects():
         self.font3_5=pygame.font.Font(os.path.join(self.font_path,"8bitOperatorPlusSC-Bold.ttf"),30)
         self.font4=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),75)
         self.font5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),20)
+        self.font5_5=pygame.font.Font(os.path.join(self.font_path,"8bitOperatorPlusSC-Bold.ttf"),20)
     def load_sounds(self):
         self.sound_path = os.path.join(os.path.dirname(__file__), "sounds")
         self.sound_jump=pygame.mixer.Sound(os.path.join(self.sound_path,"jump.aiff"))
