@@ -64,7 +64,7 @@ class interface(objects):
         if self.main==2:
             self.screen.fill(self.BLACK)
             self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
-            self.menu_AI()
+            if self.mode_game["Training AI"]:self.menu_AI()
             self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button,self.continue_button,self.back_menu_button)
     def buttons_mode_game(self):
         self.Training_AI_button = self.button_factory_f2_5.create_TextButton({"text": "Training AI","position": (35,self.height/2-150),"command1":lambda:self.type_game(True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Training AI":self.Training_AI_button,"Player":self.player_button,"AI":self.ai_button})})
@@ -74,8 +74,21 @@ class interface(objects):
         self.back_menu_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":0})})
         self.buttons_config_AI()
     def menu_AI(self):
-        self.execute_buttons()
-    def buttons_config_AI(self):pass
+        self.screen.blit(self.font5.render(f"Config Training\n{"AI":^26}", True, "White"),(self.WIDTH/2+120,self.HEIGHT/2-136))
+        self.screen.blit(self.font5.render(f"Generation Size\n{self.config_AI['generation_value']:^26}", True, "White"),(self.WIDTH/2+120,self.HEIGHT/2-81))
+        self.screen.blit(self.font5.render(f"Population Size\n{self.config_AI['population_value']:^26}", True, "White"),(self.WIDTH/2+120,self.HEIGHT/2-26))
+        self.screen.blit(self.font5.render(f"Attempts By AI\n{self.config_AI['try_for_ai']:^{28 if self.config_AI['try_for_ai']<10 else 26}}", True, "White"),(self.WIDTH/2+120,self.HEIGHT/2+29))
+        self.screen.blit(self.font5.render(f"Save model", True, "White"),(self.WIDTH/2+120,self.HEIGHT/2+84))
+        self.execute_buttons(self.increase_generation,self.decrease_generation,self.increase_population,self.decrease_population,self.increase_try_for_ai,self.decrease_try_for_ai,self.save_model)
+        self.save_model.change_item({"color":self.SKYBLUE if self.config_AI["model_save"] else self.RED,"text":"ON" if self.config_AI["model_save"] else "OFF"})
+    def buttons_config_AI(self):
+        self.increase_generation = self.button_factory_f2_5.create_TextButton({"text": ">","position": (self.WIDTH-100,self.HEIGHT/2-55),"command1":lambda:self.increase_decrease_variable(self.config_AI,'generation_value')})
+        self.decrease_generation = self.button_factory_f2_5.create_TextButton({"text": "<","position": (self.WIDTH-178,self.HEIGHT/2-55),"command1":lambda:self.increase_decrease_variable(self.config_AI,'generation_value',True,-1)})
+        self.increase_population = self.button_factory_f2_5.create_TextButton({"text": ">","position": (self.WIDTH-100,self.HEIGHT/2),"command1":lambda:self.increase_decrease_variable(self.config_AI,'population_value')})
+        self.decrease_population = self.button_factory_f2_5.create_TextButton({"text": "<","position": (self.WIDTH-178,self.HEIGHT/2),"command1":lambda:self.increase_decrease_variable(self.config_AI,'population_value',True,-1)})
+        self.increase_try_for_ai = self.button_factory_f2_5.create_TextButton({"text": ">","position": (self.WIDTH-100,self.HEIGHT/2+55),"command1":lambda:self.increase_decrease_variable(self.config_AI,'try_for_ai')})
+        self.decrease_try_for_ai = self.button_factory_f2_5.create_TextButton({"text": "<","position": (self.WIDTH-178,self.HEIGHT/2+55),"command1":lambda:self.increase_decrease_variable(self.config_AI,'try_for_ai',True,-1)})
+        self.save_model = self.button_factory_f2_5.create_TextButton({"text": "OFF","color": self.SKYBLUE,"position": (self.WIDTH-85,self.HEIGHT/2+84),"command1":lambda:self.on_off(self.config_AI,"model_save"),"command2":self.save_config})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
@@ -172,9 +185,6 @@ class interface(objects):
         self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
         self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
         sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
-    def menu_AI(self):
-        if self.main==8:
-            self.screen.fill(self.BLACK)
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
     def fade_transition(self,fade_in,color=(0,0,0),limit=255):
