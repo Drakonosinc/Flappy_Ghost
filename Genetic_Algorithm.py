@@ -50,10 +50,11 @@ def mutate(model, mutation_rate=0.02, strong_mutation_rate=0.1):
                 param.add_(torch.clamp(torch.randn(param.size()) * 0.7, -1.0, 1.0))
     return model
 
-def inverted_mutation(model):
+def inverted_mutation(model, fraction=0.3):
     with torch.no_grad():
         for param in model.parameters():
-            param.mul_(-1)
+            if random.random() < fraction:
+                param.mul_(-1)
     return model
 
 def hybrid_optimization(elites, game, learning_rate=0.001, steps=5):
@@ -102,7 +103,8 @@ def genetic_algorithm_optimized(game, input_size, output_size, generations=100, 
             num_random = population_size // 5
             random_models = initialize_population(num_random, input_size, output_size)
             inverted_models = [inverted_mutation(model) for model in elites]
-            next_population = next_population[:population_size - num_random] + random_models + inverted_models
+            total_new = population_size - len(next_population)
+            next_population += (random_models + inverted_models)[:total_new]
 
         elites = hybrid_optimization(elites, game)
         population = next_population[:population_size]
