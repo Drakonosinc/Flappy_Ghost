@@ -48,14 +48,13 @@ class Game(interface):
         for tube in tubes:
             tube.x -= speed_tubes
             tube.rect.topleft = (tube.x, tube.y)
-            if tube.x < -100:
-                last_tube = max(tubes, key=lambda t: t.x)
-                tube.x = last_tube.x + space_tubes
-                tube.y = random.randint(height_init, height_finish)
             tube.draw(screen)
             for player in self.players:
                 if player.active:
                     if tube.x < -100:
+                        last_tube = max(tubes, key=lambda t: t.x)
+                        tube.x = last_tube.x + space_tubes
+                        tube.y = random.randint(height_init, height_finish)
                         player.reward+=5
                         player.scores+=0.5
                     self.collision(player,tube)
