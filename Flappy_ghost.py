@@ -58,11 +58,11 @@ class Game(interface):
                         player.reward+=5
                         player.scores+=0.5
                     self.collision(player,tube)
-                    sorted_tubes = sorted(tubes, key=lambda t: t.x)
-                    self.next_tube
+        sorted_tubes = sorted(tubes, key=lambda t: t.x)
+        self.next_tube(player,sorted_tubes,objects)
     def collision(self,player,tube):
         if  player.check_collision(tube):self.sounddeath(player=player,reward=-25)
-    def next_tube(self,objects,current_tube=None,next_tube1=None,next_tube2=None):
+    def next_tube(self,player,sorted_tubes,objects,current_tube=None,next_tube1=None,next_tube2=None):
         for i, tube in enumerate(sorted_tubes):
             if tube.x > player.rect.x:
                 current_tube = tube
