@@ -71,7 +71,7 @@ def hybrid_optimization(elites, game, learning_rate=0.001, steps=5):
             optimizer.step()
     return elites
 
-def genetic_algorithm_optimized(game, input_size, output_size, generations=100, population_size=20, 
+def genetic_algorithm(game, input_size, output_size, generations=100, population_size=20, 
                                 elitism_rate=0.05, tournament_size=3, mutation_rate=0.02, 
                                 strong_mutation_rate=0.05,num_trials=3):
     population = initialize_population(population_size, input_size, output_size)
