@@ -76,7 +76,7 @@ class objects():
         self.sound_back.set_volume(0.4)
         self.sound_back_game.set_volume(0.4)
     def new_events(self):
-        self.EVENT_BACKGROUND = pygame.USEREVENT + 1
+        self.EVENT_BACKGROUND = pygame.USEREVENT + 2
         pygame.time.set_timer(self.EVENT_BACKGROUND,10000)
 class Tube(objects):
     def __init__(self,x,y,angle,width_image,height_image):

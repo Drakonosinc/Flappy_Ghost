@@ -90,7 +90,7 @@ class Game(interface):
     def handle_keys(self):
         for event in pygame.event.get():
             self.event_quit(event)
-            # self.events(event)
+            self.events(event)
             self.event_keydown(event)
             if self.main==6:self.event_keys(event)
         self.pressed_keys=pygame.key.get_pressed()
