@@ -44,7 +44,7 @@ class Game(interface):
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
-    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None,current_tube=None,next_tube1=None,next_tube2=None):
+    def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None):
         for tube in tubes:
             tube.x -= speed_tubes
             tube.rect.topleft = (tube.x, tube.y)
@@ -59,17 +59,19 @@ class Game(interface):
                         player.scores+=0.5
                     self.collision(player,tube)
                     sorted_tubes = sorted(tubes, key=lambda t: t.x)
-                    for i, tube in enumerate(sorted_tubes):
-                        if tube.x > player.rect.x:
-                            current_tube = tube
-                            next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
-                            next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
-                            break
-                    if current_tube:setattr(self, objects, current_tube.rect)
-                    if next_tube1:setattr(self, "object4", next_tube1.rect)
-                    if next_tube2:setattr(self, "object5", next_tube2.rect)
+                    self.next_tube
     def collision(self,player,tube):
         if  player.check_collision(tube):self.sounddeath(player=player,reward=-25)
+    def next_tube(self,objects,current_tube=None,next_tube1=None,next_tube2=None):
+        for i, tube in enumerate(sorted_tubes):
+            if tube.x > player.rect.x:
+                current_tube = tube
+                next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
+                next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
+                break
+        if current_tube:setattr(self, objects, current_tube.rect)
+        if next_tube1:setattr(self, "object4", next_tube1.rect)
+        if next_tube2:setattr(self, "object5", next_tube2.rect)
     def sounddeath(self,player,sound=True,reward=0):
         if sound:
             self.sound_death.play(loops=0)
