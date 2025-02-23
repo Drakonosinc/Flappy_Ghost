@@ -140,9 +140,9 @@ class Game(interface):
             for player, model in zip(self.players, models):
                 if player.active:actions(player,model)
         except:actions(self.players[0],models)
-    def get_reward(self):
+    def get_reward(self,reward=[]):
         for player in self.players:
-            reward=[player.reward]
+            reward.append(player.reward)
             player.reward = 0
             player.reset(40,40)
         return reward
@@ -165,5 +165,6 @@ class Game(interface):
             self.draw()
             if self.main==-1:self.main_run()
             self.item_repeat_run()
-        print()
+        print(self.get_reward())
+        print("--------------------------------")
         return [player.reward for player in self.players]
