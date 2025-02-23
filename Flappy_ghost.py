@@ -165,4 +165,5 @@ class Game(interface):
             self.draw()
             if self.main==-1:self.main_run()
             self.item_repeat_run()
+        print()
         return [player.reward for player in self.players]

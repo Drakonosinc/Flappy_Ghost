@@ -4,6 +4,7 @@ from Neural_Network import *
 def fitness_function(models, game):
     game.models = models
     scores = game.run_with_models()
+    print(scores)
     return scores
 
 def initialize_population(size, input_size, output_size):
@@ -91,7 +92,6 @@ def genetic_algorithm(game, input_size, output_size, generations=100, population
     # Selección del mejor modelo
     fitness_scores = evaluate_population(population, game, num_trials)
     best_model = population[fitness_scores.index(max(fitness_scores))]
-    game.model = best_model
     return best_model
 
 def save_model(model, optimizer, path):
