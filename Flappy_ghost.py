@@ -140,12 +140,12 @@ class Game(interface):
             for player, model in zip(self.players, models):
                 if player.active:actions(player,model)
         except:actions(self.players[0],models)
-    # def get_reward(self):
-    #     for player in self.players:
-    #         reward=[player.reward]
-    #         player.reward = 0
-    #         player.reset(40,40)
-    #     return reward
+    def get_reward(self):
+        for player in self.players:
+            reward=[player.reward]
+            player.reward = 0
+            player.reset(40,40)
+        return reward
     def item_repeat_run(self):
         self.handle_keys()
         pygame.display.flip()
