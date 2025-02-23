@@ -128,7 +128,6 @@ class Game(interface):
         self.running=running
         self.instances()
         self.objects()
-        for player in self.players:player.reset(40,40)
         self.speed_tubes=5
     def type_mode(self):self.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
     def actions_AI(self,models):
@@ -160,11 +159,8 @@ class Game(interface):
         self.creates_tubes()
     def run_with_models(self):
         self.running=True
-        for player in self.players:player.reward = 0
         while self.running and self.game_over==False:
             self.draw()
             if self.main==-1:self.main_run()
             self.item_repeat_run()
-        print(self.get_reward())
-        print("--------------------------------")
-        return [player.reward for player in self.players]
+        return self.get_reward([])
