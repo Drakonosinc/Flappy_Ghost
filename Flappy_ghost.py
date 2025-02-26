@@ -38,7 +38,7 @@ class Game(interface):
         if not player.isjumper:self.physics.apply_gravity(player)
         if player.rect.y<=-20:
             player.rect.y=-15
-            player.down_gravity=self.gravity
+            player.dy=self.physics.gravity
         if player.rect.y>=self.height+100:self.sounddeath(player=player,reward=-20)
         player.reward += 0.1
     def creates_tubes(self):
@@ -119,8 +119,8 @@ class Game(interface):
         dist_to_tube_y = player.rect.y - self.object2.y
         dist_to_tube_invert_y = player.rect.y - self.object3.y
         dist_to_tube_to_tube_invert_y = self.object3.y - self.object2.y
-        return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,player.down_gravity,self.speed_tubes])
-    def AI_actions(self,player,action):player.down_gravity = action[0] * 10
+        return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,player.dy,self.speed_tubes])
+    def AI_actions(self,player,action):player.dy = action[0] * 10
     def restart(self):
         if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
         if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
