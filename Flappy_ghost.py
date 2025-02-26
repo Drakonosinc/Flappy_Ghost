@@ -3,10 +3,12 @@ import numpy as np
 from Genetic_Algorithm import *
 from Interface import *
 from Player import *
+from Physics_Handler import *
 class Game(interface):
     def __init__(self):
         super().__init__()
         self.load_AI()
+        self.physics = PhysicsHandler()
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
