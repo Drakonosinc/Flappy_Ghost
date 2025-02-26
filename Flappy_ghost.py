@@ -12,8 +12,6 @@ class Game(interface):
         self.running=True
         self.game_over=False
         self.exit=False
-        self.gravity=0.25
-        self.jumper=-5
         self.space_tubes = 200
         self.speed_tubes = 5
         self.generation=0
