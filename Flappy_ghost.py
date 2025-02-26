@@ -35,7 +35,7 @@ class Game(interface):
         self.object4=Rect(0,0,0,0)
         self.object5=Rect(0,0,0,0)
     def update(self,player):
-        player.fall(self.gravity)
+        if not player.isjumper:self.physics.apply_gravity(player)
         if player.rect.y<=-20:
             player.rect.y=-15
             player.down_gravity=self.gravity
@@ -105,7 +105,7 @@ class Game(interface):
         if event.type==pygame.KEYDOWN:
             if self.main==3 and event.key==K_p:self.main=-1
             elif self.main==-1 and event.key==K_p:self.main=3
-            if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.players[0].jump(self.jumper,self.sound_jump)
+            if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.players[0].jump(self.physics.jump_force,self.sound_jump)
             if self.main==-1 and self.mode_game["Training AI"]:
                 if event.key==pygame.K_ESCAPE:self.restart()
             if self.main==1 and event.key==K_r:self.change_mains({"main":-1,"command":self.reset})
