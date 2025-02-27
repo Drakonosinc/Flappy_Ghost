@@ -1,6 +1,9 @@
 import pygame,os
+from Elements import *
 class Tube():
-    def __init__(self,x,y,angle,width_image,height_image):
+    def __init__(self,x,y,angle,width_image,height_image,objects=objects()):
+        self.objects=objects
+        self.config_visuals=objects.config_visuals
         self.load_tube(x,y,angle,width_image,height_image)
     def load_tube(self,x,y,angle,width_image,height_image):
         self.load_tube_image(angle,width_image,height_image)
