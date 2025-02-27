@@ -85,4 +85,8 @@ class Tube(objects):
     def load_tube(self,x,y,angle,width_image,height_image):
         self.load_tube_image(angle,width_image,height_image)
         self.rect=pygame.Rect(x,y,width_image,height_image)
-    def draw(self,screen,image):screen.blit(image,(self.x,self.y))
+    def load_tube_image(self,angle,width_image,height_image):
+        self.tube_image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
+        self.tube_image=pygame.transform.rotate(self.image,angle)
+        self.tube_image=pygame.transform.scale(self.image,(width_image,height_image))
+    def draw(self,screen):screen.blit(self.image,(self.rect.x,self.rect.y))
