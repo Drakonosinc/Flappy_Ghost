@@ -13,3 +13,5 @@ class Tube():
         self.tube_image=pygame.transform.rotate(self.tube_image,angle)
         self.tube_image=pygame.transform.scale(self.tube_image,(width_image,height_image))
     def draw(self,screen):screen.blit(self.tube_image,(self.rect.x,self.rect.y))
+    def move_tube_x(self,speed):self.rect.x-=speed
+    def move_tube_y(self,speed):self.rect.y-=speed
