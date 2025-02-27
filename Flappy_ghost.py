@@ -47,7 +47,7 @@ class Game(interface):
         self.generator_tubes(self.screen,self.tubes_invert,self.speed_tubes,self.space_tubes,-self.height//2,-100,"object3")
     def generator_tubes(self,screen,tubes,speed_tubes,space_tubes,height_init,height_finish,objects=None):
         for tube in tubes:
-            tube
+            tube.move_tube_x(speed_tubes)
             tube.rect.topleft = (tube.rect.x, tube.rect.y)
             tube.draw(screen)
             for player in self.players:
