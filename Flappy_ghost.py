@@ -4,6 +4,7 @@ from Genetic_Algorithm import *
 from Interface import *
 from Player import *
 from Physics_Handler import *
+from Tube import *
 class Game(interface):
     def __init__(self):
         super().__init__()
