@@ -37,7 +37,7 @@ class objects():
         self.width,self.height=800,600
         self.screen=pygame.display.set_mode((self.width,self.height))
     def load_AI(self):
-        self.model_path=os.path.join(os.path.dirname(__file__), "AI/best_model.pth")
+        self.model_path=os.path.join(self.base_dir, "AI/best_model.pth")
         self.model_training = load_model(self.model_path, 16, 1) if os.path.exists(self.model_path) else None
     def define_colors(self):
         self.GRAY=(127,127,127)
@@ -50,12 +50,12 @@ class objects():
         self.RED=(255,0,0)
         self.GOLDEN=(255,199,51)
     def load_images(self):
-        self.image_path = os.path.join(os.path.dirname(__file__), "images")
+        self.image_path = os.path.join(self.base_dir, "images")
         self.image_background=pygame.image.load(os.path.join(self.image_path,self.config_visuals["background"][self.config_visuals["value_background"]]))
         self.flappy_ghost=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
         self.flappy_ghost=pygame.transform.scale(self.flappy_ghost,(100,100))
     def load_fonts(self):
-        self.font_path = os.path.join(os.path.dirname(__file__), "fonts")
+        self.font_path = os.path.join(self.base_dir, "fonts")
         self.font=pygame.font.Font(None,25)
         self.font1=pygame.font.SysFont("times new roman", 80)
         self.font2=pygame.font.Font(None,35)
@@ -66,7 +66,7 @@ class objects():
         self.font5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),20)
         self.font5_5=pygame.font.Font(os.path.join(self.font_path,"8bitOperatorPlusSC-Bold.ttf"),20)
     def load_sounds(self):
-        self.sound_path = os.path.join(os.path.dirname(__file__), "sounds")
+        self.sound_path = os.path.join(self.base_dir, "sounds")
         self.sound_jump=pygame.mixer.Sound(os.path.join(self.sound_path,"jump.aiff"))
         self.sound_touchletters=pygame.mixer.Sound(os.path.join(self.sound_path,"touchletters.wav"))
         self.sound_buttonletters=pygame.mixer.Sound(os.path.join(self.sound_path,"buttonletters.mp3"))
