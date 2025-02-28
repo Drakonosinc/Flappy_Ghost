@@ -2,7 +2,8 @@ import random
 import numpy as np
 from Genetic_Algorithm import *
 from Interface import *
-from Entities import Player,Tube
+from Entities.Player import Player
+from Entities.Tube   import Tube
 from Physics_Handler import *
 class Game(interface):
     def __init__(self):
