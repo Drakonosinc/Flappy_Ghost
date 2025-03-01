@@ -1,6 +1,5 @@
 import random
 import numpy as np
-from Genetic_Algorithm import *
 from Interface import *
 from Entities.Player import Player
 from Entities.Tube   import Tube

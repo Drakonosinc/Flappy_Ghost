@@ -1,6 +1,6 @@
 import pygame,os,json
 from pygame.locals import *
-from Genetic_Algorithm import *
+from AI.Genetic_Algorithm import *
 class objects():
     def __init__(self):
         pygame.init()
