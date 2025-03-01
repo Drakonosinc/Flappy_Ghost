@@ -3,7 +3,7 @@ import numpy as np
 from Interface import *
 from Entities.Player import Player
 from Entities.Tube   import Tube
-from Physics_Handler import *
+from Physics.Physics_Handler import *
 class Game(interface):
     def __init__(self):
         super().__init__()
