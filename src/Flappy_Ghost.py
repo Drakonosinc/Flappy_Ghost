@@ -2,7 +2,7 @@ import random
 import numpy as np
 from Interface import *
 from Entities import *
-from Physics.Physics_Handler import *
+from Physics import *
 class Game(interface):
     def __init__(self):
         super().__init__()
