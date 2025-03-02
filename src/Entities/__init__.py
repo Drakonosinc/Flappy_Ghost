@@ -1,2 +1,2 @@
-from Player import *
-from Tube import *
+from .Player import *
+from .Tube import *

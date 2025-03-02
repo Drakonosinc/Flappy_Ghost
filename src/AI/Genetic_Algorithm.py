@@ -1,5 +1,5 @@
 import random
-from Neural_Network import *
+from .Neural_Network import *
 
 def fitness_function(models, game):
     game.models = models
