@@ -144,7 +144,7 @@ class interface(objects):
             self.tubes[i].image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config.config_visuals["value_tubes"]]))
             self.tubes[i].image=pygame.transform.rotate(self.tubes[0].image,0)
             self.tubes[i].image=pygame.transform.scale(self.tubes[0].image,(100, self.height//2))
-            self.tubes_invert[i].image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
+            self.tubes_invert[i].image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config.config_visuals["value_tubes"]]))
             self.tubes_invert[i].image=pygame.transform.rotate(self.tubes_invert[0].image,180)
             self.tubes_invert[i].image=pygame.transform.scale(self.tubes_invert[0].image,(100, self.height//2))
     def keys_menu(self):
@@ -154,9 +154,9 @@ class interface(objects):
             self.execute_buttons(self.back_keys_button,self.space_button,self.save_keys_button,self.default_keys_button)
     def buttons_keys(self):
         self.back_keys_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":4})})
-        self.space_button = self.button_factory_f2_5.create_TextButton({"text": self.config_keys["Name_key1"],"position": (35,self.height/2-150),"command1":lambda:self.change_keys("key_jump","Name_key1",self.space_button)})
-        self.save_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Save config","position": (self.width/2+80,self.height-85),"command1":self.save_config})
-        self.default_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:(self.config(keys=True),self.change_mains({"main":6,"command":self.buttons_keys}))})
+        self.space_button = self.button_factory_f2_5.create_TextButton({"text": self.config.config_keys["Name_key1"],"position": (35,self.height/2-150),"command1":lambda:self.change_keys("key_jump","Name_key1",self.space_button)})
+        self.save_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Save config","position": (self.width/2+80,self.height-85),"command1":self.config.save_config})
+        self.default_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:(self.config.config(keys=True),self.change_mains({"main":6,"command":self.buttons_keys}))})
     def change_keys(self,key,key_name,button=None):
         self.key=key
         self.key_name=key_name
