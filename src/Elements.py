@@ -1,12 +1,13 @@
 import pygame,os,json
 from pygame.locals import *
 from AI.Genetic_Algorithm import *
+from Config_Loader import *
 class objects():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
         self.base_dir = os.path.dirname(os.path.dirname(__file__))
-        self.load_config()
+        self.config.load_config()
         self.config_screen()
         self.load_images()
         self.load_fonts()
