@@ -31,7 +31,7 @@ class objects():
         self.GOLDEN=(255,199,51)
     def load_images(self):
         self.image_path = os.path.join(self.config.base_dir, "images")
-        self.image_background=pygame.image.load(os.path.join(self.image_path,self.config_visuals["background"][self.config_visuals["value_background"]]))
+        self.image_background=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["background"][self.config.config_visuals["value_background"]]))
         self.flappy_ghost=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
         self.flappy_ghost=pygame.transform.scale(self.flappy_ghost,(100,100))
     def load_fonts(self):
@@ -46,7 +46,7 @@ class objects():
         self.font5=pygame.font.Font(os.path.join(self.font_path,"ka1.ttf"),20)
         self.font5_5=pygame.font.Font(os.path.join(self.font_path,"8bitOperatorPlusSC-Bold.ttf"),20)
     def load_sounds(self):
-        self.sound_path = os.path.join(self.base_dir, "sounds")
+        self.sound_path = os.path.join(self.config.base_dir, "sounds")
         self.sound_jump=pygame.mixer.Sound(os.path.join(self.sound_path,"jump.aiff"))
         self.sound_touchletters=pygame.mixer.Sound(os.path.join(self.sound_path,"touchletters.wav"))
         self.sound_buttonletters=pygame.mixer.Sound(os.path.join(self.sound_path,"buttonletters.mp3"))
