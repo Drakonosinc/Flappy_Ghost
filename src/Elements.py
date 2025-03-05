@@ -32,7 +32,7 @@ class objects():
     def load_images(self):
         self.image_path = os.path.join(self.config.base_dir, "images")
         self.image_background=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["background"][self.config.config_visuals["value_background"]]))
-        self.flappy_ghost=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
+        self.flappy_ghost=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["flyers"][self.config.config_visuals["value_flyers"]]))
         self.flappy_ghost=pygame.transform.scale(self.flappy_ghost,(100,100))
     def load_fonts(self):
         self.font_path = os.path.join(self.config.base_dir, "fonts")
