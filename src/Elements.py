@@ -6,6 +6,7 @@ class objects():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
+        self.config=Config()
         self.config.load_config()
         self.config_screen()
         self.load_images()
