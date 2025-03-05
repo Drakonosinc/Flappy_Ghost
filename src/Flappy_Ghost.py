@@ -104,14 +104,14 @@ class Game(interface):
         if event.type==pygame.KEYDOWN:
             if self.main==3 and event.key==K_p:self.main=-1
             elif self.main==-1 and event.key==K_p:self.main=3
-            if self.mode_game["Player"] and event.key==self.config_keys["key_jump"]:self.players[0].jump(self.physics.jump_force,self.sound_jump)
+            if self.mode_game["Player"] and event.key==self.config.config_keys["key_jump"]:self.players[0].jump(self.physics.jump_force,self.sound_jump)
             if self.main==-1 and self.mode_game["Training AI"]:
                 if event.key==pygame.K_ESCAPE:self.restart()
             if self.main==1 and event.key==K_r:self.change_mains({"main":-1,"command":self.reset})
     def events(self,event):
         if event.type == self.EVENT_BACKGROUND and self.main==-1:
             self.speed_tubes+=0.5
-            self.config_visuals["value_background"]=random.randint(0,1)
+            self.config.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
     def get_state(self,player=Player(350, 600 - 35, 25, 25)):
         dist_to_tube_x = self.object2.x - player.rect.x
