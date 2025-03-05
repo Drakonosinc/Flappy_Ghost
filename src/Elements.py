@@ -17,7 +17,7 @@ class objects():
         self.width,self.height=800,600
         self.screen=pygame.display.set_mode((self.width,self.height))
     def load_AI(self):
-        self.model_path=os.path.join(self.base_dir, "AI/best_model.pth")
+        self.model_path=os.path.join(self.config.base_dir, "AI/best_model.pth")
         self.model_training = load_model(self.model_path, 16, 1) if os.path.exists(self.model_path) else None
     def define_colors(self):
         self.GRAY=(127,127,127)
@@ -30,12 +30,12 @@ class objects():
         self.RED=(255,0,0)
         self.GOLDEN=(255,199,51)
     def load_images(self):
-        self.image_path = os.path.join(self.base_dir, "images")
+        self.image_path = os.path.join(self.config.base_dir, "images")
         self.image_background=pygame.image.load(os.path.join(self.image_path,self.config_visuals["background"][self.config_visuals["value_background"]]))
         self.flappy_ghost=pygame.image.load(os.path.join(self.image_path,self.config_visuals["flyers"][self.config_visuals["value_flyers"]]))
         self.flappy_ghost=pygame.transform.scale(self.flappy_ghost,(100,100))
     def load_fonts(self):
-        self.font_path = os.path.join(self.base_dir, "fonts")
+        self.font_path = os.path.join(self.config.base_dir, "fonts")
         self.font=pygame.font.Font(None,25)
         self.font1=pygame.font.SysFont("times new roman", 80)
         self.font2=pygame.font.Font(None,35)
