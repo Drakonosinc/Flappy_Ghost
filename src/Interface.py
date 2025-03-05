@@ -141,10 +141,10 @@ class interface(objects):
     def load_visuals(self):
         self.load_images()
         for i in range(len(self.tubes)):
-            self.tubes[i].image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
+            self.tubes[i].image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config.config_visuals["value_tubes"]]))
             self.tubes[i].image=pygame.transform.rotate(self.tubes[0].image,0)
             self.tubes[i].image=pygame.transform.scale(self.tubes[0].image,(100, self.height//2))
-            self.tubes_invert[i].image=pygame.image.load(os.path.join(self.image_path,self.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
+            self.tubes_invert[i].image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config_visuals["value_tubes"]]))
             self.tubes_invert[i].image=pygame.transform.rotate(self.tubes_invert[0].image,180)
             self.tubes_invert[i].image=pygame.transform.scale(self.tubes_invert[0].image,(100, self.height//2))
     def keys_menu(self):
