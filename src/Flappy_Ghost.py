@@ -26,7 +26,7 @@ class Game(interface):
         self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2) for x in self.x_position]
         self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2) for x in self.x_position]
     def population(self):
-        self.players = [Player(100,100,40,40) for _ in range(self.config_AI["population_value"] if self.mode_game["Training AI"] else 1)]
+        self.players = [Player(100,100,40,40) for _ in range(self.config.config_AI["population_value"] if self.mode_game["Training AI"] else 1)]
         self.models = []
     def objects(self):
         self.object2=Rect(0,0,0,0)
