@@ -86,9 +86,9 @@ class interface(objects):
         self.decrease_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value',True,-1)})
         self.increase_population = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2+5),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'population_value')})
         self.decrease_population = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2+5),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'population_value',True,-1)})
-        self.increase_try_for_ai = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2+80),"command1":lambda:self.increase_decrease_variable(self.config_AI,'try_for_ai')})
-        self.decrease_try_for_ai = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2+80),"command1":lambda:self.increase_decrease_variable(self.config_AI,'try_for_ai',True,-1)})
-        self.save_model = self.button_factory_f2_5.create_TextButton({"text": "OFF","color": self.SKYBLUE,"position": (self.width-105,self.height/2+125),"command1":lambda:self.on_off(self.config_AI,"model_save"),"command2":self.save_config})
+        self.increase_try_for_ai = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2+80),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'try_for_ai')})
+        self.decrease_try_for_ai = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2+80),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'try_for_ai',True,-1)})
+        self.save_model = self.button_factory_f2_5.create_TextButton({"text": "OFF","color": self.SKYBLUE,"position": (self.width-105,self.height/2+125),"command1":lambda:self.on_off(self.config.config_AI,"model_save"),"command2":self.config.save_config})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
