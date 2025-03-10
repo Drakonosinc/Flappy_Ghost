@@ -3,7 +3,6 @@ class AIHandler:
     def __init__(self, game):
         self.game = game
         self.models = []
-        
     def get_state(self, player):
         dist_to_tube_x = self.game.object2.x - player.rect.x
         dist_to_tube_y = player.rect.y - self.game.object2.y
@@ -17,9 +16,7 @@ class AIHandler:
             self.game.object5.x, self.game.object5.y,
             dist_to_tube_x, dist_to_tube_y,
             dist_to_tube_invert_y, dist_to_tube_to_tube_invert_y,
-            player.dy, self.game.speed_tubes
-        ])
-    
+            player.dy, self.game.speed_tubes])
     def AI_actions(self, player, action):
         player.dy = action[0] * 10
     
