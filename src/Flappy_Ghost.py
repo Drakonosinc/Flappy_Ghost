@@ -114,6 +114,14 @@ class Game(interface):
             self.speed_tubes+=0.5
             self.config.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
+    def restart(self):
+        if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
+        if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
+    def reset(self,running=True):
+        self.running=running
+        self.instances()
+        self.objects()
+        self.speed_tubes=5
     def type_mode(self):
         self.ai_handler.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
     def get_reward(self, reward: list) -> list:return self.ai_handler.get_reward(reward)
@@ -136,11 +144,3 @@ class Game(interface):
             if self.main==-1:self.main_run()
             self.item_repeat_run()
         return self.get_reward([])
-    def restart(self):
-        if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
-        if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
-    def reset(self,running=True):
-        self.running=running
-        self.instances()
-        self.objects()
-        self.speed_tubes=5
