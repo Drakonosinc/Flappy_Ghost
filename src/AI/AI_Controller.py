@@ -31,3 +31,10 @@ class AIHandler:
                     actions(player, model)
         except:
             actions(self.game.players[0], models)
+    
+    def get_reward(self, reward: list) -> list:
+        for player in self.game.players:
+            reward.append(player.reward)
+            player.reward = 0
+            player.reset(40, 40)
+        return reward
