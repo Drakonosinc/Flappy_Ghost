@@ -1,5 +1,4 @@
 import random
-import numpy as np
 from Interface import *
 from Entities import *
 from Physics import *
