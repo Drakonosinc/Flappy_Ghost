@@ -19,3 +19,6 @@ class AIHandler:
             dist_to_tube_invert_y, dist_to_tube_to_tube_invert_y,
             player.dy, self.game.speed_tubes
         ])
+    
+    def AI_actions(self, player, action):
+    
