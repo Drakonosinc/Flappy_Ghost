@@ -116,7 +116,7 @@ class Game(interface):
             self.load_images()
     def restart(self):
         if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
-        if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
+        if self.mode_game["Player"] or self.mode_game["AI"]:self.change_mains({"main":1,"color":self.RED,"limit":155,"command":self.reset})
     def reset(self,running=True):
         self.running=running
         self.instances()
