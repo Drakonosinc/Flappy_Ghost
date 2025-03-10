@@ -4,6 +4,7 @@ from .Neural_Network import *
 def fitness_function(models, game):
     game.models = models
     scores = game.run_with_models()
+    print(scores)
     return scores
 
 def initialize_population(size, input_size, output_size):

@@ -3,6 +3,7 @@ import numpy as np
 from Interface import *
 from Entities import *
 from Physics import *
+from AI import *
 class Game(interface):
     def __init__(self):
         super().__init__()
