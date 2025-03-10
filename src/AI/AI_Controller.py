@@ -21,4 +21,6 @@ class AIHandler:
         ])
     
     def AI_actions(self, player, action):
+        player.dy = action[0] * 10
+    
     
