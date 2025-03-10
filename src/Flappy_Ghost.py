@@ -8,6 +8,7 @@ class Game(interface):
         super().__init__()
         self.load_AI()
         self.physics = PhysicsHandler()
+        self.ai_handler = AIHandler(self)
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
@@ -113,37 +114,10 @@ class Game(interface):
             self.speed_tubes+=0.5
             self.config.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
-    def get_state(self,player=Player(350, 600 - 35, 25, 25)):
-        dist_to_tube_x = self.object2.x - player.rect.x
-        dist_to_tube_y = player.rect.y - self.object2.y
-        dist_to_tube_invert_y = player.rect.y - self.object3.y
-        dist_to_tube_to_tube_invert_y = self.object3.y - self.object2.y
-        return np.array([player.rect.x,player.rect.y,self.object2.x,self.object2.y,self.object3.x,self.object3.y,self.object4.x,self.object4.y,self.object5.x,self.object5.y,dist_to_tube_x,dist_to_tube_y,dist_to_tube_invert_y,dist_to_tube_to_tube_invert_y,player.dy,self.speed_tubes])
-    def AI_actions(self,player,action):player.dy = action[0] * 10
-    def restart(self):
-        if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
-        if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
-    def reset(self,running=True):
-        self.running=running
-        self.instances()
-        self.objects()
-        self.speed_tubes=5
-    def type_mode(self):self.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
-    def actions_AI(self,models):
-        def actions(player,model):
-            state=self.get_state(player)
-            action = model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
-            self.AI_actions(player,action)
-        try:
-            for player, model in zip(self.players, models):
-                if player.active:actions(player,model)
-        except:actions(self.players[0],models)
-    def get_reward(self,reward:list)->list:
-        for player in self.players:
-            reward.append(player.reward)
-            player.reward = 0
-            player.reset(40,40)
-        return reward
+    def type_mode(self):
+        self.ai_handler.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
+    def get_reward(self, reward: list) -> list:
+        return self.ai_handler.get_reward(reward)
     def item_repeat_run(self):
         self.handle_keys()
         pygame.display.flip()
@@ -163,3 +137,11 @@ class Game(interface):
             if self.main==-1:self.main_run()
             self.item_repeat_run()
         return self.get_reward([])
+    def restart(self):
+        if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
+        if self.mode_game["Player"] or self.mode_game["AI"]:self.main=1
+    def reset(self,running=True):
+        self.running=running
+        self.instances()
+        self.objects()
+        self.speed_tubes=5

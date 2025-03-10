@@ -1,4 +1,5 @@
 import torch
-class AIController():
-    def __init__(self):
-        pass
+class AIHandler:
+    def __init__(self, game):
+        self.game = game
+        self.models = []
