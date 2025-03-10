@@ -17,21 +17,16 @@ class AIHandler:
             dist_to_tube_x, dist_to_tube_y,
             dist_to_tube_invert_y, dist_to_tube_to_tube_invert_y,
             player.dy, self.game.speed_tubes])
-    def AI_actions(self, player, action):
-        player.dy = action[0] * 10
+    def AI_actions(self, player, action):player.dy = action[0] * 10
     def actions_AI(self, models):
         def actions(player, model):
             state = self.get_state(player)
             action = model(torch.tensor(state, dtype=torch.float32)).detach().numpy()
             self.AI_actions(player, action)
-        
         try:
             for player, model in zip(self.game.players, models):
-                if player.active:
-                    actions(player, model)
-        except:
-            actions(self.game.players[0], models)
-    
+                if player.active:actions(player, model)
+        except:actions(self.game.players[0], models)
     def get_reward(self, reward: list) -> list:
         for player in self.game.players:
             reward.append(player.reward)

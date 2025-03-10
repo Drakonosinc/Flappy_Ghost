@@ -116,8 +116,7 @@ class Game(interface):
             self.load_images()
     def type_mode(self):
         self.ai_handler.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
-    def get_reward(self, reward: list) -> list:
-        return self.ai_handler.get_reward(reward)
+    def get_reward(self, reward: list) -> list:return self.ai_handler.get_reward(reward)
     def item_repeat_run(self):
         self.handle_keys()
         pygame.display.flip()
