@@ -115,13 +115,14 @@ class Game(interface):
             self.config.config_visuals["value_background"]=random.randint(0,1)
             self.load_images()
     def restart(self):
-        if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False)
-        if self.mode_game["Player"] or self.mode_game["AI"]:self.change_mains({"main":1,"color":self.RED,"limit":155,"command":self.reset})
-    def reset(self,running=True):
+        if all(not player.active for player in self.players) and self.mode_game["Training AI"]:self.reset(False,1)
+        if self.mode_game["Player"] or self.mode_game["AI"]:self.change_mains({"main":1,"color":self.RED,"limit":150,"command":self.reset})
+    def reset(self,running=True,type_reset=0):
         self.running=running
         self.instances()
         self.objects()
         self.speed_tubes=5
+        if type_reset==0:self.players[0].reset(40, 40)
     def type_mode(self):
         self.ai_handler.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
     def get_reward(self, reward: list) -> list:return self.ai_handler.get_reward(reward)
