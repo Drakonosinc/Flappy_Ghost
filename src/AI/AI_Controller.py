@@ -26,9 +26,9 @@ class AIHandler:
             for player, model in zip(self.game.players, models):
                 if player.active:actions(player, model)
         except:actions(self.game.players[0], models)
-    def get_reward(self, reward: list) -> list:
+    def get_reward(self, reward: list,position:tuple) -> list:
         for player in self.game.players:
             reward.append(player.reward)
             player.reward = 0
-            player.reset(40, 40)
+            player.reset(*position)
         return reward
