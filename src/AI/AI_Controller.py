@@ -1,9 +1,7 @@
 import torch
 import numpy as np
 class AIHandler:
-    def __init__(self, game):
-        self.game = game
-        self.models = []
+    def __init__(self, game):self.game = game
     def get_state(self, player):
         dist_to_tube_x = self.game.object2.x - player.rect.x
         dist_to_tube_y = player.rect.y - self.game.object2.y
