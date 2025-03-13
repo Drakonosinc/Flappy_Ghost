@@ -8,19 +8,19 @@ class CollisionHandler:
         player.reward += reward
         player.active = False
         self.game.restart()
-    def get_next_tubes(self, player, tubes):
-        sorted_tubes = sorted(tubes, key=lambda t: t.rect.x)
-        for i, tube in enumerate(sorted_tubes):
-            if tube.rect.x > player.rect.x:
-                current_tube = tube
-                next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
-                next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
-                return current_tube, next_tube1, next_tube2
+    def get_next_object(self, player, objects):
+        sorted_objects = sorted(objects, key=lambda t: t.rect.x)
+        for i, object in enumerate(sorted_objects):
+            if object.rect.x > player.rect.x:
+                current_object = object
+                next_object1 = sorted_objects[i + 1] if i + 1 < len(sorted_objects) else None
+                next_object2 = sorted_objects[i + 2] if i + 2 < len(sorted_objects) else None
+                return current_object, next_object1, next_object2
         return None, None, None
-    def update_objects(self, objects, current_tube, next_tube1, next_tube2):
-        if current_tube:
-            setattr(self.game, objects, current_tube.rect)
-        if next_tube1:
-            setattr(self.game, "object4", next_tube1.rect)
+    def update_objects(self, objects, current_object, next_object1, next_object2):
+        if current_object:
+            setattr(self.game, objects, current_object.rect)
+        if next_object1:
+            setattr(self.game, "object4", next_object1.rect)
         if next_tube2:
             setattr(self.game, "object5", next_tube2.rect)
