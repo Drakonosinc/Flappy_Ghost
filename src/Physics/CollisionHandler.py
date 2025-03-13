@@ -1,3 +1,5 @@
 class CollisionHandler:
     def __init__(self, game):
-        pass
+        self.game = game
+        self.sound_death = game.sound_death
+    
