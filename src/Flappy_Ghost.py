@@ -40,7 +40,7 @@ class Game(interface):
         if player.rect.y<=-20:
             player.rect.y=-15
             player.dy=self.physics.gravity
-        if player.rect.y>=self.height+100:self.sounddeath(player=player,reward=-20)
+        if player.rect.y>=self.height+100:self.collision_handler.handle_collision(player, reward=-20)
         player.reward += 0.1
     def creates_tubes(self):
         self.generator_tubes(self.screen,self.tubes,self.speed_tubes,self.space_tubes,self.height//2,self.height,"object2")
@@ -59,30 +59,10 @@ class Game(interface):
                         player.reward+=5
                         player.scores+=0.5
                     self.handle_tube_collision(player, tube, objects)
-    def collision(self,player,tube):
-        if  player.check_collision(tube):self.sounddeath(player=player,reward=-25)
-    def next_tube(self,player,tubes,objects,current_tube=None,next_tube1=None,next_tube2=None):
-        sorted_tubes = sorted(tubes, key=lambda t: t.rect.x)
-        for i, tube in enumerate(sorted_tubes):
-            if tube.rect.x > player.rect.x:
-                current_tube = tube
-                next_tube1 = sorted_tubes[i + 1] if i + 1 < len(sorted_tubes) else None
-                next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
-                break
-        if current_tube:setattr(self, objects, current_tube.rect)
-        if next_tube1:setattr(self, "object4", next_tube1.rect)
-        if next_tube2:setattr(self, "object5", next_tube2.rect)
     def handle_tube_collision(self, player, tube, objects):
         current_object, next_object1, next_object2 = self.collision_handler.get_next_object(player, self.tubes)
         self.collision_handler.update_objects(objects, current_object, next_object1, next_object2)
         if self.collision_handler.check_collision(player, tube):self.collision_handler.handle_collision(player, reward=-25)
-    def sounddeath(self,player,sound=True,reward=0):
-        if sound:
-            self.sound_death.play(loops=0)
-            player.reward+=reward
-            player.active=False
-            self.restart()
-            sound=False
     def backgrounds(self):
         for background in [0,360,720,1080]:self.screen.blit(self.image_background, (background, 0))
     def draw(self):
