@@ -9,6 +9,7 @@ class Game(interface):
         self.load_AI()
         self.physics = PhysicsHandler()
         self.ai_handler = AIHandler(self)
+        self.collision_handler = CollisionHandler(self)
         self.clock=pygame.time.Clock()
         self.FPS=60
         self.running=True
