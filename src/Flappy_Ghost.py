@@ -58,8 +58,7 @@ class Game(interface):
                         tube.rect.y = random.randint(height_init, height_finish)
                         player.reward+=5
                         player.scores+=0.5
-                    self.collision(player,tube)
-                    self.next_tube(player,tubes,objects)
+                    self.handle_tube_collision(player, tube, objects)
     def collision(self,player,tube):
         if  player.check_collision(tube):self.sounddeath(player=player,reward=-25)
     def next_tube(self,player,tubes,objects,current_tube=None,next_tube1=None,next_tube2=None):
