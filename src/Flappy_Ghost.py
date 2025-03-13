@@ -73,6 +73,10 @@ class Game(interface):
         if current_tube:setattr(self, objects, current_tube.rect)
         if next_tube1:setattr(self, "object4", next_tube1.rect)
         if next_tube2:setattr(self, "object5", next_tube2.rect)
+    def handle_tube_collision(self, player, tube, objects):
+        current_object, next_object1, next_object2 = self.collision_handler.get_next_object(player, self.tubes)
+        self.collision_handler.update_objects(objects, current_object, next_object1, next_object2)
+        if self.collision_handler.check_collision(player, tube):self.collision_handler.handle_collision(player, reward=-25)
     def sounddeath(self,player,sound=True,reward=0):
         if sound:
             self.sound_death.play(loops=0)
