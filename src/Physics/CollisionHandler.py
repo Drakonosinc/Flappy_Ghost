@@ -17,4 +17,10 @@ class CollisionHandler:
                 next_tube2 = sorted_tubes[i + 2] if i + 2 < len(sorted_tubes) else None
                 return current_tube, next_tube1, next_tube2
         return None, None, None
-    
+    def update_objects(self, objects, current_tube, next_tube1, next_tube2):
+        if current_tube:
+            setattr(self.game, objects, current_tube.rect)
+        if next_tube1:
+            setattr(self.game, "object4", next_tube1.rect)
+        if next_tube2:
+            setattr(self.game, "object5", next_tube2.rect)
