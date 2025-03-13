@@ -62,7 +62,7 @@ class Game(interface):
     def handle_tube_collision(self, player, tube, objects):
         current_object, next_object1, next_object2 = self.collision_handler.get_next_object(player, self.tubes)
         self.collision_handler.update_objects(objects, current_object, next_object1, next_object2)
-        if self.collision_handler.check_collision(player, tube):self.collision_handler.handle_collision(player, reward=-25)
+        if self.collision_handler.check_collision(player, tube):self.collision_handler.handle_collision(player)
     def backgrounds(self):
         for background in [0,360,720,1080]:self.screen.blit(self.image_background, (background, 0))
     def draw(self):
