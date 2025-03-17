@@ -103,9 +103,10 @@ class Game(interface):
         if self.mode_game["Player"] or self.mode_game["AI"]:self.change_mains({"main":1,"color":self.RED,"limit":100,"command":self.reset})
     def reset(self,running=True,type_reset=0):
         self.running=running
-        self.instances()
         self.objects()
         self.speed_tubes=5
+        self.tubes.reset()
+        self.tubes_invert.reset()
         if type_reset==0:self.players[0].reset()
     def type_mode(self):
         self.ai_handler.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
