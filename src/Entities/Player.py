@@ -2,6 +2,7 @@ from pygame import *
 class Player:
     def __init__(self, x, y, width, height):
         self.rect = Rect(x, y, width, height)
+        self.reset_position = (x, y, width, height)
         self.dy:float = 0
         self.isjumper:bool = False
         self.reward:int = 0
@@ -13,8 +14,8 @@ class Player:
             self.dy = jumper_value
             if sound!=None:sound.play()
             self.isjumper = False
-    def reset(self, x, y):
-        self.rect.x, self.rect.y = x, y
+    def reset(self):
+        self.rect = Rect(*self.reset_position)
         self.dy = 0
         self.isjumper = False
         self.scores = 0
