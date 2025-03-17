@@ -1,7 +1,6 @@
 import pygame,os
-from Elements import *
 class Tube():
-    def __init__(self,x,y,angle,width,height,objects=objects()):
+    def __init__(self,x,y,angle,width,height,objects):
         self.rect=pygame.Rect(x,y,width,height)
         self.objects=objects
         self.config_visuals=objects.config.config_visuals
