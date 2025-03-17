@@ -14,4 +14,4 @@ class Tube():
     def move_tube_x(self,speed):self.rect.x-=speed
     def move_tube_y(self,speed):self.rect.y-=speed
     def reset(self):
-        
+        self.rect = pygame.Rect(*self.reset_position)
