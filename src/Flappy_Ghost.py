@@ -105,8 +105,7 @@ class Game(interface):
         self.running=running
         self.objects()
         self.speed_tubes=5
-        self.tubes.reset()
-        self.tubes_invert.reset()
+        self.instances()
         if type_reset==0:self.players[0].reset()
     def type_mode(self):
         self.ai_handler.actions_AI(self.models if self.mode_game["Training AI"] else self.model_training)
