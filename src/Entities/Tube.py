@@ -13,5 +13,4 @@ class Tube():
     def draw(self,screen):screen.blit(self.tube_image,(self.rect.x,self.rect.y))
     def move_tube_x(self,speed):self.rect.x-=speed
     def move_tube_y(self,speed):self.rect.y-=speed
-    def reset(self):
-        self.rect = pygame.Rect(*self.reset_position)
+    def reset(self):self.rect = pygame.Rect(*self.reset_position)
