@@ -1,5 +1,5 @@
 import sys
-from Flappy_Ghost import *
+from Game.Flappy_Ghost import *
 from AI.Genetic_Algorithm import *
 if __name__=="__main__":
     while True:

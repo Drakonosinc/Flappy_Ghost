@@ -1,5 +1,5 @@
 import random
-from Interface import *
+from Interface.Interface import *
 from Entities import *
 from Physics import *
 from AI import *
