@@ -1,5 +1,5 @@
-from Load_elements import *
-from Elements_interface import *
+from Loaders.Load_elements import *
+from .Elements_interface import *
 class interface(objects):
     def __init__(self):
         super().__init__()
