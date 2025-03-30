@@ -30,6 +30,8 @@ class objects():
         self.YELLOW=(255,255,0)
         self.RED=(255,0,0)
         self.GOLDEN=(255,199,51)
+    def image_direct_path(self,image,value):
+        return self.config.config_visuals[image][self.config.config_visuals[value]]
     def load_images(self):
         self.image_path = os.path.join(self.config.base_dir, "images")
         self.image_background=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["background"][self.config.config_visuals["value_background"]]))
