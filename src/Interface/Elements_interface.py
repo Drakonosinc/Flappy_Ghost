@@ -159,3 +159,21 @@ class Input_text:
         for command in self.commands:
             if callable(command):command()
     def show_player(self):return self.text
+class ScrollBar:
+    def __init__(self,config:dict):
+        self.screen=config["screen"]
+        self.color = config.get("color", (255, 255, 255))
+        self.color_bar = config.get("color_bar", (255, 199, 51))
+        self.hover_color = config.get("hover_color", (255, 199, 51))
+        self.position = config["position"]
+        self.position_bar = config["position_bar",self.position]
+        self.commands = [config.get(f"command{i}") for i in range(1,4)]
+        self.sound_hover = config.get("sound_hover")
+        self.sound_touch = config.get("sound_touch")
+        self.pressed = config.get("pressed",True)
+        self.detect_mouse=config.get("detect_mouse",True)
+        self.pressed_keep = config.get("pressed_keep",True)
+        self.button_states=config.get("button_states",{"detect_hover":True,"presses_touch":True,"pressed_keep":True})
+        self.holding = False
+        self.rect = pygame.Rect(*self.position)
+        self.rect_bar = pygame.Rect(*self.position_bar,self.position.width,self.position.height*4)
