@@ -15,6 +15,8 @@ class ElementsFactory:
         return PolygonButton({"screen": self.screen,"color": self.color,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
     def create_InputText(self,config:dict):
         return Input_text({"screen": self.screen,"font": self.font,"color": self.color,"color_back":self.color_back,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
+    def create_ScrollBar(self,config:dict):
+        return ScrollBar({"screen": self.screen,"color": self.color,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
 class TextButton:
     def __init__(self,config:dict):
         self.screen = config["screen"]
@@ -29,8 +31,14 @@ class TextButton:
         self.pressed = config.get("pressed",True)
         self.detect_mouse=config.get("detect_mouse",True)
         self.button_states=config.get("button_states",{"detect_hover":True,"presses_touch":True})
+        self.holding = False
         self.rect = pygame.Rect(*self.position, *self.font.size(self.text))
         self.new_events(time=config.get("time",500))
+    def events(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.rect.collidepoint(pygame.mouse.get_pos()):self.holding = True
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:self.holding = False
+    def is_holding(self):return self.holding
     def new_events(self,time):
         self.EVENT_NEW = pygame.USEREVENT + 1
         pygame.time.set_timer(self.EVENT_NEW,time)
