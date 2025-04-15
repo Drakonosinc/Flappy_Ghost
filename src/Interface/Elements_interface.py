@@ -53,11 +53,11 @@ class TextButton:
                 self.button_states["detect_hover"]=False
         else:self.button_states["detect_hover"]=True
     def pressed_button(self,pressed_mouse,mouse_pos):
+        current_time = pygame.time.get_ticks()
         if pressed_mouse[0] and self.rect.collidepoint(mouse_pos) and self.button_states["presses_touch"]:
-            if self.sound_touch:self.sound_touch.play(loops=0)
             self.button_states["presses_touch"]=False
-            self.execute_commands()
-        elif not pressed_mouse[0]:self.button_states["presses_touch"] = True
+            self.button_states["click_time"] = current_time
+        
     def change_item(self,config:dict):
         self.color=config.get("color",self.color)
         self.text=config.get("text",self.text)
