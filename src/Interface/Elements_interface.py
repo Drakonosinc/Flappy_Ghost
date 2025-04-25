@@ -34,6 +34,7 @@ class ElementBehavior:
         pygame.time.set_timer(self.EVENT_NEW,time)
     def reactivate_pressed(self,event):
         if event.type==self.EVENT_NEW:self.states["presses_touch"]=True
+    def draw_hover_effect(self):raise NotImplementedError
 class TextButton:
     def __init__(self,config:dict):
         self.screen = config["screen"]
