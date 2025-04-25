@@ -35,6 +35,13 @@ class ElementBehavior:
     def reactivate_pressed(self,event):
         if event.type==self.EVENT_NEW:self.states["presses_touch"]=True
     def draw_hover_effect(self):raise NotImplementedError
+    def mouse_collision(self,rect,mouse_pos,draw=None):
+        if rect.collidepoint(mouse_pos):
+            self.draw_hover_effect() if draw is None else draw()
+            if self.states["detect_hover"]:
+                if self.sound_hover:self.sound_hover.play(loops=0)
+                self.states["detect_hover"]=False
+        else:self.states["detect_hover"]=True
 class TextButton:
     def __init__(self,config:dict):
         self.screen = config["screen"]
