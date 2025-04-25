@@ -42,6 +42,11 @@ class ElementBehavior:
                 if self.sound_hover:self.sound_hover.play(loops=0)
                 self.states["detect_hover"]=False
         else:self.states["detect_hover"]=True
+    def pressed_button(self,pressed_mouse,mouse_pos):
+        current_time = pygame.time.get_ticks()
+        if pressed_mouse[0] and self.rect.collidepoint(mouse_pos) and self.states["presses_touch"]:
+            self.states["presses_touch"]=False
+            self.states["click_time"] = current_time
 class TextButton:
     def __init__(self,config:dict):
         self.screen = config["screen"]
