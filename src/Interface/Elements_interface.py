@@ -32,6 +32,8 @@ class ElementBehavior:
     def new_events(self,time):
         self.EVENT_NEW = pygame.USEREVENT + 1
         pygame.time.set_timer(self.EVENT_NEW,time)
+    def reactivate_pressed(self,event):
+        if event.type==self.EVENT_NEW:self.states["presses_touch"]=True
 class TextButton:
     def __init__(self,config:dict):
         self.screen = config["screen"]
