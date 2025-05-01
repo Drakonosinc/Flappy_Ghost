@@ -72,7 +72,7 @@ class interface(objects):
         self.ai_button = self.button_factory_f2_5.create_TextButton({"text": "AI","position": (35,self.height/2-50),"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"AI":self.ai_button,"Player":self.player_button,"Training AI":self.Training_AI_button})})
         self.continue_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "→","position": (self.width-110,self.height-100),"command1":lambda:self.type_game(False,True) if all(not mode for mode in self.mode_game.values()) else None,"command2":lambda:(self.change_mains({"main":-1,"run":True,"command":self.population}),self.sound_back.stop(),self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None)})
         self.back_menu_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":0})})
-        self.buttons_config_AI()
+        self.buttons_config_AI(),self.text_training_ai()
     def menu_AI(self):
         self.execute_buttons(*self.buttons_in_config_AI,*self.text_in_training_ai)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
