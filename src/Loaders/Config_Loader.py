@@ -17,7 +17,7 @@ class Config():
                             "tubes":["tube.png"],"value_tubes":0}
         if keys or alls:self.config_keys={"key_jump":K_SPACE,"Name_key1":"SPACE"}
         if sounds or alls:self.config_sounds={"sound_menu":True,"sound_game":True}
-        if AI or alls:self.config_AI={"generation_value":100,"population_value":20,"try_for_ai":3,"model_save":False}
+        if AI or alls:self.config_AI={"generation_value":100,"population_value":20,"try_for_ai":3,"model_save":False,"type_training":["genetic","q-learning"],"type_model":["DQN","CNN"]}
     def save_config(self):
         self.config_path = os.path.join(self.base_dir, "Config")
         config = {"config_visuals": self.config_visuals,"config_keys": self.config_keys,"config_sounds":self.config_sounds,"config_AI":self.config_AI}
