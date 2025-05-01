@@ -84,7 +84,9 @@ class interface(objects):
             self.text_A=self.button_factory_f2_5.create_Text({"text":(f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 36}}"),"position":(self.width/2+40,self.height/2+50),"detect_mouse":False})
             self.text_S=self.button_factory_f2_5.create_Text({"text":(f"Save model"),"position":(self.width/2+40,self.height/2+125),"detect_mouse":False})
             self.text_in_training_ai=[self.text_C,self.text_G,self.text_P,self.text_A,self.text_S]
-        else:pass
+        else:
+            self.text_G.change_item({"text": f"Generation Size\n{self.config.config_AI['generation_value']:^26}"})
+            
     def buttons_config_AI(self):
         self.increase_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value'),"command2":self.text_training_ai})
         self.decrease_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value',True,-1),"command2":self.text_training_ai})
