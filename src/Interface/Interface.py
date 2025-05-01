@@ -74,7 +74,6 @@ class interface(objects):
         self.back_menu_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":0})})
         self.buttons_config_AI()
     def menu_AI(self):
-        self.screen.blit(self.font2_5.render(f"Population Size\n{self.config.config_AI['population_value']:^36}", True, "White"),(self.width/2+40,self.height/2-25))
         self.screen.blit(self.font2_5.render(f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 36}}", True, "White"),(self.width/2+40,self.height/2+50))
         self.screen.blit(self.font2_5.render(f"Save model", True, "White"),(self.width/2+40,self.height/2+125))
         self.execute_buttons(self.increase_generation,self.decrease_generation,self.increase_population,self.decrease_population,self.increase_try_for_ai,self.decrease_try_for_ai,self.save_model)
@@ -83,6 +82,7 @@ class interface(objects):
         if not hasattr(self, "text_in_training_ai"):
             self.text_C=self.button_factory_f2_5.create_Text({"text":(f"Config Training AI"),"position":(self.width/2+20,self.height/2-150),"detect_mouse":False})
             self.text_G=self.button_factory_f5.create_Text({"text":(f"Generation Size\n{self.config.config_AI['generation_value']:^36}"),"position":(self.width/2+40,self.height/2-100),"detect_mouse":False})
+            self.text_P=self.button_factory_f5.create_Text({"text":(f"Population Size\n{self.config.config_AI['population_value']:^36}"),"position":(self.width/2+40,self.height/2-25),"detect_mouse":False})
             
         else:pass
     def buttons_config_AI(self):
