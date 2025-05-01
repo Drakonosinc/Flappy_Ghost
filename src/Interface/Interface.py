@@ -81,6 +81,7 @@ class interface(objects):
         self.screen.blit(self.font2_5.render(f"Save model", True, "White"),(self.width/2+40,self.height/2+125))
         self.execute_buttons(self.increase_generation,self.decrease_generation,self.increase_population,self.decrease_population,self.increase_try_for_ai,self.decrease_try_for_ai,self.save_model)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
+    def text_training_ai(self):
     def buttons_config_AI(self):
         self.increase_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config._AI,'generation_value')})
         self.decrease_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value',True,-1)})
