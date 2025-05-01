@@ -74,7 +74,7 @@ class interface(objects):
         self.back_menu_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":0})})
         self.buttons_config_AI(),self.text_training_ai()
     def menu_AI(self):
-        self.execute_buttons(*self.buttons_in_config_AI,*self.text_in_training_ai)
+        self.execute_buttons(*self.buttons_in_config_ai,*self.text_in_training_ai)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
     def text_training_ai(self):
         if not hasattr(self, "text_in_training_ai"):
@@ -86,14 +86,14 @@ class interface(objects):
             self.text_in_training_ai=[self.text_C,self.text_G,self.text_P,self.text_A,self.text_S]
         else:pass
     def buttons_config_AI(self):
-        self.increase_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config._AI,'generation_value')})
+        self.increase_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value')})
         self.decrease_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value',True,-1)})
         self.increase_population = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2+5),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'population_value')})
         self.decrease_population = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2+5),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'population_value',True,-1)})
         self.increase_try_for_ai = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2+80),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'try_for_ai')})
         self.decrease_try_for_ai = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-265,self.height/2+80),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'try_for_ai',True,-1)})
         self.save_model = self.button_factory_f2_5.create_TextButton({"text": "OFF","color": self.SKYBLUE,"position": (self.width-105,self.height/2+125),"command1":lambda:self.on_off(self.config.config_AI,"model_save"),"command2":self.config.save_config})
-        self.buttons_in_config_AI=[self.increase_generation,self.decrease_generation,self.increase_population,self.decrease_population,self.increase_try_for_ai,self.decrease_try_for_ai,self.save_model]
+        self.buttons_in_config_ai=[self.increase_generation,self.decrease_generation,self.increase_population,self.decrease_population,self.increase_try_for_ai,self.decrease_try_for_ai,self.save_model]
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
