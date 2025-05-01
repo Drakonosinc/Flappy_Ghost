@@ -74,7 +74,7 @@ class interface(objects):
         self.back_menu_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":0})})
         self.buttons_config_AI()
     def menu_AI(self):
-        self.execute_buttons(*self.buttons_in_config_AI)
+        self.execute_buttons(*self.buttons_in_config_AI,*self.text_in_training_ai)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
     def text_training_ai(self):
         if not hasattr(self, "text_in_training_ai"):
@@ -83,7 +83,7 @@ class interface(objects):
             self.text_P=self.button_factory_f5.create_Text({"text":(f"Population Size\n{self.config.config_AI['population_value']:^36}"),"position":(self.width/2+40,self.height/2-25),"detect_mouse":False})
             self.text_A=self.button_factory_f5.create_Text({"text":(f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 36}}"),"position":(self.width/2+40,self.height/2+50),"detect_mouse":False})
             self.text_S=self.button_factory_f5.create_Text({"text":(f"Save model"),"position":(self.width/2+40,self.height/2+125),"detect_mouse":False})
-            
+            self.text_in_training_ai=[self.text_C,self.text_G,self.text_P,self.text_A,self.text_S]
         else:pass
     def buttons_config_AI(self):
         self.increase_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-140,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config._AI,'generation_value')})
