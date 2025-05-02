@@ -74,7 +74,7 @@ class interface(objects):
         self.back_menu_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":0})})
         self.buttons_config_AI(),self.text_training_ai()
     def menu_AI(self):
-        self.execute_buttons(*self.buttons_in_config_ai,*self.text_in_training_ai)
+        self.execute_buttons(*self.buttons_in_config_ai,*self.text_in_training_ai,self.scroll)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
     def text_training_ai(self):
         if not hasattr(self, "text_in_training_ai"):
