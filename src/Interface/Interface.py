@@ -76,7 +76,7 @@ class interface(objects):
     def menu_AI(self):
         self.execute_buttons(*self.buttons_in_config_ai,*self.text_in_training_ai,self.scroll)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
-        self.scroll.update_elements([*self.buttons_in_config_AI,*self.text_in_training_ai])
+        self.scroll.update_elements([*self.buttons_in_config_ai,*self.text_in_training_ai])
     def text_training_ai(self):
         if not hasattr(self, "text_in_training_ai"):
             self.text_C=self.button_factory_f2_5.create_Text({"text":(f"Config Training AI"),"position":(self.width/2-60,self.height/2-150),"detect_mouse":False})
