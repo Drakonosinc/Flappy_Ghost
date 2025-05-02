@@ -81,7 +81,7 @@ class interface(objects):
             self.text_C=self.button_factory_f2_5.create_Text({"text":(f"Config Training AI"),"position":(self.width/2-60,self.height/2-150),"detect_mouse":False})
             self.text_G=self.button_factory_f2_5.create_Text({"text":(f"Generation Size\n{self.config.config_AI['generation_value']:^36}"),"position":(self.width/2-40,self.height/2-100),"detect_mouse":False})
             self.text_P=self.button_factory_f2_5.create_Text({"text":(f"Population Size\n{self.config.config_AI['population_value']:^37}"),"position":(self.width/2-40,self.height/2-25),"detect_mouse":False})
-            self.text_A=self.button_factory_f2_5.create_Text({"text":(f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 36}}"),"position":(self.width/2-40,self.height/2+50),"detect_mouse":False})
+            self.text_A=self.button_factory_f2_5.create_Text({"text":(f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 37}}"),"position":(self.width/2-40,self.height/2+50),"detect_mouse":False})
             self.text_S=self.button_factory_f2_5.create_Text({"text":(f"Save model"),"position":(self.width/2-40,self.height/2+125),"detect_mouse":False})
             self.text_in_training_ai=[self.text_C,self.text_G,self.text_P,self.text_A,self.text_S]
         else:
@@ -97,6 +97,7 @@ class interface(objects):
         self.decrease_try_for_ai = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": "<","position": (self.width-345,self.height/2+80),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'try_for_ai',True,-1),"command2":self.text_training_ai})
         self.save_model = self.button_factory_f2_5.create_TextButton({"text": "OFF","color": self.SKYBLUE,"position": (self.width-185,self.height/2+125),"command1":lambda:self.on_off(self.config.config_AI,"model_save"),"command2":self.config.save_config})
         self.buttons_in_config_ai=[self.increase_generation,self.decrease_generation,self.increase_population,self.decrease_population,self.increase_try_for_ai,self.decrease_try_for_ai,self.save_model]
+        self.scroll=self.button_factory_f5.create_ScrollBar({"position": (self.WIDTH-30, 100, 20, self.HEIGHT-200),"thumb_height": 20})
     def type_game(self,mode_one=False,mode_two=False,mode_three=False):
         self.mode_game["Training AI"]=mode_one
         self.mode_game["Player"]=mode_two
