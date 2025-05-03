@@ -20,7 +20,7 @@ class interface(objects):
         if self.main==4:self.menu_options()
         if self.main==5:self.visuals_menu()
         if self.main==6:self.keys_menu()
-        self.sounds_menu()
+        if self.main==7:self.sounds_menu()
         self.draw_generation()
     def draw_buttons(self):
         self.button_factory_f2_5 = ElementsFactory({"screen": self.screen,"font": self.font2_5,"hover_color": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters})
@@ -173,12 +173,11 @@ class interface(objects):
             self.check_item(self.config.config_keys,self.config.config_keys[self.key_name],self.WHITE,"text",**{self.key:self.button_key})
             self.change_keys(self.key,self.key_name)
     def sounds_menu(self):
-        if self.main==7:
-            self.screen.fill(self.BLACK)
-            self.screen.blit(self.font3.render("Sounds", True, "orange"),(35,self.height/2-250))
-            self.execute_buttons(self.back_sounds_button,self.sound_menu_button,self.sound_game_button)
-            self.sound_menu_button.change_item({"color":self.sound_type["color_menu"],"text":self.sound_type["sound_menu"]})
-            self.sound_game_button.change_item({"color":self.sound_type["color_game"],"text":self.sound_type["sound_Game"]})
+        self.screen.fill(self.BLACK)
+        self.screen.blit(self.font3.render("Sounds", True, "orange"),(35,self.height/2-250))
+        self.execute_buttons(self.back_sounds_button,self.sound_menu_button,self.sound_game_button)
+        self.sound_menu_button.change_item({"color":self.sound_type["color_menu"],"text":self.sound_type["sound_menu"]})
+        self.sound_game_button.change_item({"color":self.sound_type["color_game"],"text":self.sound_type["sound_Game"]})
     def buttons_sounds(self):
         self.back_sounds_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":4})})
         self.sound_menu_button = self.button_factory_f2_5.create_TextButton({"text": self.sound_type["sound_menu"],"position": (35,self.height/2-150),"command1":lambda:self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.sound_back,True),"command2":self.config.save_config})
