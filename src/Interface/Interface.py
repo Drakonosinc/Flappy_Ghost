@@ -17,7 +17,7 @@ class interface(objects):
         if self.main==1:self.game_over_menu()
         if self.main==2:self.mode_game_menu()
         if self.main==3:self.pausa_menu()
-        self.menu_options()
+        if self.main==4:self.menu_options()
         self.sounds_menu()
         self.visuals_menu()
         self.keys_menu()
@@ -111,10 +111,9 @@ class interface(objects):
         self.menu_button = self.button_factory_f2_5.create_TextButton({"text": "Menu","position": (35,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"run":True}),"command3":self.check_sounds})
         self.exit_button = self.button_factory_f2_5.create_TextButton({"text": "Exit","position": (35,self.height/2),"sound_touch": self.sound_exit,"command1":self.close_game})
     def menu_options(self):
-        if self.main==4:
-            self.screen.fill(self.BLACK)
-            self.screen.blit(self.font3.render("Options", True, "orange"),(35,self.height/2-250))
-            self.execute_buttons(self.visual_button,self.sounds_button,self.keys_button,self.back_button)
+        self.screen.fill(self.BLACK)
+        self.screen.blit(self.font3.render("Options", True, "orange"),(35,self.height/2-250))
+        self.execute_buttons(self.visual_button,self.sounds_button,self.keys_button,self.back_button)
     def buttons_menu_options(self):
         self.visual_button = self.button_factory_f2_5.create_TextButton({"text": "Visuals","position": (35,self.height/2-150),"command1":lambda:self.change_mains({"main":5})})
         self.sounds_button = self.button_factory_f2_5.create_TextButton({"text": "Sounds","position": (35,self.height/2-100),"command1":lambda:self.change_mains({"main":7})})
