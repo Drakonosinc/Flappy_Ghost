@@ -19,8 +19,8 @@ class interface(objects):
         if self.main==3:self.pausa_menu()
         if self.main==4:self.menu_options()
         if self.main==5:self.visuals_menu()
+        if self.main==6:self.keys_menu()
         self.sounds_menu()
-        self.keys_menu()
         self.draw_generation()
     def draw_buttons(self):
         self.button_factory_f2_5 = ElementsFactory({"screen": self.screen,"font": self.font2_5,"hover_color": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters})
@@ -152,10 +152,9 @@ class interface(objects):
             self.tubes_invert[i].image=pygame.transform.rotate(self.tubes_invert[0].image,180)
             self.tubes_invert[i].image=pygame.transform.scale(self.tubes_invert[0].image,(100, self.height//2))
     def keys_menu(self):
-        if self.main==6:
-            self.screen.fill(self.BLACK)
-            self.screen.blit(self.font3.render("Keys", True, "orange"),(35,self.height/2-250))
-            self.execute_buttons(self.back_keys_button,self.space_button,self.save_keys_button,self.default_keys_button)
+        self.screen.fill(self.BLACK)
+        self.screen.blit(self.font3.render("Keys", True, "orange"),(35,self.height/2-250))
+        self.execute_buttons(self.back_keys_button,self.space_button,self.save_keys_button,self.default_keys_button)
     def buttons_keys(self):
         self.back_keys_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":4})})
         self.space_button = self.button_factory_f2_5.create_TextButton({"text": self.config.config_keys["Name_key1"],"position": (35,self.height/2-150),"command1":lambda:self.change_keys("key_jump","Name_key1",self.space_button)})
