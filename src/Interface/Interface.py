@@ -144,6 +144,7 @@ class interface(objects):
         self.load_visuals()
     def load_visuals(self):
         self.load_images()
+        self.instances()
     def keys_menu(self):
         self.screen.fill(self.BLACK)
         self.screen.blit(self.font3.render("Keys", True, "orange"),(35,self.height/2-250))
