@@ -18,8 +18,8 @@ class interface(objects):
         if self.main==2:self.mode_game_menu()
         if self.main==3:self.pausa_menu()
         if self.main==4:self.menu_options()
+        if self.main==5:self.visuals_menu()
         self.sounds_menu()
-        self.visuals_menu()
         self.keys_menu()
         self.draw_generation()
     def draw_buttons(self):
@@ -123,11 +123,10 @@ class interface(objects):
         self.sound_back_game.stop()
         self.sound_back.play(loops=-1) if self.sound_type["value_menu"] else None
     def visuals_menu(self):
-        if self.main==5:
-            self.screen.fill(self.BLACK)
-            self.items_visuals()
-            self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
-            self.execute_buttons(self.back_visual_button,self.decrease_player_button,self.increase_player_button,self.decrease_tube_button,self.increase_tube_button,self.save_visuals_button,self.default_visuals_button)
+        self.screen.fill(self.BLACK)
+        self.items_visuals()
+        self.screen.blit(self.font3.render("Visuals", True, "orange"),(35,self.height/2-250))
+        self.execute_buttons(self.back_visual_button,self.decrease_player_button,self.increase_player_button,self.decrease_tube_button,self.increase_tube_button,self.save_visuals_button,self.default_visuals_button)
     def buttons_visual(self):
         self.back_visual_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "←","position": (35,self.height-100),"command1":lambda:self.change_mains({"main":4})})
         self.decrease_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": "<","position": (self.players[0].rect.x-40,self.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",-1)})
