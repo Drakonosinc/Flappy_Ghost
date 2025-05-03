@@ -15,8 +15,8 @@ class interface(objects):
     def draw_interfaces(self):
         if self.main==0:self.main_menu()
         if self.main==1:self.game_over_menu()
+        if self.main==2:self.mode_game_menu()
         self.menu_options()
-        self.mode_game_menu()
         self.pausa_menu()
         self.sounds_menu()
         self.visuals_menu()
@@ -59,11 +59,10 @@ class interface(objects):
         self.exit_over_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Game","position": (120,self.height/2-100),"sound_touch": self.sound_exit,"command1":self.close_game})
         self.exit_menu_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Menu","position": (120,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"run":True,"command":self.check_sounds})})
     def mode_game_menu(self):
-        if self.main==2:
-            self.screen.fill(self.BLACK)
-            self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
-            if self.mode_game["Training AI"]:self.menu_AI()
-            self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button,self.continue_button,self.back_menu_button)
+        self.screen.fill(self.BLACK)
+        self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
+        if self.mode_game["Training AI"]:self.menu_AI()
+        self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button,self.continue_button,self.back_menu_button)
     def buttons_mode_game(self):
         self.Training_AI_button = self.button_factory_f2_5.create_TextButton({"text": "Training AI","position": (35,self.height/2-150),"command1":lambda:self.type_game(True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Training AI":self.Training_AI_button,"Player":self.player_button,"AI":self.ai_button})})
         self.player_button = self.button_factory_f2_5.create_TextButton({"text": "Player","position": (35,self.height/2-100),"command1":lambda:self.type_game(False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Player":self.player_button,"Training AI":self.Training_AI_button,"AI":self.ai_button})})
