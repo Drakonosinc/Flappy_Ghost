@@ -16,8 +16,8 @@ class interface(objects):
         if self.main==0:self.main_menu()
         if self.main==1:self.game_over_menu()
         if self.main==2:self.mode_game_menu()
+        if self.main==3:self.pausa_menu()
         self.menu_options()
-        self.pausa_menu()
         self.sounds_menu()
         self.visuals_menu()
         self.keys_menu()
@@ -102,10 +102,9 @@ class interface(objects):
         if self.model_training!=None:self.mode_game["AI"]=mode_three
         else:self.load_AI()
     def pausa_menu(self):
-        if self.main==3:
-            self.filt(self.width,self.height,150,self.GRAY)
-            self.screen.blit(self.font3.render("Pause", True, "orange"),(35,self.height/2-250))
-            self.execute_buttons(self.reset_button,self.option_button,self.menu_button,self.exit_button)
+        self.filt(self.width,self.height,150,self.GRAY)
+        self.screen.blit(self.font3.render("Pause", True, "orange"),(35,self.height/2-250))
+        self.execute_buttons(self.reset_button,self.option_button,self.menu_button,self.exit_button)
     def buttons_pausa(self):
         self.reset_button = self.button_factory_f2_5.create_TextButton({"text": "Reset","position": (35,self.height/2-150),"command1":self.reset,"command2":lambda:self.change_mains({"main":-1})})
         self.option_button = self.button_factory_f2_5.create_TextButton({"text": "Option","position": (35,self.height/2-100),"command1":self.reset,"command2":lambda:self.change_mains({"main":4,"run":True}),"command3":self.check_sounds})
