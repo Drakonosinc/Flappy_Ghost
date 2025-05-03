@@ -137,20 +137,20 @@ class interface(objects):
         self.default_visuals_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:self.config.config(visuals=True),"command2":self.load_visuals})
     def items_visuals(self):
         self.screen.blit(self.flappy_ghost,(self.players[0].rect.x-30,self.players[0].rect.y+50))
-        self.screen.blit(self.tubes[0].image,(self.width/2-50,self.height/2))
-        self.screen.blit(self.tubes_invert[0].image,(self.width/2+180,0))
+        self.screen.blit(self.tubes[0].tube_image,(self.width/2-50,self.height/2))
+        self.screen.blit(self.tubes_invert[0].tube_image,(self.width/2+180,0))
     def change_items(self,item,background,number):
         self.config.config_visuals[item]=((self.config.config_visuals[item] + number) % len(self.config.config_visuals[background]))
         self.load_visuals()
     def load_visuals(self):
         self.load_images()
         for i in range(len(self.tubes)):
-            self.tubes[i].image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config.config_visuals["value_tubes"]]))
-            self.tubes[i].image=pygame.transform.rotate(self.tubes[0].image,0)
-            self.tubes[i].image=pygame.transform.scale(self.tubes[0].image,(100, self.height//2))
-            self.tubes_invert[i].image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config.config_visuals["value_tubes"]]))
-            self.tubes_invert[i].image=pygame.transform.rotate(self.tubes_invert[0].image,180)
-            self.tubes_invert[i].image=pygame.transform.scale(self.tubes_invert[0].image,(100, self.height//2))
+            self.tubes[i].tube_image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config.config_visuals["value_tubes"]]))
+            self.tubes[i].tube_image=pygame.transform.rotate(self.tubes[0].tube_image,0)
+            self.tubes[i].tube_image=pygame.transform.scale(self.tubes[0].tube_image,(100, self.height//2))
+            self.tubes_invert[i].tube_image=pygame.image.load(os.path.join(self.image_path,self.config.config_visuals["tubes"][self.config.config_visuals["value_tubes"]]))
+            self.tubes_invert[i].tube_image=pygame.transform.rotate(self.tubes_invert[0].tube_image,180)
+            self.tubes_invert[i].tube_image=pygame.transform.scale(self.tubes_invert[0].tube_image,(100, self.height//2))
     def keys_menu(self):
         self.screen.fill(self.BLACK)
         self.screen.blit(self.font3.render("Keys", True, "orange"),(35,self.height/2-250))
