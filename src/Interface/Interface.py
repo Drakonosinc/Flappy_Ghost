@@ -14,9 +14,9 @@ class interface(objects):
         self.sound_back.set_volume(0.5)
     def draw_interfaces(self):
         if self.main==0:self.main_menu()
+        if self.main==1:self.game_over_menu()
         self.menu_options()
         self.mode_game_menu()
-        self.game_over_menu()
         self.pausa_menu()
         self.sounds_menu()
         self.visuals_menu()
@@ -51,10 +51,9 @@ class interface(objects):
         self.quit_button = self.button_factory_f2_5.create_TextButton({"text": "QUIT","position": (self.width/2-60,self.height/2-115),"sound_touch": self.sound_exit,"command1": self.close_game})
         self.options_button = self.button_factory_f2_5.create_TextButton({"text": "OPTIONS","position": (self.width-180,self.height-50),"command1":lambda:self.change_mains({"main":4})})
     def game_over_menu(self):
-        if self.main==1:
-            self.filt(self.width,self.height,150,self.RED)
-            self.screen.blit(self.font4.render("Game Over", True, self.BLACK),(120,self.height/2-250))
-            self.execute_buttons(self.restar_button,self.exit_over_button,self.exit_menu_button)
+        self.filt(self.width,self.height,150,self.RED)
+        self.screen.blit(self.font4.render("Game Over", True, self.BLACK),(120,self.height/2-250))
+        self.execute_buttons(self.restar_button,self.exit_over_button,self.exit_menu_button)
     def buttons_game_over(self):
         self.restar_button = self.button_factory_f2_5.create_TextButton({"text": "Press R to Restart","position": (120,self.height/2-150),"command1":self.reset,"command2":lambda:self.change_mains({"main":-1})})
         self.exit_over_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Game","position": (120,self.height/2-100),"sound_touch": self.sound_exit,"command1":self.close_game})
