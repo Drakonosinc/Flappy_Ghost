@@ -13,7 +13,7 @@ class interface(objects):
         self.check_sounds()
         self.sound_back.set_volume(0.5)
     def draw_interfaces(self):
-        self.main_menu()
+        if self.main==0:self.main_menu()
         self.menu_options()
         self.mode_game_menu()
         self.game_over_menu()
@@ -43,10 +43,9 @@ class interface(objects):
     def execute_buttons(self,*args):
         for button in args:button.draw()
     def main_menu(self):
-        if self.main==0:
-            self.screen.fill(self.BLACK)
-            self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
-            self.execute_buttons(self.play_button,self.quit_button,self.options_button)
+        self.screen.fill(self.BLACK)
+        self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
+        self.execute_buttons(self.play_button,self.quit_button,self.options_button)
     def buttons_main_menu(self):
         self.play_button = self.button_factory_f2_5.create_TextButton({"text": "PLAY","position": (self.width/2-60, self.height/2-150),"command1":lambda:self.change_mains({"main":2})})
         self.quit_button = self.button_factory_f2_5.create_TextButton({"text": "QUIT","position": (self.width/2-60,self.height/2-115),"sound_touch": self.sound_exit,"command1": self.close_game})
