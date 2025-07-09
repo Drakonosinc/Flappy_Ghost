@@ -180,16 +180,7 @@ class interface(load_elements,BaseMenu):
         self.on_off(self.config.config_sounds,sound.lower())
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
-    def fade_transition(self,fade_in,color=(0,0,0),limit=255):
-        overlay = pygame.Surface((self.width, self.height))
-        overlay.fill(color)
-        alpha=0 if not fade_in else 255
-        while (not fade_in and alpha <= limit) or (fade_in and alpha >= limit):
-            overlay.set_alpha(alpha)
-            self.screen.blit(overlay, (0, 0))
-            pygame.display.flip()
-            self.clock.tick(20)
-            alpha += -15 if fade_in else 15
+    
     def change_mains(self,config):
         if fade_in:=config.get("fade_in",True):self.fade_transition(False,config.get("color",(0,0,0)),config.get("limit",255))
         if fade_out:=config.get("fade_out",False):self.fade_transition(True,config.get("color2",(0,0,0)),0)
