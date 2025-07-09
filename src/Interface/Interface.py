@@ -11,6 +11,8 @@ class interface(load_elements,BaseMenu):
                         "sound_Game":f"Sound Game {"ON" if (j:=self.config.config_sounds["sound_game"]) else "OFF"}","color_game":self.SKYBLUE if j else self.RED,"value_game":j}
         self.utils_keys={"key_jump":False}
         self.key=None
+        self.initialize_menus()
+    def initialize_menus(self):pass
     def play_music(self):
         self.check_sounds()
         self.sound_back.set_volume(0.5)
@@ -36,10 +38,6 @@ class interface(load_elements,BaseMenu):
         self.buttons_sounds()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
-    def filt(self,width,height,number,color=(0,0,0),position=(0,0)):
-        background=pygame.Surface((width,height),pygame.SRCALPHA)
-        background.fill((*color, number))
-        self.screen.blit(background,position)
     def check_item(self,dic,is_true,is_false,item,**kwargs):
         for key,button in kwargs.items():setattr(button,item,(is_true if dic[key] else is_false))
     def execute_buttons(self,*args):
