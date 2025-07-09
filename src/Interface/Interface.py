@@ -39,8 +39,7 @@ class interface(load_elements,BaseMenu):
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     
-    def execute_buttons(self,*args):
-        for button in args:button.draw()
+    
     def main_menu(self):
         self.screen.fill(self.BLACK)
         self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
