@@ -180,14 +180,6 @@ class interface(load_elements,BaseMenu):
         self.on_off(self.config.config_sounds,sound.lower())
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
-    
-    def change_mains(self,config):
-        if fade_in:=config.get("fade_in",True):self.fade_transition(False,config.get("color",(0,0,0)),config.get("limit",255))
-        if fade_out:=config.get("fade_out",False):self.fade_transition(True,config.get("color2",(0,0,0)),0)
-        self.main=config.get("main",None)
-        if config.get("command",None):config["command"]()
-        if config.get("run",False):setattr(self,"running",False),setattr(self, "game_over", True)
-        if config.get("recursive",False):self.change_mains({"main":self.main,"fade_in":fade_in,"fade_out":fade_out})
     def increase_decrease_variable(self,dic=None,variable="",length=None,number=1,save=True):
         if dic!=None and length!=None:dic[variable]=max(1, dic[variable] + number)
         elif dic!=None:dic[variable]+=number
