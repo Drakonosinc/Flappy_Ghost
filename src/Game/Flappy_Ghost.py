@@ -25,8 +25,8 @@ class Game(interface):
         self.play_music()
     def instances(self):
         self.x_position = [self.width + i * self.space_tubes for i in range(6)]
-        self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2, objects()) for x in self.x_position]
-        self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2, objects()) for x in self.x_position]
+        self.tubes = [Tube(x, random.randint(self.height//2, self.height), 0, 100, self.height//2, load_elements()) for x in self.x_position]
+        self.tubes_invert=[Tube(x,random.randint(-self.height//2,0-100),180,100,self.height//2, load_elements()) for x in self.x_position]
     def population(self):
         self.players = [Player(100,100,40,40) for _ in range(self.config.config_AI["population_value"] if self.mode_game["Training AI"] else 1)]
         self.models = []
