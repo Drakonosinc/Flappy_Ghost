@@ -37,3 +37,6 @@ class BaseMenu:
         elif dic!=None:dic[variable]+=number
         else:setattr(self,variable,getattr(self,variable)+number)
         if save:self.config.save_config()
+    def on_off(self,dic=None,variable=""):
+        if dic:dic[variable]=not dic[variable]
+        else:setattr(self,variable,not getattr(self,variable))

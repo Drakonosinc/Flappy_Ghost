@@ -180,7 +180,3 @@ class interface(load_elements,BaseMenu):
         self.on_off(self.config.config_sounds,sound.lower())
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
-    
-    def on_off(self,dic=None,variable=""):
-        if dic:dic[variable]=not dic[variable]
-        else:setattr(self,variable,not getattr(self,variable))
