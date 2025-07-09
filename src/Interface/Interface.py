@@ -180,11 +180,7 @@ class interface(load_elements,BaseMenu):
         self.on_off(self.config.config_sounds,sound.lower())
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
-    def increase_decrease_variable(self,dic=None,variable="",length=None,number=1,save=True):
-        if dic!=None and length!=None:dic[variable]=max(1, dic[variable] + number)
-        elif dic!=None:dic[variable]+=number
-        else:setattr(self,variable,getattr(self,variable)+number)
-        if save:self.config.save_config()
+    
     def on_off(self,dic=None,variable=""):
         if dic:dic[variable]=not dic[variable]
         else:setattr(self,variable,not getattr(self,variable))
