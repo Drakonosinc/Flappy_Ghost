@@ -12,7 +12,8 @@ class interface(load_elements,BaseMenu):
         self.utils_keys={"key_jump":False}
         self.key=None
         self.initialize_menus()
-    def initialize_menus(self):pass
+    def initialize_menus(self):
+        self.main_menu = MainMenu(self)
     def play_music(self):
         self.check_sounds()
         self.sound_back.set_volume(0.5)
