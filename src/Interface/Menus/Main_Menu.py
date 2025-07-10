@@ -9,4 +9,4 @@ class MainMenu(BaseMenu):
     def render(self):
         self.screen.fill(self.interface.BLACK)
         self.screen.blit(self.interface.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
-        self.execute_buttons()
+        self.execute_buttons(*self.buttons.values())
