@@ -18,14 +18,16 @@ class interface(load_elements,BaseMenu):
         self.check_sounds()
         self.sound_back.set_volume(0.5)
     def draw_interfaces(self):
-        if self.main==0:self.main_menu()
-        elif self.main==1:self.game_over_menu()
+        menu_routes = {
+            0: self.main_menu.render,}
+        if self.main==1:self.game_over_menu()
         elif self.main==2:self.mode_game_menu()
         elif self.main==3:self.pausa_menu()
         elif self.main==4:self.menu_options()
         elif self.main==5:self.visuals_menu()
         elif self.main==6:self.keys_menu()
         elif self.main==7:self.sounds_menu()
+        if self.main in menu_routes:menu_routes[self.main]()
         self.draw_generation()
     def draw_buttons(self):
         self.button_factory_f2_5 = ElementsFactory({"screen": self.screen,"font": self.font2_5,"hover_color": self.GOLDEN,"sound_hover": self.sound_buttonletters,"sound_touch": self.sound_touchletters})
