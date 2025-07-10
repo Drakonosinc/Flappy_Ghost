@@ -41,10 +41,6 @@ class interface(load_elements,BaseMenu):
         self.buttons_sounds()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
-    def main_menu(self):
-        self.screen.fill(self.BLACK)
-        self.screen.blit(self.font4.render("FLAPPY GHOST", True, "orange"),(35,self.height/2-250))
-        self.execute_buttons(self.play_button,self.quit_button,self.options_button)
     def buttons_main_menu(self):
         self.play_button = self.button_factory_f2_5.create_TextButton({"text": "PLAY","position": (self.width/2-60, self.height/2-150),"command1":lambda:self.change_mains({"main":2})})
         self.quit_button = self.button_factory_f2_5.create_TextButton({"text": "QUIT","position": (self.width/2-60,self.height/2-115),"sound_touch": self.sound_exit,"command1": self.close_game})
