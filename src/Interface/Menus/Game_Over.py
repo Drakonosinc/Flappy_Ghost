@@ -7,6 +7,7 @@ class GameOver(BaseMenu):
         factory = self.interface.button_factory_f2_5
         self.buttons['reset'] = factory.create_TextButton({"text": "Press R to Restart","position": (120,self.HEIGHT/2-150),"command1":self.interface.reset,"command2":lambda:self.change_mains({"main":-1})})
         self.buttons['quit'] = factory.create_TextButton({"text": "Exit The Game","position": (120,self.HEIGHT/2-100),"sound_touch": self.interface.sound_exit,"command1":self.interface.close_game})
+        self.buttons['main'] = factory.create_TextButton({"text": "Exit The Menu","position": (120,self.HEIGHT/2-50),"command1":self.interface.reset,"command2":lambda:self.change_mains({"main":0,"run":True,"command":self.interface.check_sounds})})
     def render(self):
         self.filt(self.WIDTH,self.HEIGHT,150,self.interface.RED)
         self.screen.blit(self.interface.font4.render("Game Over", True, self.interface.BLACK),(120,self.HEIGHT/2-250))
