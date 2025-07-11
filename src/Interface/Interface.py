@@ -43,7 +43,7 @@ class interface(load_elements,BaseMenu):
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def buttons_game_over(self):
-        self.restar_button = self.button_factory_f2_5.create_TextButton({"text": "Press R to Restart","position": (120,self.height/2-150),"command1":self.reset,"command2":lambda:self.change_mains({"main":-1})})
+        
         self.exit_over_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Game","position": (120,self.height/2-100),"sound_touch": self.sound_exit,"command1":self.close_game})
         self.exit_menu_button = self.button_factory_f2_5.create_TextButton({"text": "Exit The Menu","position": (120,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"run":True,"command":self.check_sounds})})
     def mode_game_menu(self):
