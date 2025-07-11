@@ -15,6 +15,7 @@ class interface(load_elements,BaseMenu):
     def initialize_menus(self):
         self.main_menu = MainMenu(self)
         self.game_over_menu = GameOver(self)
+        self.game_mode_menu = GameMode(self)
     def play_music(self):
         self.check_sounds()
         self.sound_back.set_volume(0.5)
