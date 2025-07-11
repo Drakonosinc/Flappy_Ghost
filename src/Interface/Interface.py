@@ -44,8 +44,6 @@ class interface(load_elements,BaseMenu):
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def mode_game_menu(self):
-        self.screen.fill(self.BLACK)
-        self.screen.blit(self.font3.render("Mode Game", True, "orange"),(35,self.height/2-250))
         if self.mode_game["Training AI"]:self.menu_AI()
         self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button,self.continue_button,self.back_menu_button)
     def buttons_mode_game(self):
