@@ -50,7 +50,7 @@ class interface(load_elements,BaseMenu):
         self.Training_AI_button = self.button_factory_f2_5.create_TextButton({"text": "Training AI","position": (35,self.height/2-150),"command1":lambda:self.type_game(True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Training AI":self.Training_AI_button,"Player":self.player_button,"AI":self.ai_button})})
         self.player_button = self.button_factory_f2_5.create_TextButton({"text": "Player","position": (35,self.height/2-100),"command1":lambda:self.type_game(False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"Player":self.player_button,"Training AI":self.Training_AI_button,"AI":self.ai_button})})
         self.ai_button = self.button_factory_f2_5.create_TextButton({"text": "AI","position": (35,self.height/2-50),"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"AI":self.ai_button,"Player":self.player_button,"Training AI":self.Training_AI_button})})
-        self.continue_button = self.button_factory_f2_5.create_TextButton({"font": self.font1,"text": "→","position": (self.width-110,self.height-100),"command1":lambda:self.type_game(False,True) if all(not mode for mode in self.mode_game.values()) else None,"command2":lambda:(self.change_mains({"main":-1,"run":True,"command":self.population}),self.sound_back.stop(),self.sound_back_game.play(loops=-1)if self.sound_type["value_game"] else None)})
+        
         
         self.buttons_config_AI(),self.text_training_ai()
     def menu_AI(self):
