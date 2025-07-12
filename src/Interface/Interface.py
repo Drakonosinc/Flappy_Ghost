@@ -43,8 +43,6 @@ class interface(load_elements,BaseMenu):
         self.buttons_sounds()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
-    def mode_game_menu(self):
-        if self.mode_game["Training AI"]:self.menu_AI()
     def menu_AI(self):
         self.execute_buttons(*self.buttons_in_config_ai,*self.text_in_training_ai,self.scroll)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
