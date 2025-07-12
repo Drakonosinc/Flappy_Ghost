@@ -7,4 +7,3 @@ from .Game_Mode import GameMode
 # from .Visuals_Menu import VisualsMenu
 # from .Menu_Keys import KeysMenu
 # from .Menu_Sounds import SoundsMenu
-# from .Menu_AI import AIMenu
