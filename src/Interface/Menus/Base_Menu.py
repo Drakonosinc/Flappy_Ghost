@@ -40,3 +40,6 @@ class BaseMenu:
     def on_off(self,dic=None,variable=""):
         if dic:dic[variable]=not dic[variable]
         else:setattr(self,variable,not getattr(self,variable))
+    def update_mode_buttons(self,buttons):
+        mode_buttons = {"Training AI": buttons['training_ai'],"Player": buttons['player'],"AI": buttons['ai']}
+        self.check_item(self.interface.mode_game,self.interface.SKYBLUE,self.interface.WHITE,"color",**mode_buttons)
