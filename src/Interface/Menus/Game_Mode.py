@@ -3,6 +3,7 @@ class GameMode(BaseMenu):
     def __init__(self, interface):
         super().__init__(interface)
         self.buttons = {}
+        self.config_ai_buttons = {}
     def setup_buttons(self):
         factory = self.interface.button_factory_f2_5
         self.buttons['back'] = factory.create_TextButton({"font": self.interface.font1,"text": "←","position": (35,self.HEIGHT-100),"command1":lambda:self.change_mains({"main":0})})
