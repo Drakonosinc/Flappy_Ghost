@@ -45,14 +45,6 @@ class interface(load_elements,BaseMenu):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def mode_game_menu(self):
         if self.mode_game["Training AI"]:self.menu_AI()
-        self.execute_buttons(self.Training_AI_button,self.player_button,self.ai_button,self.continue_button,self.back_menu_button)
-    def buttons_mode_game(self):
-        
-        
-        self.ai_button = self.button_factory_f2_5.create_TextButton({"text": "AI","position": (35,self.height/2-50),"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.check_item(self.mode_game,self.SKYBLUE,self.WHITE,"color",**{"AI":self.ai_button,"Player":self.player_button,"Training AI":self.Training_AI_button})})
-        
-        
-        self.buttons_config_AI(),self.text_training_ai()
     def menu_AI(self):
         self.execute_buttons(*self.buttons_in_config_ai,*self.text_in_training_ai,self.scroll)
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
