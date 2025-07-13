@@ -15,6 +15,7 @@ class GameMode(BaseMenu):
         factory = self.interface.button_factory_f2_5
         self.config_ai_buttons['text_C'] = factory.create_Text({"text":(f"Config Training AI"),"position":(self.WIDTH/2-60,self.HEIGHT/2-150),"detect_mouse":False})
         self.config_ai_buttons['text_G'] = factory.create_Text({"text":(f"Generation Size\n{self.config.config_AI['generation_value']:^36}"),"position":(self.WIDTH/2-40,self.HEIGHT/2-100),"detect_mouse":False})
+        self.config_ai_buttons['text_P'] = factory.create_Text({"text":(f"Population Size\n{self.config.config_AI['population_value']:^37}"),"position":(self.WIDTH/2-40,self.HEIGHT/2-25),"detect_mouse":False})
     def _update_training_ai_texts(self):pass
     def render(self):
         self.screen.fill(self.interface.BLACK)
