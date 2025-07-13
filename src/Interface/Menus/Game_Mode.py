@@ -11,6 +11,7 @@ class GameMode(BaseMenu):
         self.buttons['training_ai'] = factory.create_TextButton({"text": "Training AI","position": (35,self.HEIGHT/2-150),"command1":lambda:self.type_game(True),"command2":lambda:self.update_mode_buttons(self.buttons)})
         self.buttons['player'] = factory.create_TextButton({"text": "Player","position": (35,self.HEIGHT/2-100),"command1":lambda:self.type_game(False,True),"command2":lambda:self.update_mode_buttons(self.buttons)})
         self.buttons['ai'] = factory.create_TextButton({"text": "AI","position": (35,self.HEIGHT/2-50),"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.update_mode_buttons(self.buttons)})
+        self._setup_training_ai_buttons(),self._setup_training_ai_texts()
     def _setup_training_ai_buttons(self):
         factory = self.interface.button_factory_f2_5
     def _setup_training_ai_texts(self):
@@ -24,7 +25,7 @@ class GameMode(BaseMenu):
     def render(self):
         self.screen.fill(self.interface.BLACK)
         self.screen.blit(self.interface.font3.render("Mode Game", True, "orange"),(35,self.HEIGHT/2-250))
-        if self.mode_game["Training AI"]:pass
+        if self.mode_game["Training AI"]:self._render_menu_ai()
         self.execute_buttons(*self.buttons.values())
     def _render_menu_ai(self):
         self.execute_buttons(*self.config_ai_buttons.values())
