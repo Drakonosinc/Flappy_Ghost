@@ -13,6 +13,7 @@ class GameMode(BaseMenu):
         self.buttons['ai'] = factory.create_TextButton({"text": "AI","position": (35,self.HEIGHT/2-50),"command1":lambda:self.type_game(False,False,True),"command2":lambda:self.update_mode_buttons(self.buttons)})
     def _setup_training_ai_texts(self):
         factory = self.interface.button_factory_f2_5
+        self.config_ai_buttons['text_C'] = factory.create_Text({"text":(f"Config Training AI"),"position":(self.WIDTH/2-60,self.HEIGHT/2-150),"detect_mouse":False})
     def _update_training_ai_texts(self):pass
     def render(self):
         self.screen.fill(self.interface.BLACK)
