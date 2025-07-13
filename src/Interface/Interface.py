@@ -51,7 +51,7 @@ class interface(load_elements,BaseMenu):
         if not hasattr(self, "text_in_training_ai"):
             
             
-            self.text_S=self.button_factory_f2_5.create_Text({"text":(f"Save model"),"position":(self.width/2-40,self.height/2+125),"detect_mouse":False})
+            
             self.text_in_training_ai=[self.text_C,self.text_G,self.text_P,self.text_A,self.text_S]
         else:
             self.text_G.change_item({"text": f"Generation Size\n{self.config.config_AI['generation_value']:^36}"})
