@@ -21,7 +21,8 @@ class GameMode(BaseMenu):
         self.config_ai_buttons['text_P'] = factory.create_Text({"text":(f"Population Size\n{self.config.config_AI['population_value']:^37}"),"position":(self.WIDTH/2-40,self.HEIGHT/2-25),"detect_mouse":False})
         self.config_ai_buttons['text_A'] = factory.create_Text({"text":(f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 37}}"),"position":(self.WIDTH/2-40,self.HEIGHT/2+50),"detect_mouse":False})
         self.config_ai_buttons['text_S'] = factory.create_Text({"text":(f"Save model"),"position":(self.WIDTH/2-40,self.HEIGHT/2+125),"detect_mouse":False})
-    def _update_training_ai_texts(self):pass
+    def _update_training_ai_texts(self):
+        if 'text_G' in self.config_ai_buttons:self.config_ai_buttons['text_G'].change_item({"text": f"Generation Size\n{self.config.config_AI['generation_value']:^36}"})
     def render(self):
         self.screen.fill(self.interface.BLACK)
         self.screen.blit(self.interface.font3.render("Mode Game", True, "orange"),(35,self.HEIGHT/2-250))

@@ -45,9 +45,7 @@ class interface(load_elements,BaseMenu):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def menu_AI(self):
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
-        
     def text_training_ai(self):
-        self.text_G.change_item({"text": f"Generation Size\n{self.config.config_AI['generation_value']:^36}"})
         self.text_P.change_item({"text": f"Population Size\n{self.config.config_AI['population_value']:^37}"})
         self.text_A.change_item({"text": f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 36}}"})
     def buttons_config_AI(self):
