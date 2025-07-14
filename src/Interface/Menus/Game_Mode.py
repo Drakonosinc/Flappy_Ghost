@@ -29,3 +29,4 @@ class GameMode(BaseMenu):
         self.execute_buttons(*self.buttons.values())
     def _render_menu_ai(self):
         self.execute_buttons(*self.config_ai_buttons.values())
+        self.scroll.update_elements([])
