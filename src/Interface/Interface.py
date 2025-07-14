@@ -46,7 +46,6 @@ class interface(load_elements,BaseMenu):
     def menu_AI(self):
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
     def text_training_ai(self):
-        self.text_P.change_item({"text": f"Population Size\n{self.config.config_AI['population_value']:^37}"})
         self.text_A.change_item({"text": f"Attempts By AI\n{self.config.config_AI['try_for_ai']:^{39 if self.config.config_AI['try_for_ai']<10 else 36}}"})
     def buttons_config_AI(self):
         self.increase_generation = self.button_factory_f2_5.create_TextButton({"font":self.font3_5,"text": ">","position": (self.width-220,self.height/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value'),"command2":self.text_training_ai})
