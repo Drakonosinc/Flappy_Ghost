@@ -22,6 +22,7 @@ class GameMode(BaseMenu):
         self.config_ai_buttons['increase_generation'] = factory.create_TextButton({"font":self.interface.font3_5,"text": ">","position": (self.WIDTH-220,self.HEIGHT/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value'),"command2":self._update_training_ai_texts})
         self.config_ai_buttons['decrease_generation'] = factory.create_TextButton({"font":self.interface.font3_5,"text": "<","position": (self.WIDTH-345,self.HEIGHT/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value',True,-1),"command2":self._update_training_ai_texts})
         self.config_ai_buttons['increase_population'] = factory.create_TextButton({"font":self.interface.font3_5,"text": ">","position": (self.WIDTH-220,self.HEIGHT/2+5),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'population_value'),"command2":self._update_training_ai_texts})
+        self.config_ai_buttons['decrease_population'] = factory.create_TextButton({"font":self.interface.font3_5,"text": "<","position": (self.WIDTH-345,self.HEIGHT/2+5),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'population_value',True,-1),"command2":self._update_training_ai_texts})
     def _setup_training_ai_texts(self):
         factory = self.interface.button_factory_f2_5
         self.config_ai_buttons['text_C'] = factory.create_Text({"text":(f"Config Training AI"),"position":(self.WIDTH/2-60,self.HEIGHT/2-150),"detect_mouse":False})
