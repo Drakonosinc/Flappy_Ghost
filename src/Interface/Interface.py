@@ -45,10 +45,6 @@ class interface(load_elements,BaseMenu):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def menu_AI(self):
         self.save_model.change_item({"color":self.SKYBLUE if self.config.config_AI["model_save"] else self.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
-    def buttons_config_AI(self):
-        
-        self.buttons_in_config_ai=[self.increase_generation,self.decrease_generation,self.increase_population,self.decrease_population,self.increase_try_for_ai,self.decrease_try_for_ai,self.save_model]
-        self.scroll=self.button_factory_f2_5.create_ScrollBar({"position": (self.width-30, 100, 20, self.height-200),"thumb_height": 20})
     def pausa_menu(self):
         self.filt(self.width,self.height,150,self.GRAY)
         self.screen.blit(self.font3.render("Pause", True, "orange"),(35,self.height/2-250))
