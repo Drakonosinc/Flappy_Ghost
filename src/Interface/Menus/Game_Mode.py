@@ -41,7 +41,7 @@ class GameMode(BaseMenu):
     def render(self):
         self.screen.fill(self.interface.BLACK)
         self.screen.blit(self.interface.font3.render("Mode Game", True, "orange"),(35,self.HEIGHT/2-250))
-        if self.mode_game["Training AI"]:self._render_menu_ai()
+        if self.interface.mode_game["Training AI"]:self._render_menu_ai()
         self.execute_buttons(*self.buttons.values())
     def _render_menu_ai(self):
         self.execute_buttons(*self.config_ai_buttons.values())
