@@ -45,4 +45,5 @@ class GameMode(BaseMenu):
         self.execute_buttons(*self.buttons.values())
     def _render_menu_ai(self):
         self.execute_buttons(*self.config_ai_buttons.values())
+        self.config_ai_buttons['save_model'].change_item({"color":self.interface.SKYBLUE if self.config.config_AI["model_save"] else self.interface.RED,"text":"ON" if self.config.config_AI["model_save"] else "OFF"})
         self.scroll.update_elements([])
