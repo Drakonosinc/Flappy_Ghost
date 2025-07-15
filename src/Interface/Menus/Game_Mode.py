@@ -13,10 +13,10 @@ class GameMode(BaseMenu):
         self.buttons['ai'] = factory.create_TextButton({"text": "AI","position": (35,self.HEIGHT/2-50),"command1":lambda:self._type_game(False,False,True),"command2":lambda:self.update_mode_buttons(self.buttons)})
         self._setup_training_ai_buttons(),self._setup_training_ai_texts()
     def _type_game(self,mode_one=False,mode_two=False,mode_three=False):
-        self.mode_game["Training AI"]=mode_one
-        self.mode_game["Player"]=mode_two
-        if self.model_training!=None:self.mode_game["AI"]=mode_three
-        else:self.load_AI()
+        self.interface.mode_game["Training AI"]=mode_one
+        self.interface.mode_game["Player"]=mode_two
+        if self.interface.model_training!=None:self.interface.mode_game["AI"]=mode_three
+        else:self.interface.load_AI()
     def _setup_training_ai_buttons(self):
         factory = self.interface.button_factory_f2_5
         self.config_ai_buttons['increase_generation'] = factory.create_TextButton({"font":self.interface.font3_5,"text": ">","position": (self.WIDTH-220,self.HEIGHT/2-70),"command1":lambda:self.increase_decrease_variable(self.config.config_AI,'generation_value'),"command2":self._update_training_ai_texts})
