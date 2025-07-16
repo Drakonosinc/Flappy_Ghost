@@ -44,8 +44,6 @@ class interface(load_elements,BaseMenu):
         self.buttons_sounds()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
-    def buttons_pausa(self):
-        self.option_button = self.button_factory_f2_5.create_TextButton({"text": "Option","position": (35,self.height/2-100),"command1":self.reset,"command2":lambda:self.change_mains({"main":4,"run":True}),"command3":self.check_sounds})
     def menu_options(self):
         self.screen.fill(self.BLACK)
         self.screen.blit(self.font3.render("Options", True, "orange"),(35,self.height/2-250))
