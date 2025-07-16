@@ -45,7 +45,6 @@ class interface(load_elements,BaseMenu):
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def buttons_pausa(self):
-        self.reset_button = self.button_factory_f2_5.create_TextButton({"text": "Reset","position": (35,self.height/2-150),"command1":self.reset,"command2":lambda:self.change_mains({"main":-1})})
         self.option_button = self.button_factory_f2_5.create_TextButton({"text": "Option","position": (35,self.height/2-100),"command1":self.reset,"command2":lambda:self.change_mains({"main":4,"run":True}),"command3":self.check_sounds})
         self.menu_button = self.button_factory_f2_5.create_TextButton({"text": "Menu","position": (35,self.height/2-50),"command1":self.reset,"command2":lambda:self.change_mains({"main":0,"run":True}),"command3":self.check_sounds})
         self.exit_button = self.button_factory_f2_5.create_TextButton({"text": "Exit","position": (35,self.height/2),"sound_touch": self.sound_exit,"command1":self.close_game})
