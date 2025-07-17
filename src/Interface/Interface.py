@@ -39,7 +39,7 @@ class interface(load_elements,BaseMenu):
         self.game_over_menu.setup_buttons()
         self.game_mode_menu.setup_buttons()
         self.pause_menu.setup_buttons()
-        self.buttons_menu_options()
+        self.options_menu.setup_buttons()
         self.buttons_visual()
         self.buttons_keys()
         self.buttons_sounds()
