@@ -45,7 +45,7 @@ class interface(load_elements,BaseMenu):
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def buttons_menu_options(self):
-        self.visual_button = self.button_factory_f2_5.create_TextButton({"text": "Visuals","position": (35,self.height/2-150),"command1":lambda:self.change_mains({"main":5})})
+        
         self.sounds_button = self.button_factory_f2_5.create_TextButton({"text": "Sounds","position": (35,self.height/2-100),"command1":lambda:self.change_mains({"main":7})})
         self.keys_button = self.button_factory_f2_5.create_TextButton({"text": "Keys","position": (35,self.height/2-50),"command1":lambda:self.change_mains({"main":6})})
         
