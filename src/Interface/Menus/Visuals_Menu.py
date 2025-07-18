@@ -10,3 +10,7 @@ class VisualsMenu(BaseMenu):
         self._items_visuals()
         self.screen.blit(self.interface.font3.render("Visuals", True, "orange"),(35,self.HEIGHT/2-250))
         self.execute_buttons(*self.buttons.values())
+    def _items_visuals(self):
+        self.screen.blit(self.interface.flappy_ghost,(self.interface.players[0].rect.x-30,self.interface.players[0].rect.y+50))
+        self.screen.blit(self.interface.tubes[0].tube_image,(self.WIDTH/2-50,self.HEIGHT/2))
+        self.screen.blit(self.interface.tubes_invert[0].tube_image,(self.WIDTH/2+180,0))
