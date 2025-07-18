@@ -30,8 +30,7 @@ class interface(load_elements,BaseMenu):
             3: self.pause_menu.render,
             4: self.options_menu.render,
             5: self.visuals_menu.render,}
-        if self.main==5:self.visuals_menu()
-        elif self.main==6:self.keys_menu()
+        if self.main==6:self.keys_menu()
         elif self.main==7:self.sounds_menu()
         if self.main in menu_routes:menu_routes[self.main]()
         self.draw_generation()
@@ -42,7 +41,7 @@ class interface(load_elements,BaseMenu):
         self.game_mode_menu.setup_buttons()
         self.pause_menu.setup_buttons()
         self.options_menu.setup_buttons()
-        self.buttons_visual()
+        self.visuals_menu.setup_buttons()
         self.buttons_keys()
         self.buttons_sounds()
     def draw_generation(self):
