@@ -18,6 +18,7 @@ class interface(load_elements,BaseMenu):
         self.game_mode_menu = GameMode(self)
         self.pause_menu = Pause(self)
         self.options_menu = OptionsMenu(self)
+        self.visuals_menu = VisualsMenu(self)
     def play_music(self):
         self.check_sounds()
         self.sound_back.set_volume(0.5)
@@ -27,7 +28,8 @@ class interface(load_elements,BaseMenu):
             1: self.game_over_menu.render,
             2: self.game_mode_menu.render,
             3: self.pause_menu.render,
-            4: self.options_menu.render,}
+            4: self.options_menu.render,
+            5: self.visuals_menu.render,}
         if self.main==5:self.visuals_menu()
         elif self.main==6:self.keys_menu()
         elif self.main==7:self.sounds_menu()
