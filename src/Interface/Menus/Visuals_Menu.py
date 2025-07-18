@@ -7,7 +7,10 @@ class VisualsMenu(BaseMenu):
         factory = self.interface.button_factory_f2_5
     def _change_items(self,item,background,number):
         self.config.config_visuals[item]=((self.config.config_visuals[item] + number) % len(self.config.config_visuals[background]))
-        self.load_visuals()
+        self._load_visuals()
+    def _load_visuals(self):
+        self.interface.load_images()
+        self.interface.instances()
     def render(self):
         self.screen.fill(self.interface.BLACK)
         self._items_visuals()
