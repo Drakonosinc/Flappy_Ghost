@@ -5,6 +5,7 @@ class VisualsMenu(BaseMenu):
         self.buttons = {}
     def setup_buttons(self):
         factory = self.interface.button_factory_f2_5
+        self.buttons['back'] = factory.create_TextButton({"font": self.interface.font1,"text": "←","position": (35,self.HEIGHT-100),"command1":lambda:self.change_mains({"main":4})})
     def _change_items(self,item,background,number):
         self.config.config_visuals[item]=((self.config.config_visuals[item] + number) % len(self.config.config_visuals[background]))
         self._load_visuals()
