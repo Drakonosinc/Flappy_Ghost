@@ -50,7 +50,7 @@ class interface(load_elements,BaseMenu):
         self.sound_back_game.stop()
         self.sound_back.play(loops=-1) if self.sound_type["value_menu"] else None
     def buttons_visual(self):
-        self.increase_tube_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": ">","position": (self.width/2+75,self.height/2),"command1":lambda:self.change_items("value_tubes","tubes",1)})
+        
         self.save_visuals_button = self.button_factory_f2_5.create_TextButton({"text": "Save config","position": (self.width/2+80,self.height-85),"command1":self.config.save_config})
         self.default_visuals_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:self.config.config(visuals=True),"command2":self.load_visuals})
     def keys_menu(self):

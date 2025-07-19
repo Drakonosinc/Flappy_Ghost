@@ -9,6 +9,7 @@ class VisualsMenu(BaseMenu):
         self.buttons['decrease_player_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": "<","position": (self.interface.players[0].rect.x-40,self.interface.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",-1)})
         self.buttons['increase_player_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": ">","position": (self.interface.players[0].rect.x+60,self.interface.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",1)})
         self.buttons['decrease_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": "<","position": (self.WIDTH/2-95,self.HEIGHT/2),"command1":lambda:self.change_items("value_tubes","tubes",-1)})
+        self.buttons['increase_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": ">","position": (self.WIDTH/2+75,self.HEIGHT/2),"command1":lambda:self.change_items("value_tubes","tubes",1)})
     def _change_items(self,item,background,number):
         self.config.config_visuals[item]=((self.config.config_visuals[item] + number) % len(self.config.config_visuals[background]))
         self._load_visuals()
