@@ -6,10 +6,10 @@ class VisualsMenu(BaseMenu):
     def setup_buttons(self):
         factory = self.interface.button_factory_f2_5
         self.buttons['back'] = factory.create_TextButton({"font": self.interface.font1,"text": "←","position": (35,self.HEIGHT-100),"command1":lambda:self.change_mains({"main":4})})
-        self.buttons['decrease_player_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": "<","position": (self.interface.players[0].rect.x-40,self.interface.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",-1)})
-        self.buttons['increase_player_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": ">","position": (self.interface.players[0].rect.x+60,self.interface.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",1)})
-        self.buttons['decrease_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": "<","position": (self.WIDTH/2-95,self.HEIGHT/2),"command1":lambda:self.change_items("value_tubes","tubes",-1)})
-        self.buttons['increase_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": ">","position": (self.WIDTH/2+75,self.HEIGHT/2),"command1":lambda:self.change_items("value_tubes","tubes",1)})
+        self.buttons['decrease_player_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": "<","position": (self.interface.players[0].rect.x-40,self.interface.players[0].rect.y+70),"command1":lambda:self._change_items("value_flyers","flyers",-1)})
+        self.buttons['increase_player_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": ">","position": (self.interface.players[0].rect.x+60,self.interface.players[0].rect.y+70),"command1":lambda:self._change_items("value_flyers","flyers",1)})
+        self.buttons['decrease_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": "<","position": (self.WIDTH/2-95,self.HEIGHT/2),"command1":lambda:self._change_items("value_tubes","tubes",-1)})
+        self.buttons['increase_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": ">","position": (self.WIDTH/2+75,self.HEIGHT/2),"command1":lambda:self._change_items("value_tubes","tubes",1)})
         self.buttons['save'] = factory.create_TextButton({"text": "Save config","position": (self.WIDTH/2+80,self.HEIGHT-85),"command1":self.config.save_config})
         self.buttons['default'] = factory.create_TextButton({"text": "Default config","position": (self.WIDTH/2+50,self.HEIGHT-50),"command1":lambda:self.config.config(visuals=True),"command2":self._load_visuals})
     def _change_items(self,item,background,number):
