@@ -51,7 +51,7 @@ class interface(load_elements,BaseMenu):
         self.sound_back.play(loops=-1) if self.sound_type["value_menu"] else None
     def buttons_visual(self):
         
-        self.decrease_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": "<","position": (self.players[0].rect.x-40,self.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",-1)})
+        
         self.increase_player_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": ">","position": (self.players[0].rect.x+60,self.players[0].rect.y+70),"command1":lambda:self.change_items("value_flyers","flyers",1)})
         self.decrease_tube_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": "<","position": (self.width/2-95,self.height/2),"command1":lambda:self.change_items("value_tubes","tubes",-1)})
         self.increase_tube_button = self.button_factory_f2_5.create_TextButton({"font": self.font3_5,"text": ">","position": (self.width/2+75,self.height/2),"command1":lambda:self.change_items("value_tubes","tubes",1)})
