@@ -11,7 +11,7 @@ class VisualsMenu(BaseMenu):
         self.buttons['decrease_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": "<","position": (self.WIDTH/2-95,self.HEIGHT/2),"command1":lambda:self.change_items("value_tubes","tubes",-1)})
         self.buttons['increase_tube_button'] = factory.create_TextButton({"font": self.interface.font3_5,"text": ">","position": (self.WIDTH/2+75,self.HEIGHT/2),"command1":lambda:self.change_items("value_tubes","tubes",1)})
         self.buttons['save'] = factory.create_TextButton({"text": "Save config","position": (self.WIDTH/2+80,self.HEIGHT-85),"command1":self.config.save_config})
-        self.buttons['default'] = factory.create_TextButton({"text": "Default config","position": (self.WIDTH/2+50,self.HEIGHT-50),"command1":lambda:self.config.config(visuals=True),"command2":self.interface.load_visuals})
+        self.buttons['default'] = factory.create_TextButton({"text": "Default config","position": (self.WIDTH/2+50,self.HEIGHT-50),"command1":lambda:self.config.config(visuals=True),"command2":self._load_visuals})
     def _change_items(self,item,background,number):
         self.config.config_visuals[item]=((self.config.config_visuals[item] + number) % len(self.config.config_visuals[background]))
         self._load_visuals()
