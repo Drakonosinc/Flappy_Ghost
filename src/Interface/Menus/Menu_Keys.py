@@ -16,7 +16,12 @@ class KeysMenu(BaseMenu):
         self.button_key=button
         for k in self.utils_keys.keys():self.utils_keys[k]=False if k!=self.key else not self.utils_keys[self.key]
         self.check_item(self.utils_keys,self.SKYBLUE,self.WHITE,"color",**{"key_jump":self.space_button})
-    
+    def event_keys(self,event):
+        if self.key!=None and (self.utils_keys[self.key] and event.type==KEYDOWN):
+            self.config.config_keys[self.key]=event.key
+            self.config.config_keys[self.key_name]=event.unicode.upper()
+            self.check_item(self.config.config_keys,self.config.config_keys[self.key_name],self.WHITE,"text",**{self.key:self.button_key})
+            self.change_keys(self.key,self.key_name)
     def render(self):
         self.screen.fill(self.interface.BLACK)
         self.screen.blit(self.interface.font3.render("Keys", True, "orange"),(35,self.HEIGHT/2-250))
