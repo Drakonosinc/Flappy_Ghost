@@ -9,3 +9,5 @@ class KeysMenu(BaseMenu):
         self.key = None
     def setup_buttons(self):
         factory = self.interface.button_factory_f2_5
+    def render(self):
+        self.execute_buttons(*self.buttons.values())
