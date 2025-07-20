@@ -52,13 +52,6 @@ class interface(load_elements,BaseMenu):
         self.space_button = self.button_factory_f2_5.create_TextButton({"text": self.config.config_keys["Name_key1"],"position": (35,self.height/2-150),"command1":lambda:self.change_keys("key_jump","Name_key1",self.space_button)})
         self.save_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Save config","position": (self.width/2+80,self.height-85),"command1":self.config.save_config})
         self.default_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:(self.config.config(keys=True),self.change_mains({"main":6,"command":self.buttons_keys}))})
-    
-    def event_keys(self,event):
-        if self.key!=None and (self.utils_keys[self.key] and event.type==KEYDOWN):
-            self.config.config_keys[self.key]=event.key
-            self.config.config_keys[self.key_name]=event.unicode.upper()
-            self.check_item(self.config.config_keys,self.config.config_keys[self.key_name],self.WHITE,"text",**{self.key:self.button_key})
-            self.change_keys(self.key,self.key_name)
     def sounds_menu(self):
         self.screen.fill(self.BLACK)
         self.screen.blit(self.font3.render("Sounds", True, "orange"),(35,self.height/2-250))
