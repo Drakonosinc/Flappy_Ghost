@@ -32,8 +32,7 @@ class interface(load_elements,BaseMenu):
             4: self.options_menu.render,
             5: self.visuals_menu.render,
             6: self.keys_menu.render,}
-        if self.main==6:self.keys_menu()
-        elif self.main==7:self.sounds_menu()
+        if self.main==7:self.sounds_menu()
         if self.main in menu_routes:menu_routes[self.main]()
         self.draw_generation()
     def draw_buttons(self):
@@ -44,7 +43,7 @@ class interface(load_elements,BaseMenu):
         self.pause_menu.setup_buttons()
         self.options_menu.setup_buttons()
         self.visuals_menu.setup_buttons()
-        self.buttons_keys()
+        self.keys_menu.setup_buttons()
         self.buttons_sounds()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
