@@ -9,8 +9,6 @@ class interface(load_elements,BaseMenu):
         self.mode_game={"Training AI":False,"Player":True,"AI":False}
         self.sound_type={"sound_menu":f"Sound Menu {"ON" if (x:=self.config.config_sounds["sound_menu"]) else "OFF"}","color_menu":self.SKYBLUE if x else self.RED,"value_menu":x,
                         "sound_Game":f"Sound Game {"ON" if (j:=self.config.config_sounds["sound_game"]) else "OFF"}","color_game":self.SKYBLUE if j else self.RED,"value_game":j}
-        self.utils_keys={"key_jump":False}
-        self.key=None
         self.initialize_menus()
     def initialize_menus(self):
         self.main_menu = MainMenu(self)
