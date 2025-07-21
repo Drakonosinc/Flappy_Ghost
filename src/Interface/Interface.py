@@ -48,10 +48,6 @@ class interface(load_elements,BaseMenu):
     def check_sounds(self):
         self.sound_back_game.stop()
         self.sound_back.play(loops=-1) if self.sound_type["value_menu"] else None
-    def buttons_keys(self):
-        
-        
-        self.default_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:(self.config.config(keys=True),self.change_mains({"main":6,"command":self.buttons_keys}))})
     def sounds_menu(self):
         self.screen.fill(self.BLACK)
         self.screen.blit(self.font3.render("Sounds", True, "orange"),(35,self.height/2-250))
