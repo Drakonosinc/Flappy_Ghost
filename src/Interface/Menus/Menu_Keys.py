@@ -10,7 +10,7 @@ class KeysMenu(BaseMenu):
     def setup_buttons(self):
         factory = self.interface.button_factory_f2_5
         self.buttons['back'] = factory.create_TextButton({"font": self.interface.font1,"text": "←","position": (35,self.HEIGHT-100),"command1":lambda:self.change_mains({"main":4})})
-        
+        self.buttons_keys['space_button'] = factory.create_TextButton({"text": self.config.config_keys["Name_key1"],"position": (35,self.HEIGHT/2-150),"command1":lambda:self.change_keys("key_jump","Name_key1",self.buttons_keys["space_button"])})
         self.buttons['save'] = factory.create_TextButton({"text": "Save config","position": (self.WIDTH/2+80,self.HEIGHT-85),"command1":self.config.save_config})
     def change_keys(self,key,key_name,button=None):
         self.key=key
