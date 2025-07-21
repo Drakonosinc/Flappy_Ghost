@@ -50,7 +50,7 @@ class interface(load_elements,BaseMenu):
         self.sound_back.play(loops=-1) if self.sound_type["value_menu"] else None
     def buttons_keys(self):
         self.space_button = self.button_factory_f2_5.create_TextButton({"text": self.config.config_keys["Name_key1"],"position": (35,self.height/2-150),"command1":lambda:self.change_keys("key_jump","Name_key1",self.space_button)})
-        self.save_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Save config","position": (self.width/2+80,self.height-85),"command1":self.config.save_config})
+        
         self.default_keys_button = self.button_factory_f2_5.create_TextButton({"text": "Default config","position": (self.width/2+50,self.height-50),"command1":lambda:(self.config.config(keys=True),self.change_mains({"main":6,"command":self.buttons_keys}))})
     def sounds_menu(self):
         self.screen.fill(self.BLACK)
