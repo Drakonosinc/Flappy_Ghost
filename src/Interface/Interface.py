@@ -16,6 +16,7 @@ class interface(load_elements,BaseMenu):
         self.options_menu = OptionsMenu(self)
         self.visuals_menu = VisualsMenu(self)
         self.keys_menu = KeysMenu(self)
+        self.sounds_menu = SoundsMenu(self)
     def play_music(self):
         self.check_sounds()
         self.sound_back.set_volume(0.5)
@@ -27,8 +28,8 @@ class interface(load_elements,BaseMenu):
             3: self.pause_menu.render,
             4: self.options_menu.render,
             5: self.visuals_menu.render,
-            6: self.keys_menu.render,}
-        if self.main==7:self.sounds_menu()
+            6: self.keys_menu.render,
+            7: self.sounds_menu.render,}
         if self.main in menu_routes:menu_routes[self.main]()
         self.draw_generation()
     def draw_buttons(self):
