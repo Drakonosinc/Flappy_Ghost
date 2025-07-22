@@ -2,6 +2,8 @@ from .Base_Menu import BaseMenu
 class SoundsMenu(BaseMenu):
     def __init__(self, interface):
         super().__init__(interface)
+        self.sound_type={"sound_menu":f"Sound Menu {"ON" if (x:=self.config.config_sounds["sound_menu"]) else "OFF"}","color_menu":self.SKYBLUE if x else self.RED,"value_menu":x,
+                        "sound_Game":f"Sound Game {"ON" if (j:=self.config.config_sounds["sound_game"]) else "OFF"}","color_game":self.SKYBLUE if j else self.RED,"value_game":j}
         self.buttons = {}
     def setup_buttons(self):
         factory = self.interface.button_factory_f2_5
