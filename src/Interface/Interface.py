@@ -46,6 +46,6 @@ class interface(load_elements,BaseMenu):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def check_sounds(self):
         self.sound_back_game.stop()
-        self.sound_back.play(loops=-1) if self.sound_type["value_menu"] else None
+        self.sound_back.play(loops=-1) if self.sounds_menu.sound_type["value_menu"] else None
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
