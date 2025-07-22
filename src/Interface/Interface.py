@@ -41,7 +41,7 @@ class interface(load_elements,BaseMenu):
         self.options_menu.setup_buttons()
         self.visuals_menu.setup_buttons()
         self.keys_menu.setup_buttons()
-        self.buttons_sounds()
+        self.sounds_menu.setup_buttons()
     def draw_generation(self):
         if self.main==-1 and self.mode_game["Training AI"]:self.screen.blit(self.font3_5.render(f"Generation: {int(self.generation)}", True, "orange"),(35,0))
     def check_sounds(self):
