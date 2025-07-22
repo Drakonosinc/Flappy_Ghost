@@ -47,11 +47,5 @@ class interface(load_elements,BaseMenu):
     def check_sounds(self):
         self.sound_back_game.stop()
         self.sound_back.play(loops=-1) if self.sound_type["value_menu"] else None
-    def sound_on_off(self,sound:str,color,value=True,type_sound="",sound_back=None,play=False):
-        self.sound_type[value]=not self.sound_type[value]
-        self.sound_type[color]=self.SKYBLUE if self.sound_type[value] else self.RED
-        self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
-        sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
-        self.on_off(self.config.config_sounds,sound.lower())
     def show_score(self,player):
         if self.main==-1 or self.main==1:self.screen.blit(self.font.render(f"Score: {int(player.scores)}", True, "orange"),(35,self.height-50))
