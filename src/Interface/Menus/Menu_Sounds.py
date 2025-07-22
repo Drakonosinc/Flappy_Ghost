@@ -10,6 +10,12 @@ class SoundsMenu(BaseMenu):
         self.buttons['back'] = factory.create_TextButton({"font": self.interface.font1,"text": "←","position": (35,self.HEIGHT-100),"command1":lambda:self.change_mains({"main":4})})
         self.buttons['sound_menu_button'] = factory.create_TextButton({"text": self.sound_type["sound_menu"],"position": (35,self.HEIGHT/2-150),"command1":lambda:self.sound_on_off("sound_menu","color_menu","value_menu","Sound Menu",self.interface.sound_back,True),"command2":self.config.save_config})
         self.buttons['sound_game_button'] = factory.create_TextButton({"text": self.sound_type["sound_Game"],"position": (35,self.HEIGHT/2-100),"command1":lambda:self.sound_on_off("sound_Game","color_game","value_game","Sound Game",self.interface.sound_back_game),"command2":self.config.save_config})
+    def sound_on_off(self,sound:str,color,value=True,type_sound="",sound_back=None,play=False):
+        self.sound_type[value]=not self.sound_type[value]
+        self.sound_type[color]=self.interface.SKYBLUE if self.sound_type[value] else self.interface.RED
+        self.sound_type[sound]=type_sound+" ON" if self.sound_type[value] else type_sound+" OFF"
+        sound_back.play(loops=-1) if self.sound_type[value] and play else sound_back.stop()
+        self.on_off(self.config.config_sounds,sound.lower())
     def render(self):
         self.screen.fill(self.interface.BLACK)
         self.screen.blit(self.interface.font3.render("Sounds", True, "orange"),(35,self.HEIGHT/2-250))
