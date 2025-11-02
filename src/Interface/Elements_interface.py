@@ -20,7 +20,14 @@ class ElementsFactory:
     def create_ScrollBar(self,config:dict):
         return ScrollBar({"screen": self.screen,"color": self.color,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
     def create_ComboBox(self,config:dict):
-        return ComboBox({"screen": self.screen,"font": self.font,"color": self.color,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
+        type_key = (config.get("type_dropdown", "down")).lower()
+        mapping = {
+            "down": ComboBoxDown,
+            "up": ComboBoxUp,
+            "right": ComboBoxRight,
+            "left": ComboBoxLeft,}
+        cls = mapping.get(type_key, ComboBoxDown)
+        return cls({"screen": self.screen,"font": self.font,"color": self.color,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
 class ElementBehavior:
     def __init__(self, config: dict):
         self.screen = config["screen"]
@@ -225,7 +232,7 @@ class ScrollBar(ElementBehavior):
 class ComboBox(TextButton):
     def __init__(self, config: dict) -> None:
         super().__init__(config)
-        self.type_dropdown: str = self.icon_dropdown((config.get("type_dropdown", "down")).lower())
+        self.type_dropdown: str = self.get_icon()
         self.dropdown: list[int] = config.get("size", [self.font.size(self.text)[0]+self.font.size(self.type_dropdown)[0], 100])
         self.hover_dropdown: tuple[int, int, int] = config.get("hover_dropdown",(135,206,235))
         self.replace_text: bool = config.get("replace_text", False)
@@ -250,27 +257,14 @@ class ComboBox(TextButton):
             "command2": self.command_dropdown if callable(self.command_dropdown) else None})
         self.rect: dict[str, object] = {"button": pygame.Rect(*self.position, *self.font.size(self.text)),
                     "dropdown": self.button_dropdown}
-    def icon_dropdown(self,type_dropdown: str) -> str:
-        match type_dropdown:
-            case "down":return " V"
-            case "up":return " ^"
-            case "right":return " >"
-            case "left":return " <"
-    def _get_rect_dropdown(self)  -> pygame.Rect:
-        def anim_motion(index:int):self.anim_height_dropdown += 1 if self.anim_height_dropdown<self.dropdown[index] else 0
-        match self.type_dropdown:
-            case " V":
-                anim_motion(1)
-                return pygame.Rect(self.position[0], self.position[1] + self.font.get_height(), self.dropdown[0], self.anim_height_dropdown)
-            case " ^":
-                anim_motion(1)
-                return pygame.Rect(self.position[0], self.position[1] - self.anim_height_dropdown, self.dropdown[0], self.anim_height_dropdown)
-            case " >":
-                anim_motion(0)
-                return pygame.Rect(self.position[0] + (self.font.size(self.text)[0] + self.font.size(self.type_dropdown)[0]), self.position[1] + (self.font.get_height()/2), self.anim_height_dropdown, self.dropdown[1])
-            case " <":
-                anim_motion(0)
-                return pygame.Rect(self.position[0] - self.anim_height_dropdown, self.position[1] + (self.font.get_height()/2), self.anim_height_dropdown, self.dropdown[1])
+    def get_icon(self) -> str: raise NotImplementedError
+    def is_vertical(self) -> bool: return False
+    def _get_rect_dropdown(self)  -> pygame.Rect: raise NotImplementedError
+    def _adapt_size_dropdown(self) -> None: raise NotImplementedError
+    def _check_buttons_position(self,i: int, text: str = "", first: bool = False) -> tuple[int, int]: raise NotImplementedError
+    def _update_scroll_before_draw(self) -> None: pass
+    def _create_scroll(self) -> None: pass
+    def _post_repeat_charge(self, i:int, text:str, button: object) -> None: pass
     def draw(self) -> None:
         self.screen.blit(self.font.render(self.text, True,self.color),(self.position))
         self.button_dropdown.draw()
@@ -280,29 +274,30 @@ class ComboBox(TextButton):
             self.button_dropdown.change_item({"color": self.color})
         if self.detect_mouse:self.mouse_collision(self.rect["button"],pygame.mouse.get_pos(),self.draw_hover_effect)
         if self.pressed:self.pressed_button(self.rect["button"],pygame.mouse.get_pressed(),pygame.mouse.get_pos())
-    def draw_hover_effect(self) -> pygame.Rect:return self.screen.blit(self.font.render(f"{self.text}{self.type_dropdown}", True,self.hover_color), (self.position))
+    def draw_hover_effect(self) -> pygame.Rect:
+        return self.screen.blit(self.font.render(f"{self.text}{self.type_dropdown}", True,self.hover_color), (self.position))
     def draw_rect_dropdown(self) -> None:
         self.button_dropdown.change_item({"color": self.hover_dropdown})
         self.dropdown_rect = self._get_rect_dropdown()
         pygame.draw.rect(self.screen, self.hover_dropdown, self.dropdown_rect)
         pygame.draw.rect(self.screen, self.color, self.dropdown_rect, 2)
         if self.adapt_dropdown and self.option_buttons:self._adapt_size_dropdown()
-        if self.draw_scroll and self.option_buttons and self.type_dropdown in (" V", " ^"):self._create_scroll()
+        if self.is_vertical() and self.draw_scroll and self.option_buttons:self._rebuild_scroll()
         for button in self.option_buttons.values():self._draw_option_buttons(button)
         if hasattr(self, 'scroll'):self._draw_scroll()
     def _draw_option_buttons(self,button: object) -> None:
-        if (button.rect.bottom<=self.dropdown_rect.bottom and button.rect.top>=self.dropdown_rect.top) and (self.type_dropdown in (" V", " ^")):button.draw()
-        elif (button.rect.right<=self.dropdown_rect.right and button.rect.left>=self.dropdown_rect.left) and (self.type_dropdown in (" <", " >")):button.draw()
-    def _adapt_size_dropdown(self) -> None:
-        if self.type_dropdown in (" V", " ^"):self.dropdown[1], self.adapt_dropdown = (len(self.option_buttons) * (self.font.get_height() + 5)), False
-        elif self.type_dropdown == " >":self.dropdown[0], self.dropdown[1], self.adapt_dropdown = (self.option_buttons[list(self.option_buttons.keys())[-1]].rect.right - self.option_buttons[list(self.option_buttons.keys())[0]].rect.left) + 10, (self.font.get_height() + 5), False
-        elif self.type_dropdown == " <":self.dropdown[0], self.dropdown[1], self.adapt_dropdown = (self.option_buttons[list(self.option_buttons.keys())[0]].rect.right - self.option_buttons[list(self.option_buttons.keys())[-1]].rect.left) + 10, (self.font.get_height() + 5), False
+        if self._is_button_visible(button):button.draw()
+    def _is_button_visible(self, button: object) -> bool:
+        if self.is_vertical(): return (button.rect.bottom<=self.dropdown_rect.bottom and button.rect.top>=self.dropdown_rect.top)
+        else: return (button.rect.right<=self.dropdown_rect.right and button.rect.left>=self.dropdown_rect.left)
     def _draw_scroll(self) -> None:
-        if self.type_dropdown == " V":self.scroll.rect["rect"].height = self.dropdown_rect.height
-        elif self.type_dropdown == " ^":
-            if self.dropdown_rect.height != self.dropdown[1]:self.scroll.rect["rect"].y = self.scroll.rect["thumb"].y = self.dropdown_rect.y
-            self.scroll.rect["rect"].height = self.dropdown_rect.height
+        self._update_scroll_before_draw()
         self.scroll.draw()
+    def _rebuild_scroll(self) -> None:
+        self._create_scroll()
+        self.rect["scroll"] = self.scroll.rect
+        self.scroll.update_elements([*self.option_buttons.values()])
+        self.draw_scroll = False
     def charge_elements(self, options: dict) -> None:
         for i, (option,action) in enumerate(options.items()):
             button = self.factory.create_TextButton({
@@ -322,21 +317,7 @@ class ComboBox(TextButton):
         self.option_buttons[text] = button
         self.rect[key] = button
         self.options.append(text)
-        if len(text) >= len(self.options[i]) and (self.type_dropdown in (" V", " ^")):self.dropdown[0] = self.font.size(button.text)[0] + 5
-    def _check_buttons_position(self,i: int, text: str = "", first: bool = False) -> tuple[int, int]:
-        last_rect = self.option_buttons[list(self.option_buttons.keys())[-1]].rect if self.option_buttons else None
-        if self.type_dropdown == " V":return (self.position[0], (self.position[1] + self.font.get_height() + i * (self.font.get_height() + 5)) if not last_rect or first else (last_rect.bottom + 5))
-        elif self.type_dropdown == " ^":return (self.position[0], (self.position[1] - self.font.get_height() + i * (self.font.get_height() + 5)) if not last_rect or first else (last_rect.top - self.font.get_height()))
-        elif self.type_dropdown == " >":return ((self.position[0] + ((self.font.size(self.text)[0] + self.font.size(self.type_dropdown)[0]) + 5)) if not last_rect or first else (last_rect.right + 5), self.position[1] + (self.font.get_height()/2))
-        elif self.type_dropdown == " <":return ((self.position[0] - (self.font.size(text)[0] + 5)) if not last_rect or first else (last_rect.left - (self.font.size(text)[0] + 5)), self.position[1] + (self.font.get_height()/2))
-    def _create_scroll(self) -> None:
-        self.scroll = self.factory.create_ScrollBar({
-            "position": (self.position[0] + self.dropdown[0], self.position[1] + self.font.get_height(), 20, self.dropdown[1]),
-            "thumb_height": 20,
-            "color_bar": (135, 206, 235)})
-        self.rect["scroll"] = self.scroll.rect
-        self.scroll.update_elements([*self.option_buttons.values()])
-        self.draw_scroll = False
+        self._post_repeat_charge(i, text, button)
     def _select_option(self, index: int) -> None:
         if 0 <= index < len(self.options):
             self.text = self.options[index]
@@ -346,7 +327,69 @@ class ComboBox(TextButton):
             self.button_dropdown.rect = pygame.Rect(self.button_dropdown.position, self.font.size(self.button_dropdown.text))
             self.is_dropdown_open = False
         self.charge_buttons([button for button in self.option_buttons.values() if button.text != self.text],True)
-        if self.type_dropdown in (" V", " ^"):self._create_scroll()
+        if self.is_vertical():self._rebuild_scroll()
     def events(self, event):
         if hasattr(self, 'scroll'):self.scroll.events(event)
-    def return_buttons(self, button:str):return self.option_buttons[button]
+    def return_buttons(self, button:str): return self.option_buttons[button]
+class ComboBoxDown(ComboBox):
+    def get_icon(self) -> str: return " V"
+    def is_vertical(self) -> bool: return True
+    def _get_rect_dropdown(self)  -> pygame.Rect:
+        if self.anim_height_dropdown < self.dropdown[1]: self.anim_height_dropdown += 1
+        return pygame.Rect(self.position[0], self.position[1] + self.font.get_height(), self.dropdown[0], self.anim_height_dropdown)
+    def _adapt_size_dropdown(self) -> None:
+        self.dropdown[1], self.adapt_dropdown = (len(self.option_buttons) * (self.font.get_height() + 5)), False
+    def _check_buttons_position(self,i: int, text: str = "", first: bool = False) -> tuple[int, int]:
+        last_rect = self.option_buttons[list(self.option_buttons.keys())[-1]].rect if self.option_buttons else None
+        return (self.position[0], (self.position[1] + self.font.get_height() + i * (self.font.get_height() + 5)) if not last_rect or first else (last_rect.bottom + 5))
+    def _update_scroll_before_draw(self) -> None:
+        self.scroll.rect["rect"].height = self.dropdown_rect.height
+    def _create_scroll(self) -> None:
+        self.scroll = self.factory.create_ScrollBar({
+            "position": (self.position[0] + self.dropdown[0], self.position[1] + self.font.get_height(), 20, self.dropdown[1]),
+            "thumb_height": 20,
+            "color_bar": (135, 206, 235)})
+    def _post_repeat_charge(self, i:int, text:str, button: object) -> None:
+        if len(text) >= len(self.options[i]): self.dropdown[0] = self.font.size(button.text)[0] + 5
+class ComboBoxUp(ComboBox):
+    def get_icon(self) -> str: return " ^"
+    def is_vertical(self) -> bool: return True
+    def _get_rect_dropdown(self)  -> pygame.Rect:
+        if self.anim_height_dropdown < self.dropdown[1]: self.anim_height_dropdown += 1
+        return pygame.Rect(self.position[0], self.position[1] - self.anim_height_dropdown, self.dropdown[0], self.anim_height_dropdown)
+    def _adapt_size_dropdown(self) -> None:
+        self.dropdown[1], self.adapt_dropdown = (len(self.option_buttons) * (self.font.get_height() + 5)), False
+    def _check_buttons_position(self,i: int, text: str = "", first: bool = False) -> tuple[int, int]:
+        last_rect = self.option_buttons[list(self.option_buttons.keys())[-1]].rect if self.option_buttons else None
+        return (self.position[0], (self.position[1] - self.font.get_height() + i * (self.font.get_height() + 5)) if not last_rect or first else (last_rect.top - self.font.get_height()))
+    def _update_scroll_before_draw(self) -> None:
+        if self.dropdown_rect.height != self.dropdown[1]:
+            self.scroll.rect["rect"].y = self.scroll.rect["thumb"].y = self.dropdown_rect.y
+        self.scroll.rect["rect"].height = self.dropdown_rect.height
+    def _create_scroll(self) -> None:
+        self.scroll = self.factory.create_ScrollBar({
+            "position": (self.position[0] + self.dropdown[0], self.position[1] + self.font.get_height(), 20, self.dropdown[1]),
+            "thumb_height": 20,
+            "color_bar": (135, 206, 235)})
+    def _post_repeat_charge(self, i:int, text:str, button: object) -> None:
+        if len(text) >= len(self.options[i]): self.dropdown[0] = self.font.size(button.text)[0] + 5
+class ComboBoxRight(ComboBox):
+    def get_icon(self) -> str: return " >"
+    def _get_rect_dropdown(self)  -> pygame.Rect:
+        if self.anim_height_dropdown < self.dropdown[0]: self.anim_height_dropdown += 1
+        return pygame.Rect(self.position[0] + (self.font.size(self.text)[0] + self.font.size(self.type_dropdown)[0]), self.position[1] + (self.font.get_height()/2), self.anim_height_dropdown, self.dropdown[1])
+    def _adapt_size_dropdown(self) -> None:
+        self.dropdown[0], self.dropdown[1], self.adapt_dropdown = (self.option_buttons[list(self.option_buttons.keys())[-1]].rect.right - self.option_buttons[list(self.option_buttons.keys())[0]].rect.left) + 10, (self.font.get_height() + 5), False
+    def _check_buttons_position(self,i: int, text: str = "", first: bool = False) -> tuple[int, int]:
+        last_rect = self.option_buttons[list(self.option_buttons.keys())[-1]].rect if self.option_buttons else None
+        return ((self.position[0] + ((self.font.size(self.text)[0] + self.font.size(self.type_dropdown)[0]) + 5)) if not last_rect or first else (last_rect.right + 5), self.position[1] + (self.font.get_height()/2))
+class ComboBoxLeft(ComboBox):
+    def get_icon(self) -> str: return " <"
+    def _get_rect_dropdown(self)  -> pygame.Rect:
+        if self.anim_height_dropdown < self.dropdown[0]: self.anim_height_dropdown += 1
+        return pygame.Rect(self.position[0] - self.anim_height_dropdown, self.position[1] + (self.font.get_height()/2), self.anim_height_dropdown, self.dropdown[1])
+    def _adapt_size_dropdown(self) -> None:
+        self.dropdown[0], self.dropdown[1], self.adapt_dropdown = (self.option_buttons[list(self.option_buttons.keys())[0]].rect.right - self.option_buttons[list(self.option_buttons.keys())[-1]].rect.left) + 10, (self.font.get_height() + 5), False
+    def _check_buttons_position(self,i: int, text: str = "", first: bool = False) -> tuple[int, int]:
+        last_rect = self.option_buttons[list(self.option_buttons.keys())[-1]].rect if self.option_buttons else None
+        return ((self.position[0] - (self.font.size(text)[0] + 5)) if not last_rect or first else (last_rect.left - (self.font.size(text)[0] + 5)), self.position[1] + (self.font.get_height()/2))
