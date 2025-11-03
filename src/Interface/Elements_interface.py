@@ -21,11 +21,7 @@ class ElementsFactory:
         return ScrollBar({"screen": self.screen,"color": self.color,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
     def create_ComboBox(self,config:dict):
         type_key = (config.get("type_dropdown", "down")).lower()
-        mapping = {
-            "down": ComboBoxDown,
-            "up": ComboBoxUp,
-            "right": ComboBoxRight,
-            "left": ComboBoxLeft,}
+        mapping = {"down": ComboBoxDown, "up": ComboBoxUp, "right": ComboBoxRight, "left": ComboBoxLeft,}
         cls = mapping.get(type_key, ComboBoxDown)
         return cls({"screen": self.screen,"font": self.font,"color": self.color,"hover_color": self.hover_color,"sound_hover": self.sound_hover,"sound_touch": self.sound_touch,**config})
 class ElementBehavior:
@@ -263,8 +259,12 @@ class ComboBox(TextButton):
     def _adapt_size_dropdown(self) -> None: raise NotImplementedError
     def _check_buttons_position(self,i: int, text: str = "", first: bool = False) -> tuple[int, int]: raise NotImplementedError
     def _update_scroll_before_draw(self) -> None: pass
-    def _create_scroll(self) -> None: pass
     def _post_repeat_charge(self, i:int, text:str, button: object) -> None: pass
+    def _create_scroll(self) -> None:
+        self.scroll = self.factory.create_ScrollBar({
+            "position": (self.position[0] + self.dropdown[0], self.position[1] + self.font.get_height(), 20, self.dropdown[1]),
+            "thumb_height": 20,
+            "color_bar": (135, 206, 235)})
     def draw(self) -> None:
         self.screen.blit(self.font.render(self.text, True,self.color),(self.position))
         self.button_dropdown.draw()
@@ -344,11 +344,6 @@ class ComboBoxDown(ComboBox):
         return (self.position[0], (self.position[1] + self.font.get_height() + i * (self.font.get_height() + 5)) if not last_rect or first else (last_rect.bottom + 5))
     def _update_scroll_before_draw(self) -> None:
         self.scroll.rect["rect"].height = self.dropdown_rect.height
-    def _create_scroll(self) -> None:
-        self.scroll = self.factory.create_ScrollBar({
-            "position": (self.position[0] + self.dropdown[0], self.position[1] + self.font.get_height(), 20, self.dropdown[1]),
-            "thumb_height": 20,
-            "color_bar": (135, 206, 235)})
     def _post_repeat_charge(self, i:int, text:str, button: object) -> None:
         if len(text) >= len(self.options[i]): self.dropdown[0] = self.font.size(button.text)[0] + 5
 class ComboBoxUp(ComboBox):
@@ -366,11 +361,6 @@ class ComboBoxUp(ComboBox):
         if self.dropdown_rect.height != self.dropdown[1]:
             self.scroll.rect["rect"].y = self.scroll.rect["thumb"].y = self.dropdown_rect.y
         self.scroll.rect["rect"].height = self.dropdown_rect.height
-    def _create_scroll(self) -> None:
-        self.scroll = self.factory.create_ScrollBar({
-            "position": (self.position[0] + self.dropdown[0], self.position[1] + self.font.get_height(), 20, self.dropdown[1]),
-            "thumb_height": 20,
-            "color_bar": (135, 206, 235)})
     def _post_repeat_charge(self, i:int, text:str, button: object) -> None:
         if len(text) >= len(self.options[i]): self.dropdown[0] = self.font.size(button.text)[0] + 5
 class ComboBoxRight(ComboBox):
