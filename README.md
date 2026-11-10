@@ -1,10 +1,11 @@
 # Flappy_Ghost
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Pygame](https://img.shields.io/badge/Engine-Pygame--CE-green)
-![PyForgeUI](https://img.shields.io/badge/UI-PyForgeUI-blueviolet)
-![PyForgeAI](https://img.shields.io/badge/AI-PyForgeAI-orange)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Drakonosinc/Flappy_Ghost)
+[![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-4B32C3?logo=read-the-docs&logoColor=white)](https://deepwiki.com/Drakonosinc/Flappy_Ghost)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Pygame-CE](https://img.shields.io/badge/Pygame--CE-2.5%2B-00A86B.svg)](https://pyga.me/)
+[![PyForgeUI](https://img.shields.io/badge/UI-PyForgeUI-orange.svg)](https://pypi.org/project/pyforgeui/)
+[![PyForgeAI](https://img.shields.io/badge/AI-PyForgeAI-EE4C2C.svg)](https://pypi.org/project/pyforgeai-engine/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 
 **Flappy_Ghost** is an object-oriented Flappy Bird-inspired arcade game built with **Pygame** and **PyTorch**. It integrates a multi-agent neuroevolution system powered by [**PyForgeAI**](https://github.com/Drakonosinc/PyForgeAI) (`pyforgeai-engine` on PyPI) and an interactive menu interface built with [**PyForgeUI**](https://github.com/Drakonosinc/PyForgeUI) (`pyforgeui` on PyPI).
 
